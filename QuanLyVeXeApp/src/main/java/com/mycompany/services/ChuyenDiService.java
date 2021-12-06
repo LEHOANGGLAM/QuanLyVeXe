@@ -7,6 +7,7 @@ package com.mycompany.services;
 import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.ChuyenDi;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,5 +32,21 @@ public class ChuyenDiService {
             }
         }
         return results;
+    }
+    
+    public void addChuyenDi(ChuyenDi c) throws SQLException{
+        try(Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO chuyendi(MaChuyenDi, MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc)"
+                    + " VALUES(?, ?, ?, ?, ?, ?)");
+            stm.setInt(1, c.getMaChuyenDi());
+            stm.setInt(2, c.getMaXe());
+            stm.setInt(3, c.getGiaVe());
+            stm.setDate(4, c.getThoiGianKhoiHanh());
+            stm.setString(5, c.getDiemKhoiHanh());
+            stm.setString(6, c.getDiemKetThuc());
+            
+            stm.executeUpdate();
+            //conn.commit();
+        }
     }
 }

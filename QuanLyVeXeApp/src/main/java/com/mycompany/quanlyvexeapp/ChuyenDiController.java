@@ -4,6 +4,7 @@
  */
 package com.mycompany.quanlyvexeapp;
 
+import com.mycompany.conf.Utils;
 import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.services.ChuyenDiService;
 import java.net.URL;
@@ -12,10 +13,13 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -25,6 +29,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ChuyenDiController implements Initializable {
     @FXML private TableView<ChuyenDi> tbChuyenDi;
+    @FXML private TextField maChuyenDi;
+    @FXML private TextField maXe;
+    @FXML private TextField diemKhoiHanh;
+    @FXML private TextField diemKetThuc;
+    @FXML private TextField giaVe;
+    @FXML private TextField thoiGianKhoiHanh;
     /**
      * Initializes the controller class.
      */
@@ -38,6 +48,19 @@ public class ChuyenDiController implements Initializable {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
+    
+    public void addChuyenDiHandler(ActionEvent event) throws SQLException{
+        ChuyenDi c = new ChuyenDi(Integer.parseInt(this.maChuyenDi.getText()), Integer.parseInt(this.maXe.getText()), Integer.parseInt(this.giaVe.getText()),
+                null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 0, 0);
+        ChuyenDiService s = new ChuyenDiService();  
+        try {
+            s.addChuyenDi(c);
+            Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+        } catch (SQLException ex) {
+            Utils.getBox("Thêm thất bại", Alert.AlertType.WARNING).show();
+        }
+        this.loadTableData();
+    }
     
     private void loadTableView(){
         TableColumn colId = new TableColumn("Mã Chuyến Đi");
