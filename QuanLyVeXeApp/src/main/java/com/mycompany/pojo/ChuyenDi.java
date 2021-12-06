@@ -13,6 +13,7 @@ import java.sql.Date;
 public class ChuyenDi {
     private int maChuyenDi;
     private int maXe;
+    private int giaVe;
     private Date thoiGianKhoiHanh;
     private String diemKhoiHanh;
     private String diemKetThuc;
@@ -22,14 +23,29 @@ public class ChuyenDi {
     public ChuyenDi() {
     }
 
-    public ChuyenDi(int maChuyenDi, int maXe, Date thoiGianKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
+    public ChuyenDi(int maChuyenDi, int maXe, int giaVe, Date thoiGianKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
         this.maChuyenDi = maChuyenDi;
         this.maXe = maXe;
+        this.giaVe = giaVe;
         this.thoiGianKhoiHanh = thoiGianKhoiHanh;
         this.diemKhoiHanh = diemKhoiHanh;
         this.diemKetThuc = diemKetThuc;
         this.soGheTrong = soGheTrong;
         this.soGheDat = soGheDat;
+    }
+    
+    /**
+     * @return the giaVe
+     */
+    public int getGiaVe() {
+        return giaVe;
+    }
+
+    /**
+     * @param giaVe the giaVe to set
+     */
+    public void setGiaVe(int giaVe) {
+        this.giaVe = giaVe;
     }
     
     /**

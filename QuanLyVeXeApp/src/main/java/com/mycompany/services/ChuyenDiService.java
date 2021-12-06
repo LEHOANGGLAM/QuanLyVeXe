@@ -25,7 +25,7 @@ public class ChuyenDiService {
             ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi");
             
             while(rs.next()){
-                ChuyenDi c = new ChuyenDi(rs.getInt("MaChuyenDi"), rs.getInt("MaXe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getInt("MaChuyenDi"), rs.getInt("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
                                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
