@@ -14,30 +14,30 @@
       <HBox prefHeight="34.0" prefWidth="600.0">
          <children>
             <Label text="Mã chuyến đi" />
-            <TextField />
+            <TextField fx:id="maChuyenDi" />
             <Label text="Mã xe" />
-            <TextField />
+            <TextField fx:id="maXe" />
          </children>
       </HBox>
       <HBox prefHeight="34.0" prefWidth="600.0">
          <children>
             <Label text="Điểm khởi hành" />
-            <TextField />
+            <TextField fx:id="diemKhoiHanh" />
             <Label text="Điểm kết thúc" />
-            <TextField />
+            <TextField fx:id="diemKetThuc" />
          </children>
       </HBox>
       <HBox prefHeight="34.0" prefWidth="600.0">
          <children>
             <Label text="Giá Vé" />
-            <TextField />
+            <TextField fx:id="giaVe" />
             <Label text="Thời gian khởi hành" />
-            <TextField />
+            <TextField fx:id="thoiGianKhoiHanh" />
          </children>
       </HBox>
       <HBox prefHeight="34.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" text="Thêm" />
+            <Button mnemonicParsing="false" onAction="#addChuyenDiHandler" text="Thêm" />
             <Button mnemonicParsing="false" text="Xóa" />
          </children>
       </HBox>
