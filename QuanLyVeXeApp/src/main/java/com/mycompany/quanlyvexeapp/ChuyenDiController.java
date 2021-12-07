@@ -50,7 +50,7 @@ public class ChuyenDiController implements Initializable {
     }    
     
     public void addChuyenDiHandler(ActionEvent event) throws SQLException{
-        ChuyenDi c = new ChuyenDi(Integer.parseInt(this.maChuyenDi.getText()), Integer.parseInt(this.maXe.getText()), Integer.parseInt(this.giaVe.getText()),
+        ChuyenDi c = new ChuyenDi(this.maChuyenDi.getText(), this.maXe.getText(), Integer.parseInt(this.giaVe.getText()),
                 null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 0, 0);
         ChuyenDiService s = new ChuyenDiService();  
         try {
@@ -76,7 +76,7 @@ public class ChuyenDiController implements Initializable {
         colGiaVe.setPrefWidth(60);
         
         TableColumn colThoiGianKhoiHanh = new TableColumn("Thời Gian Khởi Hành");
-        colThoiGianKhoiHanh.setCellValueFactory(new PropertyValueFactory("thoiGIanKhoiHanh"));
+        colThoiGianKhoiHanh.setCellValueFactory(new PropertyValueFactory("thoiGianKhoiHanh"));
         colThoiGianKhoiHanh.setPrefWidth(200);
         
         TableColumn colDiemKhoiHanh = new TableColumn("Điểm Khởi Hành");

@@ -25,7 +25,7 @@ public class VeXeService {
            ResultSet rs = stm.executeQuery("SELECT * FROM vexe ORDER BY MaChuyenDi");
            
            while(rs.next()){
-               VeXe v = new VeXe(rs.getInt("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
+               VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
                                 rs.getInt("MaChuyenDi"), rs.getString("ViTriGhe"));
                results.add(v);
            }

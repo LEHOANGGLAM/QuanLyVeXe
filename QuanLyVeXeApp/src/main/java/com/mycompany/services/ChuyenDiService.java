@@ -26,7 +26,7 @@ public class ChuyenDiService {
             ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi");
             
             while(rs.next()){
-                ChuyenDi c = new ChuyenDi(rs.getInt("MaChuyenDi"), rs.getInt("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
                                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
@@ -38,8 +38,8 @@ public class ChuyenDiService {
         try(Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareStatement("INSERT INTO chuyendi(MaChuyenDi, MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc)"
                     + " VALUES(?, ?, ?, ?, ?, ?)");
-            stm.setInt(1, c.getMaChuyenDi());
-            stm.setInt(2, c.getMaXe());
+            stm.setString(1, c.getMaChuyenDi());
+            stm.setString(2, c.getMaXe());
             stm.setInt(3, c.getGiaVe());
             stm.setDate(4, c.getThoiGianKhoiHanh());
             stm.setString(5, c.getDiemKhoiHanh());
