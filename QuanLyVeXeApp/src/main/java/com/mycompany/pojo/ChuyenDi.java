@@ -11,8 +11,8 @@ import java.sql.Date;
  * @author dell
  */
 public class ChuyenDi {
-    private int maChuyenDi;
-    private int maXe;
+    private String maChuyenDi;
+    private String maXe;
     private int giaVe;
     private Date thoiGianKhoiHanh;
     private String diemKhoiHanh;
@@ -23,7 +23,7 @@ public class ChuyenDi {
     public ChuyenDi() {
     }
 
-    public ChuyenDi(int maChuyenDi, int maXe, int giaVe, Date thoiGianKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
+    public ChuyenDi(String maChuyenDi, String maXe, int giaVe, Date thoiGianKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
         this.maChuyenDi = maChuyenDi;
         this.maXe = maXe;
         this.giaVe = giaVe;
@@ -33,6 +33,8 @@ public class ChuyenDi {
         this.soGheTrong = soGheTrong;
         this.soGheDat = soGheDat;
     }
+
+    
     
     /**
      * @return the giaVe
@@ -51,28 +53,28 @@ public class ChuyenDi {
     /**
      * @return the maChuyenDi
      */
-    public int getMaChuyenDi() {
+    public String getMaChuyenDi() {
         return maChuyenDi;
     }
 
     /**
      * @param maChuyenDi the maChuyenDi to set
      */
-    public void setMaChuyenDi(int maChuyenDi) {
+    public void setMaChuyenDi(String maChuyenDi) {
         this.maChuyenDi = maChuyenDi;
     }
 
     /**
      * @return the maXe
      */
-    public int getMaXe() {
+    public String getMaXe() {
         return maXe;
     }
 
     /**
      * @param maXe the maXe to set
      */
-    public void setMaXe(int maXe) {
+    public void setMaXe(String maXe) {
         this.maXe = maXe;
     }
 

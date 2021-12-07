@@ -11,7 +11,7 @@ import java.sql.Date;
  * @author dell
  */
 public class VeXe {
-    private int maVe;
+    private String maVe;
     private String tenKhachHang;
     private Date ngayDat; 
     private int sdt;
@@ -21,7 +21,7 @@ public class VeXe {
     public VeXe() {
     }
 
-    public VeXe(int maVe, String tenKhachHang, Date ngayDat, int sdt, int maChuyenDi, String viTriGhe) {
+    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, int maChuyenDi, String viTriGhe) {
         this.maVe = maVe;
         this.tenKhachHang = tenKhachHang;
         this.ngayDat = ngayDat;
@@ -33,14 +33,14 @@ public class VeXe {
     /**
      * @return the maVe
      */
-    public int getMaVe() {
+    public String getMaVe() {
         return maVe;
     }
 
     /**
      * @param maVe the maVe to set
      */
-    public void setMaVe(int maVe) {
+    public void setMaVe(String maVe) {
         this.maVe = maVe;
     }
 
