@@ -34,8 +34,6 @@ public class ChuyenDi {
         this.soGheDat = soGheDat;
     }
 
-    
-    
     /**
      * @return the giaVe
      */

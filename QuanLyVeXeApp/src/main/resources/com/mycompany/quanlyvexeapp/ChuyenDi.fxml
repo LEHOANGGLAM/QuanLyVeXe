@@ -19,7 +19,7 @@
             <ComboBox fx:id="cbXeKhach" prefHeight="58.0" prefWidth="187.0" />
             <Label stylesheets="@../css/styleDetails.css" text="Giá Vé" />
             <TextField fx:id="giaVe" stylesheets="@../css/styleDetails.css" />
-            <Label stylesheets="@../css/styleDetails.css" text="VND" />
+            <Label stylesheets="@../css/styleDetails.css" text="VND." />
          </children>
       </HBox>
       <HBox prefHeight="34.0" prefWidth="600.0">
@@ -39,7 +39,7 @@
       <HBox prefHeight="34.0" prefWidth="600.0" styleClass="buttonn">
          <children>
             <Button mnemonicParsing="false" onAction="#addChuyenDiHandler" text="Thêm" />
-            <Button mnemonicParsing="false" text="Xóa" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateChuyenDiHandler" text="Sửa" />
          </children>
       </HBox>
       <TableView fx:id="tbChuyenDi" prefHeight="200.0" prefWidth="200.0" />
