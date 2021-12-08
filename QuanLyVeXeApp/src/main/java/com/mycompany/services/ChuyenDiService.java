@@ -23,7 +23,7 @@ public class ChuyenDiService {
         List<ChuyenDi> results = new ArrayList<>();
         try(Connection conn = jdbcUtils.getConn()){
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi");
+            ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi ORDER BY MaXe");
             
             while(rs.next()){
                 ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
@@ -36,14 +36,16 @@ public class ChuyenDiService {
     
     public void addChuyenDi(ChuyenDi c) throws SQLException{
         try(Connection conn = jdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareStatement("INSERT INTO chuyendi(MaChuyenDi, MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc)"
-                    + " VALUES(?, ?, ?, ?, ?, ?)");
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO chuyendi(MaChuyenDi, MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat)"
+                    + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
             stm.setString(1, c.getMaChuyenDi());
             stm.setString(2, c.getMaXe());
             stm.setInt(3, c.getGiaVe());
             stm.setDate(4, c.getThoiGianKhoiHanh());
             stm.setString(5, c.getDiemKhoiHanh());
             stm.setString(6, c.getDiemKetThuc());
+            stm.setInt(7, c.getSoGheTrong());
+             stm.setInt(8, c.getSoGheDat());
             
             stm.executeUpdate();
             //conn.commit();

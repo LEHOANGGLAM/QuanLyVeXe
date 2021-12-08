@@ -6,10 +6,16 @@ package com.mycompany.quanlyvexeapp;
 
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.ChuyenDi;
+import com.mycompany.pojo.XeKhach;
 import com.mycompany.services.ChuyenDiService;
+import com.mycompany.services.XeKhachService;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -17,6 +23,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,18 +37,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ChuyenDiController implements Initializable {
     @FXML private TableView<ChuyenDi> tbChuyenDi;
-    @FXML private TextField maChuyenDi;
-    @FXML private TextField maXe;
+    @FXML private ComboBox<XeKhach> cbXeKhach;
     @FXML private TextField diemKhoiHanh;
     @FXML private TextField diemKetThuc;
     @FXML private TextField giaVe;
-    @FXML private TextField thoiGianKhoiHanh;
+    @FXML private DatePicker dpThoiGianKhoiHanh;
+//    String stringDate = "22/01/2016";
+//    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+    //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        XeKhachService x = new XeKhachService();
+        try {
+            this.cbXeKhach.setItems(FXCollections.observableList(x.getXeKhach()));
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.loadTableView();
         try {
             this.loadTableData();
@@ -50,8 +67,9 @@ public class ChuyenDiController implements Initializable {
     }    
     
     public void addChuyenDiHandler(ActionEvent event) throws SQLException{
-        ChuyenDi c = new ChuyenDi(this.maChuyenDi.getText(), this.maXe.getText(), Integer.parseInt(this.giaVe.getText()),
-                null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 0, 0);
+        ChuyenDi c = new ChuyenDi(UUID.randomUUID().toString(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+                Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
+                this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
         ChuyenDiService s = new ChuyenDiService();  
         try {
             s.addChuyenDi(c);
