@@ -1,0 +1,40 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 27, 2021, 12:38:27 AM
+    Author     : dell
+*/
+
+* {
+    -fx-font-family: Tahoma;
+}
+
+VBox {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+HBox{
+    -fx-spacing: 20;
+     -fx-alignment: CENTER_LEFT;
+}
+
+HBox.buttonn{
+    -fx-spacing: 20;
+    -fx-alignment: CENTER;
+}
+
+TextField {
+    -fx-pref-width: 300;
+    -fx-pref-height: 35;
+}
+
+Text.Subject {
+    -fx-font-size: 36;
+    -fx-fill: coral;
+    -fx-stroke-width:3;
+}
