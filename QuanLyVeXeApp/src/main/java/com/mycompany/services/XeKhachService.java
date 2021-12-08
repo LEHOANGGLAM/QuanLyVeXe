@@ -32,17 +32,17 @@ public class XeKhachService {
         return results; 
     }
     
-//     public XeKhach getXeKhachByMaXe(String MaXe) throws SQLException{
-//        XeKhach results = null;
-//        try(Connection conn = jdbcUtils.getConn()){
-//            PreparedStatement stm = conn.prepareCall("SELECT * FROM xekhach WHERE MaXe = ?");
-//            stm.setString(1, MaXe);
-//            
-//            ResultSet rs = stm.executeQuery();
-//            while(rs.next()){
-//                results = new XeKhach(rs.getString("MaXe"), rs.getString("MaNhanVien"), rs.getString("BienSoXe"), rs.getInt("SoGhe"));
-//            }
-//        }
-//        return results; 
-//    }
+     public static XeKhach getXeKhachByMaXe(String MaXe) throws SQLException{
+        XeKhach results = null;
+        try(Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareCall("SELECT * FROM xekhach WHERE MaXe = ?");
+            stm.setString(1, MaXe);
+            
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                results = new XeKhach(rs.getString("MaXe"), rs.getString("MaNhanVien"), rs.getString("BienSoXe"), rs.getInt("SoGhe"));
+            }
+        }
+        return results; 
+    }
 }
