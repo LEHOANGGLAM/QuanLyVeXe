@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
@@ -46,6 +47,7 @@ public class ChuyenDiController implements Initializable {
     @FXML private TextField giaVe;
     @FXML private DatePicker dpThoiGianKhoiHanh;
     @FXML private Button btnUpdate;
+    @FXML private TextField timKiem;
 //    String stringDate = "22/01/2016";
 //    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
     //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
@@ -88,6 +90,16 @@ public class ChuyenDiController implements Initializable {
             });
             return row;
         });
+        
+        /////////////loiiiiiiiiiii
+        this.timKiem.textProperty().addListener(cl->{
+            ChuyenDiService c = new ChuyenDiService();
+            try {
+                this.tbChuyenDi.setItems(FXCollections.observableList(c.getChuyenDiByKw(this.timKiem.getText())));
+            } catch (SQLException ex) {
+                Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
+            }
+        });
     }    
     
     public void addChuyenDiHandler(ActionEvent event) throws SQLException{
@@ -101,7 +113,7 @@ public class ChuyenDiController implements Initializable {
             this.loadTableData();
             this.resetForm();
         } catch (SQLException ex) {
-            Utils.getBox("Thêm thất bại", Alert.AlertType.WARNING).show();
+            Utils.getBox("Thêm thất bại: "+ ex.getMessage(), Alert.AlertType.WARNING).show();
         }
     }
     
@@ -117,7 +129,7 @@ public class ChuyenDiController implements Initializable {
                 this.loadTableData();
                 this.resetForm();
             } catch (SQLException ex) {
-                Utils.getBox("Sửa thất bại", Alert.AlertType.WARNING).show();
+                Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
             }
         }
     }
@@ -159,7 +171,22 @@ public class ChuyenDiController implements Initializable {
         colAction.setCellFactory(l ->{
             Button btn = new Button("Xóa");
             btn.setOnAction(eh->{
-                
+                Alert confirm = Utils.getBox("Bạn có chắc chắn xóa chuyến đi này không?", Alert.AlertType.CONFIRMATION);
+                confirm.showAndWait().ifPresent(action ->{
+                    if(action == ButtonType.OK){
+                        TableCell cell = (TableCell)((Button)eh.getSource()).getParent();
+                        ChuyenDi c = (ChuyenDi)cell.getTableRow().getItem();
+                        ChuyenDiService s = new ChuyenDiService();
+                        try {
+                            s.deleteChuyenDi(c.getMaChuyenDi());
+                            Utils.getBox("Xóa thành công", Alert.AlertType.INFORMATION).show();
+                            this.loadTableData();
+                            this.resetForm();
+                        } catch (SQLException ex) {
+                            Utils.getBox("Xóa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                        }
+                    }
+                }); 
             });
             TableCell cell = new TableCell();
             cell.setGraphic(btn);
