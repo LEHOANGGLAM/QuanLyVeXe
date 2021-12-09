@@ -46,7 +46,7 @@
       <HBox prefHeight="34.0" prefWidth="600.0">
          <children>
             <Label text="Tìm kiếm" />
-            <TextField fx:id="timKiem" stylesheets="@../css/styleDetails.css" />
+            <TextField fx:id="timKiem" promptText="Nhập key word..." stylesheets="@../css/styleDetails.css" />
          </children>
       </HBox>
    </children>

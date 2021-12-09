@@ -40,15 +40,16 @@ public class ChuyenDiService {
         public List<ChuyenDi> getChuyenDiByKw(String kw) throws SQLException{
         List<ChuyenDi> results = new ArrayList<>();
         try(Connection conn = jdbcUtils.getConn()){
-            String sql = "SELECT * FROM chuyendi";
-            if(kw != null && !kw.isEmpty()){
-                sql += " WHERE DiemKhoiHanh like concat('%', ? ,'%')";
-            }
+            // String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '?', '%')"; 
+            String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '"+ kw + "', '%') or \n" +
+                             "DiemKetThuc like concat('%', '"+ kw + "', '%') or GiaVe like concat('%', '"+ kw + "', '%') or"
+                             + " ThoiGianKhoiHanh like concat('%', '"+ kw + "', '%') or MaXe like concat('%', '"+ kw + "', '%')";
             
             PreparedStatement stm = conn.prepareStatement(sql);
-            if(kw != null && !kw.isEmpty()){
-                stm.setString(1, kw);
-            }
+            // Làm theo cách này bị lỗi???
+//          if(kw != null && !kw.isEmpty()){
+//              stm.setString(1, kw);
+//          }
             ResultSet rs = stm.executeQuery(sql);
             while(rs.next()){
                 ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),

@@ -29,7 +29,6 @@ HBox.buttonn{
 }
 
 TextField {
-    -fx-pref-width: 300;
     -fx-pref-height: 35;
 }
 
@@ -37,4 +36,12 @@ Text.Subject {
     -fx-font-size: 36;
     -fx-fill: coral;
     -fx-stroke-width:3;
+}
+
+Button.btnLapVe {
+     -fx-pref-height: 55;
+     -fx-pref-width: 100;
+    -fx-background-color: greenyellow;
+    -fx-font-weight: bold;
+    -fx-font-size:15;
 }
