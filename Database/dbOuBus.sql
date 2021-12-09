@@ -72,7 +72,7 @@ CREATE TABLE `chuyendi` (
 
 LOCK TABLES `chuyendi` WRITE;
 /*!40000 ALTER TABLE `chuyendi` DISABLE KEYS */;
-INSERT INTO `chuyendi` VALUES ('1','GHE_01','2021-12-07 00:00:00','Bến Tre ','TpHCM',23,2,200000),('2','GHE_02','2021-12-08 00:00:00','TpHCM','Bến Tre',18,2,200000),('790a1968-715e-433d-b762-69cba1efdad9','GHE_01',NULL,'demo','demo',25,0,4),('831d3d8d-a74d-42d2-b906-6eefc8f2bae9','GHE_02',NULL,'sad','dsa',NULL,NULL,3),('c620ffc2-acf6-4154-a06c-eee3678ab430','GHE_01',NULL,'dmo','demo',NULL,NULL,1);
+INSERT INTO `chuyendi` VALUES ('1','GHE_01','2021-12-07 00:00:00','Bến Tre ','TpHCM',23,2,200000),('5f133354-2eff-44f4-bb4a-4bd504938ad2','GHE_01',NULL,'Bến Tre ','TpHCM',25,0,200000);
 /*!40000 ALTER TABLE `chuyendi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,6 +193,7 @@ CREATE TABLE `vexe` (
   `NgayDat` datetime DEFAULT NULL,
   `MaChuyenDi` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ViTriGhe` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TrangThai` int DEFAULT NULL,
   PRIMARY KEY (`MaVe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -203,7 +204,7 @@ CREATE TABLE `vexe` (
 
 LOCK TABLES `vexe` WRITE;
 /*!40000 ALTER TABLE `vexe` DISABLE KEYS */;
-INSERT INTO `vexe` VALUES ('1','Vy',123,'2021-12-06 00:00:00','1','A1'),('2','KhaiVy',123,'2021-12-06 00:00:00','1','A2'),('3','VyHeo',123,'2021-12-07 00:00:00','2','A1'),('4','VyKhung',123,'2021-12-07 00:00:00','2','A2');
+INSERT INTO `vexe` VALUES ('1','Vy',123,'2021-12-06 00:00:00','1','A1',NULL),('2','KhaiVy',123,'2021-12-06 00:00:00','1','A2',NULL),('3','VyHeo',123,'2021-12-07 00:00:00','2','A1',NULL),('4','VyKhung',123,'2021-12-07 00:00:00','2','A2',NULL);
 /*!40000 ALTER TABLE `vexe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +230,7 @@ CREATE TABLE `xekhach` (
 
 LOCK TABLES `xekhach` WRITE;
 /*!40000 ALTER TABLE `xekhach` DISABLE KEYS */;
-INSERT INTO `xekhach` VALUES ('GHE_01','3',NULL,25),('GHE_02','3',NULL,20),('GIUONG_01','3',NULL,20),('GIUONG_02','3',NULL,25);
+INSERT INTO `xekhach` VALUES ('GHE_01','3','XE1',25),('GHE_02','3','XE2',20),('GIUONG_01','3','XE3',20),('GIUONG_02','3','XE4',25);
 /*!40000 ALTER TABLE `xekhach` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -242,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-08 23:29:58
+-- Dump completed on 2021-12-10  0:15:35

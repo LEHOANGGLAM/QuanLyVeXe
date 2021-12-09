@@ -48,6 +48,9 @@ public class ChuyenDiController implements Initializable {
     @FXML private DatePicker dpThoiGianKhoiHanh;
     @FXML private Button btnUpdate;
     @FXML private TextField timKiem;
+    private static final ChuyenDiService cdService = new ChuyenDiService();
+    private static final XeKhachService xkService = new XeKhachService();
+    
 //    String stringDate = "22/01/2016";
 //    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
     //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
@@ -59,9 +62,8 @@ public class ChuyenDiController implements Initializable {
         // TODO
         this.btnUpdate.setDisable(true);
         
-        XeKhachService x = new XeKhachService();
         try {
-            this.cbXeKhach.setItems(FXCollections.observableList(x.getXeKhach()));
+            this.cbXeKhach.setItems(FXCollections.observableList(xkService.getXeKhach()));
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -93,9 +95,8 @@ public class ChuyenDiController implements Initializable {
         
         /////////////loiiiiiiiiiii
         this.timKiem.textProperty().addListener(cl->{
-            ChuyenDiService c = new ChuyenDiService();
             try {
-                this.tbChuyenDi.setItems(FXCollections.observableList(c.getChuyenDiByKw(this.timKiem.getText())));
+                this.tbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiByKw(this.timKiem.getText())));
             } catch (SQLException ex) {
                 Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
             }
@@ -106,9 +107,8 @@ public class ChuyenDiController implements Initializable {
         ChuyenDi c = new ChuyenDi(UUID.randomUUID().toString(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
                 Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
                 this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
-        ChuyenDiService s = new ChuyenDiService();  
         try {
-            s.addChuyenDi(c);
+            cdService.addChuyenDi(c);
             Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
             this.loadTableData();
             this.resetForm();
@@ -122,9 +122,8 @@ public class ChuyenDiController implements Initializable {
                 Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
                 this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
         if(c != null){
-            ChuyenDiService s = new ChuyenDiService();  
             try {
-                s.updateChuyenDi(c);
+                cdService.updateChuyenDi(c);
                 Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
                 this.loadTableData();
                 this.resetForm();
@@ -175,10 +174,9 @@ public class ChuyenDiController implements Initializable {
                 confirm.showAndWait().ifPresent(action ->{
                     if(action == ButtonType.OK){
                         TableCell cell = (TableCell)((Button)eh.getSource()).getParent();
-                        ChuyenDi c = (ChuyenDi)cell.getTableRow().getItem();
-                        ChuyenDiService s = new ChuyenDiService();
+                        ChuyenDi c = (ChuyenDi)cell.getTableRow().getItem();  
                         try {
-                            s.deleteChuyenDi(c.getMaChuyenDi());
+                            cdService.deleteChuyenDi(c.getMaChuyenDi());
                             Utils.getBox("Xóa thành công", Alert.AlertType.INFORMATION).show();
                             this.loadTableData();
                             this.resetForm();
@@ -198,8 +196,7 @@ public class ChuyenDiController implements Initializable {
     }
     
     public void loadTableData() throws SQLException{
-        ChuyenDiService c = new ChuyenDiService();
-        this.tbChuyenDi.setItems(FXCollections.observableList(c.getChuyenDi()));
+        this.tbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDi()));
     }
     
     public void resetForm(){
