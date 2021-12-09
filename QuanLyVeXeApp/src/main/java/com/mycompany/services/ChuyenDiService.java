@@ -36,6 +36,37 @@ public class ChuyenDiService {
         return results;
     }
     
+    //////////////loiii
+        public List<ChuyenDi> getChuyenDiByKw(String kw) throws SQLException{
+        List<ChuyenDi> results = new ArrayList<>();
+        try(Connection conn = jdbcUtils.getConn()){
+            String sql = "SELECT * FROM chuyendi";
+            if(kw != null && !kw.isEmpty()){
+                sql += " WHERE DiemKhoiHanh like concat('%', ? ,'%')";
+            }
+            
+            PreparedStatement stm = conn.prepareStatement(sql);
+            if(kw != null && !kw.isEmpty()){
+                stm.setString(1, kw);
+            }
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()){
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
+                results.add(c);
+            }
+        }
+        return results;
+    }
+    
+    public void deleteChuyenDi(String MaChuyenDi) throws SQLException{
+        try(Connection conn = jdbcUtils.getConn()){
+             PreparedStatement stm = conn.prepareCall("DELETE FROM chuyendi WHERE MaChuyenDi = ?");
+             stm.setString(1, MaChuyenDi);
+             stm.executeUpdate();
+        }
+    }
+    
     public void addChuyenDi(ChuyenDi c) throws SQLException{
         String sql = "INSERT INTO chuyendi(MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat, MaChuyenDi)"
                         + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
