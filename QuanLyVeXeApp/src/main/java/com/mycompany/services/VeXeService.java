@@ -26,7 +26,7 @@ public class VeXeService {
            
            while(rs.next()){
                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-                                rs.getInt("MaChuyenDi"), rs.getString("ViTriGhe"));
+                                rs.getInt("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TinhTrang"));
                results.add(v);
            }
        }

@@ -11,23 +11,39 @@ import java.sql.Date;
  * @author dell
  */
 public class VeXe {
+
+    /**
+     * @return the tinhTrang
+     */
+    public int getTinhTrang() {
+        return tinhTrang;
+    }
+
+    /**
+     * @param tinhTrang the tinhTrang to set
+     */
+    public void setTinhTrang(int tinhTrang) {
+        this.tinhTrang = tinhTrang;
+    }
     private String maVe;
     private String tenKhachHang;
     private Date ngayDat; 
     private int sdt;
     private int maChuyenDi;
     private String viTriGhe;
+    private int tinhTrang;
 
     public VeXe() {
     }
 
-    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, int maChuyenDi, String viTriGhe) {
+    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, int maChuyenDi, String viTriGhe, int tinhTrang) {
         this.maVe = maVe;
         this.tenKhachHang = tenKhachHang;
         this.ngayDat = ngayDat;
         this.sdt = sdt;
         this.maChuyenDi = maChuyenDi;
         this.viTriGhe = viTriGhe;
+        this.tinhTrang = tinhTrang;
     }
     
     /**
