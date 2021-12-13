@@ -1,93 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="953.0" styleClass="Subject" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.VeXeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="913.0" styleClass="Subject" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.VeXeController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe" />
-      <GridPane prefHeight="540.0" prefWidth="914.0">
+      <GridPane prefHeight="606.0" prefWidth="933.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.9999877929688" minWidth="10.0" prefWidth="572.7999877929688" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.39996337890625" minWidth="10.0" prefWidth="340.0000122070312" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.9999877929688" minWidth="10.0" prefWidth="347.9999633789063" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.1999633789062" minWidth="10.0" prefWidth="411.2000366210938" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.1999633789062" minWidth="10.0" prefWidth="134.5999755859375" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="47.599981689453124" minHeight="0.0" prefHeight="8.799992942810057" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="363.20000705718996" minHeight="10.0" prefHeight="291.20001220703125" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="217.19998779296878" minHeight="10.0" prefHeight="217.19998779296878" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="49.59999239444733" minHeight="0.0" prefHeight="34.39999544620514" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="386.3999481201172" minHeight="10.0" prefHeight="386.3999481201172" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="370.60001983642576" minHeight="10.0" prefHeight="36.80005187988286" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TabPane prefHeight="338.0" prefWidth="573.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1" GridPane.rowSpan="2">
-              <tabs>
-                <Tab text="Xe thường">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-                <Tab text="Xe giường nằm">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-            <VBox prefHeight="327.0" prefWidth="341.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Thông tin chỗ ngồi " GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Thông tin chuyến đi" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" wrappingWidth="63.891357421875" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+            <VBox prefHeight="130.0" prefWidth="498.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <children>
-                  <HBox prefHeight="34.0" prefWidth="301.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chức năng" />
+                  <Button mnemonicParsing="false" onAction="#datVeHandler" styleClass="btnLapVe" text="Đặt vé" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Button mnemonicParsing="false" onAction="#banVeHandler" styleClass="btnLapVe" text="Bán vé" />
+               </children>
+            </VBox>
+            <VBox fx:id="vbghe" prefHeight="372.0" prefWidth="406.0" styleClass="tab" GridPane.rowIndex="1">
+               <children>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
                      <children>
-                        <Label prefHeight="58.0" prefWidth="130.0" text="Điểm khởi hành" />
-                        <ComboBox prefHeight="47.0" prefWidth="174.0" />
+                        <RadioButton fx:id="A1" mnemonicParsing="false" text="A1">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sit" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="A2" mnemonicParsing="false" styleClass="Bien" text="A2" toggleGroup="$sit" />
+                        <RadioButton fx:id="A3" mnemonicParsing="false" text="A3" toggleGroup="$sit" />
+                        <RadioButton fx:id="A4" mnemonicParsing="false" text="A4" toggleGroup="$sit" />
                      </children>
                   </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A5" mnemonicParsing="false" text="A5" toggleGroup="$sit" />
+                        <RadioButton fx:id="A6" mnemonicParsing="false" styleClass="Bien" text="A6" toggleGroup="$sit" />
+                        <RadioButton fx:id="A7" mnemonicParsing="false" text="A7" toggleGroup="$sit" />
+                        <RadioButton fx:id="A8" mnemonicParsing="false" text="A8" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A9" mnemonicParsing="false" text="A9" toggleGroup="$sit" />
+                        <RadioButton fx:id="A10" mnemonicParsing="false" styleClass="Bien" text="A10" toggleGroup="$sit" />
+                        <RadioButton fx:id="A11" mnemonicParsing="false" text="A11" toggleGroup="$sit" />
+                        <RadioButton fx:id="A12" mnemonicParsing="false" text="A12" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A13" mnemonicParsing="false" text="A13" toggleGroup="$sit" />
+                        <RadioButton fx:id="A14" mnemonicParsing="false" styleClass="Bien" text="A14" toggleGroup="$sit" />
+                        <RadioButton fx:id="A15" mnemonicParsing="false" text="A15" toggleGroup="$sit" />
+                        <RadioButton fx:id="A16" mnemonicParsing="false" text="A16" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A17" mnemonicParsing="false" text="A17" toggleGroup="$sit" />
+                        <RadioButton fx:id="A18" mnemonicParsing="false" styleClass="Bien" text="A18" toggleGroup="$sit" />
+                        <RadioButton fx:id="A19" mnemonicParsing="false" text="A19" toggleGroup="$sit" />
+                        <RadioButton fx:id="A20" mnemonicParsing="false" text="A20" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A21" mnemonicParsing="false" text="A21" toggleGroup="$sit" />
+                        <RadioButton fx:id="A22" mnemonicParsing="false" styleClass="Bien" text="A22" toggleGroup="$sit" />
+                        <RadioButton fx:id="A23" mnemonicParsing="false" text="A23" toggleGroup="$sit" />
+                        <RadioButton fx:id="A24" mnemonicParsing="false" text="A24" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+                     <children>
+                        <RadioButton fx:id="A25" mnemonicParsing="false" text="A25" toggleGroup="$sit" />
+                        <RadioButton fx:id="A26" mnemonicParsing="false" text="A26" toggleGroup="$sit" />
+                        <RadioButton fx:id="A27" mnemonicParsing="false" text="A27" toggleGroup="$sit" />
+                        <RadioButton fx:id="A28" mnemonicParsing="false" text="A28" toggleGroup="$sit" />
+                        <RadioButton fx:id="A29" mnemonicParsing="false" text="A29" toggleGroup="$sit" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <TableView fx:id="tbChuyenDi" prefHeight="82.0" prefWidth="487.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <VBox prefHeight="314.0" prefWidth="341.0" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Title" text="Thông tin chuyến đi">
+                     <VBox.margin>
+                        <Insets left="215.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
                   <HBox prefHeight="34.0" prefWidth="301.0">
                      <children>
-                        <Label prefHeight="58.0" prefWidth="130.0" text="Điểm kết thúc" />
-                        <ComboBox prefHeight="47.0" prefWidth="174.0" />
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Mã chuyến đi" />
+                        <TextField fx:id="txtMaChuyenDi" editable="false" prefHeight="23.0" prefWidth="173.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Mã xe" />
-                        <ComboBox prefHeight="47.0" prefWidth="174.0" />
+                        <TextField fx:id="txtMaXe" editable="false" prefHeight="34.0" prefWidth="173.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Biển số xe" />
-                        <TextField editable="false" prefHeight="34.0" prefWidth="173.0" />
+                        <TextField fx:id="txtBienSoXe" editable="false" prefHeight="23.0" prefWidth="173.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Thời gian khởi hành" />
-                        <TextField editable="false" prefHeight="34.0" prefWidth="173.0" />
+                        <TextField fx:id="txtThoiGianKhoiHanh" editable="false" prefHeight="34.0" prefWidth="173.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="34.0" prefWidth="301.0">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Giá Vé" />
-                        <TextField editable="false" prefHeight="34.0" prefWidth="173.0" />
+                        <TextField fx:id="txtGiaVe" editable="false" prefHeight="34.0" prefWidth="173.0" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin chỗ ngồi " GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin chuyến đi" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <VBox prefHeight="142.0" prefWidth="341.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="txtTimKiem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="RIGHT" />
+            <VBox prefHeight="314.0" prefWidth="341.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chức năng" />
-                  <Button mnemonicParsing="false" styleClass="btnLapVe" text="Lập vé" />
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Điểm khởi hành" />
+                        <TextField fx:id="txtDiemKhoiHanh" editable="false" prefHeight="23.0" prefWidth="173.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Điểm kết thúc" />
+                        <TextField fx:id="txtDiemKetThuc" editable="false" prefHeight="34.0" prefWidth="173.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Họ tên khách hàng" />
+                        <TextField fx:id="txtHoTenKhachHang" prefHeight="23.0" prefWidth="173.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Số điện thoại" />
+                        <TextField fx:id="txtSdt" prefHeight="34.0" prefWidth="173.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="301.0">
+                     <children>
+                        <Label prefHeight="58.0" prefWidth="130.0" text="Vị trí ghế" />
+                        <TextField fx:id="txtVitriGhe" editable="false" prefHeight="34.0" prefWidth="173.0" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

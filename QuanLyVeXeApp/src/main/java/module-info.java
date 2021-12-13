@@ -7,4 +7,5 @@ module com.mycompany.quanlyvexeapp {
     opens com.mycompany.quanlyvexeapp to javafx.fxml;
     exports com.mycompany.quanlyvexeapp;
     exports com.mycompany.pojo;
+    requires org.apache.commons.lang3;
 }

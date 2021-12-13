@@ -145,4 +145,9 @@ public class ChuyenDi {
     public void setSoGheDat(int soGheDat) {
         this.soGheDat = soGheDat;
     }
+    
+    @Override
+    public String toString(){
+        return this.maChuyenDi;
+    }
 }

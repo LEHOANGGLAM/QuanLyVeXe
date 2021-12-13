@@ -21,68 +21,102 @@ import java.util.logging.Logger;
  * @author dell
  */
 public class ChuyenDiService {
-    public List<ChuyenDi> getChuyenDi() throws SQLException{
+
+    public List<ChuyenDi> getChuyenDi() throws SQLException {
         List<ChuyenDi> results = new ArrayList<>();
-        try(Connection conn = jdbcUtils.getConn()){
+        try ( Connection conn = jdbcUtils.getConn()) {
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi ORDER BY MaXe");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
-                                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
+                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
         }
         return results;
     }
-    
-    //////////////loiii
-        public List<ChuyenDi> getChuyenDiByKw(String kw) throws SQLException{
+
+    public List<ChuyenDi> getChuyenDiSortByDate() throws SQLException {
         List<ChuyenDi> results = new ArrayList<>();
-        try(Connection conn = jdbcUtils.getConn()){
+        try ( Connection conn = jdbcUtils.getConn()) {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi WHERE ThoiGianKhoiHanh >DATE(NOW())");
+
+            while (rs.next()) {
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
+                results.add(c);
+            }
+        }
+        return results;
+    }
+
+    //////////////loiii
+    public List<ChuyenDi> getChuyenDiByKw(String kw) throws SQLException {
+        List<ChuyenDi> results = new ArrayList<>();
+        try ( Connection conn = jdbcUtils.getConn()) {
             // String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '?', '%')"; 
-            String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '"+ kw + "', '%') or \n" +
-                             "DiemKetThuc like concat('%', '"+ kw + "', '%') or GiaVe like concat('%', '"+ kw + "', '%') or"
-                             + " ThoiGianKhoiHanh like concat('%', '"+ kw + "', '%') or MaXe like concat('%', '"+ kw + "', '%')";
-            
+            String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '" + kw + "', '%') or \n"
+                    + "DiemKetThuc like concat('%', '" + kw + "', '%') or GiaVe like concat('%', '" + kw + "', '%') or"
+                    + " ThoiGianKhoiHanh like concat('%', '" + kw + "', '%') or MaXe like concat('%', '" + kw + "', '%')";
+
             PreparedStatement stm = conn.prepareStatement(sql);
             // Làm theo cách này bị lỗi???
 //          if(kw != null && !kw.isEmpty()){
 //              stm.setString(1, kw);
 //          }
+          
             ResultSet rs = stm.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
-                                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
+                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
         }
         return results;
     }
     
-    public void deleteChuyenDi(String MaChuyenDi) throws SQLException{
-        try(Connection conn = jdbcUtils.getConn()){
-             PreparedStatement stm = conn.prepareCall("DELETE FROM chuyendi WHERE MaChuyenDi = ?");
-             stm.setString(1, MaChuyenDi);
-             stm.executeUpdate();
+    public List<ChuyenDi> getChuyenDiByKwAndSortDate(String kw) throws SQLException {
+        List<ChuyenDi> results = new ArrayList<>();
+        try ( Connection conn = jdbcUtils.getConn()) {
+                String sql = "SELECT * FROM chuyendi WHERE ThoiGianKhoiHanh >DATE(NOW()) and (DiemKhoiHanh like concat('%', '" + kw + "', '%') or \n"
+                    + "DiemKetThuc like concat('%', '" + kw + "', '%'))";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                        rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
+                results.add(c);
+            }
+        }
+        return results;
+    }
+
+    public void deleteChuyenDi(String MaChuyenDi) throws SQLException {
+        try ( Connection conn = jdbcUtils.getConn()) {
+            PreparedStatement stm = conn.prepareCall("DELETE FROM chuyendi WHERE MaChuyenDi = ?");
+            stm.setString(1, MaChuyenDi);
+            stm.executeUpdate();
         }
     }
-    
-    public void addChuyenDi(ChuyenDi c) throws SQLException{
+
+    public void addChuyenDi(ChuyenDi c) throws SQLException {
         String sql = "INSERT INTO chuyendi(MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat, MaChuyenDi)"
-                        + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         addOrUpdateChuyenDi(c, sql);
     }
-    
-    public void updateChuyenDi(ChuyenDi c) throws SQLException{
+
+    public void updateChuyenDi(ChuyenDi c) throws SQLException {
         String sql = "UPDATE chuyendi SET MaXe=?, GiaVe=?, ThoiGianKhoiHanh=?, DiemKhoiHanh=?, DiemKetThuc=?, SoGheTrong=?, SoGheDat=? WHERE MaChuyenDi = ?";
         addOrUpdateChuyenDi(c, sql);
     }
-    
-    public void addOrUpdateChuyenDi(ChuyenDi c, String sql) throws SQLException{
-        try(Connection conn = jdbcUtils.getConn()){
+
+    public void addOrUpdateChuyenDi(ChuyenDi c, String sql) throws SQLException {
+        try ( Connection conn = jdbcUtils.getConn()) {
             PreparedStatement stm = conn.prepareCall(sql);
-            
+
             stm.setString(1, c.getMaXe());
             stm.setInt(2, c.getGiaVe());
             stm.setDate(3, c.getThoiGianKhoiHanh());
