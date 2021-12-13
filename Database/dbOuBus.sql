@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
-  `TaiKhoan` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `MatKhau` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `MaNhanVien` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TaiKhoan` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MatKhau` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MaNhanVien` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `MaQuyen` int DEFAULT NULL,
   PRIMARY KEY (`TaiKhoan`),
   KEY `fk_MaQuyen_idx` (`MaQuyen`),
@@ -53,11 +53,11 @@ DROP TABLE IF EXISTS `chuyendi`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chuyendi` (
-  `MaChuyenDi` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `MaXe` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MaChuyenDi` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MaXe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `ThoiGianKhoiHanh` datetime DEFAULT NULL,
-  `DiemKhoiHanh` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DiemKetThuc` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DiemKhoiHanh` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DiemKetThuc` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `SoGheTrong` int DEFAULT NULL,
   `SoGheDat` int DEFAULT NULL,
   `GiaVe` int DEFAULT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `chuyendi` (
 
 LOCK TABLES `chuyendi` WRITE;
 /*!40000 ALTER TABLE `chuyendi` DISABLE KEYS */;
-INSERT INTO `chuyendi` VALUES ('1','GHE_01','2021-12-07 00:00:00','Bến Tre ','TpHCM',23,2,200000),('5f133354-2eff-44f4-bb4a-4bd504938ad2','GHE_01',NULL,'Bến Tre ','TpHCM',25,0,200000);
+INSERT INTO `chuyendi` VALUES ('1','GHE_01','2021-12-07 00:00:00','Bến Tre ','TpHCM',27,2,200000),('355727','GHE_02','2022-04-12 00:00:00','TpHCM','Đà Lạt',22,2,200000),('635170','GHE_01','2022-04-12 00:00:00','Bến Tre ','TpHCM',27,2,100000),('835810','GHE_01','2022-03-12 00:00:00','Đà Lạt ','TpHCM',29,0,200000),('ASFFSAGD','GHE_01','2022-12-12 00:00:00','demo','demo',28,1,1);
 /*!40000 ALTER TABLE `chuyendi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `doanhthuchuyendi`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `doanhthuchuyendi` (
-  `MaChuyenDi` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `MaChuyenDi` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `DoanhThu` int DEFAULT NULL,
   `SoVeDat` int DEFAULT NULL,
   `Ngay` datetime DEFAULT NULL,
@@ -110,11 +110,11 @@ DROP TABLE IF EXISTS `nhanvien`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `nhanvien` (
-  `MaNhanVien` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `TenNhanVien` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MaNhanVien` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `TenNhanVien` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `MaLoaiNhanVien` int DEFAULT NULL,
   `NgaySinh` datetime DEFAULT NULL,
-  `DiaChi` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DiaChi` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`MaNhanVien`),
   KEY `fk_MaLoaiNhanVien_idx` (`MaLoaiNhanVien`),
   CONSTRAINT `fk_MaLoaiNhanVien` FOREIGN KEY (`MaLoaiNhanVien`) REFERENCES `phanloainhanvien` (`MaLoaiNhanVien`)
@@ -140,7 +140,7 @@ DROP TABLE IF EXISTS `phanloainhanvien`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `phanloainhanvien` (
   `MaLoaiNhanVien` int NOT NULL,
-  `TenLoaiNhanVien` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TenLoaiNhanVien` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`MaLoaiNhanVien`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS `phanquyen`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `phanquyen` (
   `MaQuyen` int NOT NULL,
-  `TenQuyen` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TenQuyen` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`MaQuyen`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -187,12 +187,12 @@ DROP TABLE IF EXISTS `vexe`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vexe` (
-  `MaVe` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `TenKhachHang` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MaVe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `TenKhachHang` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `SoDienThoai` int DEFAULT NULL,
   `NgayDat` datetime DEFAULT NULL,
-  `MaChuyenDi` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ViTriGhe` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MaChuyenDi` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ViTriGhe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `TrangThai` int DEFAULT NULL,
   PRIMARY KEY (`MaVe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
@@ -204,7 +204,7 @@ CREATE TABLE `vexe` (
 
 LOCK TABLES `vexe` WRITE;
 /*!40000 ALTER TABLE `vexe` DISABLE KEYS */;
-INSERT INTO `vexe` VALUES ('1','Vy',123,'2021-12-06 00:00:00','1','A1',NULL),('2','KhaiVy',123,'2021-12-06 00:00:00','1','A2',NULL),('3','VyHeo',123,'2021-12-07 00:00:00','2','A1',NULL),('4','VyKhung',123,'2021-12-07 00:00:00','2','A2',NULL);
+INSERT INTO `vexe` VALUES ('1','Vy',123,'2021-12-06 00:00:00','1','A1',NULL),('2','KhaiVy',123,'2021-12-06 00:00:00','1','A2',NULL),('3','VyHeo',123,'2021-12-07 00:00:00','355727','A3',NULL),('4','VyKhung',123,'2021-12-07 00:00:00','355727','A4',NULL),('5','demo',123,'2021-12-12 00:00:00','635170','A5',NULL),('6','demo',123,'2021-12-14 00:00:00','635170','A6',NULL),('7','demoo',123,'2022-12-11 00:00:00','ASFFSAGD','A10',NULL);
 /*!40000 ALTER TABLE `vexe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,9 +216,9 @@ DROP TABLE IF EXISTS `xekhach`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `xekhach` (
-  `MaXe` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `MaNhanVien` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `BienSoXe` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `MaXe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MaNhanVien` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `BienSoXe` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `SoGhe` int DEFAULT NULL,
   PRIMARY KEY (`MaXe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
@@ -230,7 +230,7 @@ CREATE TABLE `xekhach` (
 
 LOCK TABLES `xekhach` WRITE;
 /*!40000 ALTER TABLE `xekhach` DISABLE KEYS */;
-INSERT INTO `xekhach` VALUES ('GHE_01','3','XE1',25),('GHE_02','3','XE2',20),('GIUONG_01','3','XE3',20),('GIUONG_02','3','XE4',25);
+INSERT INTO `xekhach` VALUES ('GHE_01','3','XE1',29),('GHE_02','3','XE2',24),('GHE_03','3','XE3',24),('GHE_04','3','XE4',29);
 /*!40000 ALTER TABLE `xekhach` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -243,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-10  0:15:35
+-- Dump completed on 2021-12-13 16:48:19

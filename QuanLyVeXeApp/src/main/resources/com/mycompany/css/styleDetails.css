@@ -13,14 +13,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 VBox {
     -fx-background-color: white;
-    -fx-padding: 20;
+    -fx-padding: 10;
     -fx-spacing: 10;
     -fx-alignment: CENTER;
 }
 
 HBox{
     -fx-spacing: 20;
-     -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER_LEFT;
+}
+
+VBox.tab {
+    -fx-background-color: lightblue;
+    -fx-alignment: CENTER;
+}
+
+HBox.tab{
+     -fx-alignment: CENTER;
+}
+
+RadioButton.Bien{
+    -fx-padding: 0 80 0 0;
 }
 
 HBox.buttonn{
@@ -35,7 +48,10 @@ TextField {
 Text.Subject {
     -fx-font-size: 36;
     -fx-fill: coral;
-    -fx-stroke-width:3;
+}
+
+Text.Title {
+    -fx-fill: darkolivegreen;
 }
 
 Button.btnLapVe {

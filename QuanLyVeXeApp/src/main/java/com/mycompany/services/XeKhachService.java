@@ -32,7 +32,7 @@ public class XeKhachService {
         return results; 
     }
     
-     public static XeKhach getXeKhachByMaXe(String MaXe) throws SQLException{
+     public XeKhach getXeKhachByMaXe(String MaXe) throws SQLException{
         XeKhach results = null;
         try(Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareCall("SELECT * FROM xekhach WHERE MaXe = ?");

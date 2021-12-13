@@ -4,6 +4,7 @@
  */
 package com.mycompany.quanlyvexeapp;
 
+
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.pojo.XeKhach;
@@ -34,6 +35,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+ 
+import org.apache.commons.lang3.RandomStringUtils;
 /**
  * FXML Controller class
  *
@@ -85,7 +88,7 @@ public class ChuyenDiController implements Initializable {
                 //thoigiankhoihanh
                 this.btnUpdate.setDisable(false);
                 try {
-                    this.cbXeKhach.getSelectionModel().select(XeKhachService.getXeKhachByMaXe(c.getMaXe()));
+                    this.cbXeKhach.getSelectionModel().select(xkService.getXeKhachByMaXe(c.getMaXe()));
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
                 }
@@ -104,7 +107,8 @@ public class ChuyenDiController implements Initializable {
     }    
     
     public void addChuyenDiHandler(ActionEvent event) throws SQLException{
-        ChuyenDi c = new ChuyenDi(UUID.randomUUID().toString(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+        //String RandomStringUtil;
+        ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
                 Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
                 this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
         try {
