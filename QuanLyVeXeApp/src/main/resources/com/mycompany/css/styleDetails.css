@@ -55,8 +55,8 @@ Text.Title {
 }
 
 Button.btnLapVe {
-     -fx-pref-height: 55;
-     -fx-pref-width: 100;
+    -fx-pref-height: 55;
+    -fx-pref-width: 100;
     -fx-background-color: greenyellow;
     -fx-font-weight: bold;
     -fx-font-size:15;
