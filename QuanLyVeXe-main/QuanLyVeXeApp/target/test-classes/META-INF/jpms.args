@@ -1,0 +1,4 @@
+--patch-module
+com.mycompany.quanlyvexeapp=_
+--add-reads
+com.mycompany.quanlyvexeapp=ALL-UNNAMED
