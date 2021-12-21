@@ -17,7 +17,16 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="913.0" styleClass="Subject" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.VeXeController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#openFormDSVeXeHandler" prefWidth="138.0" styleClass="chuyenform" text="Danh sách vé xe" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe">
+               <HBox.margin>
+                  <Insets left="220.0" right="20.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
       <GridPane prefHeight="606.0" prefWidth="933.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.9999877929688" minWidth="10.0" prefWidth="347.9999633789063" />
