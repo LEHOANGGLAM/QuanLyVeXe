@@ -19,7 +19,7 @@
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#openFormDSVeXeHandler" prefWidth="138.0" styleClass="chuyenform" text="Danh sách vé xe" />
+            <Button mnemonicParsing="false" onAction="#openFormDSVeXeHandler" prefWidth="163.0" styleClass="chuyenform" stylesheets="@../css/styleDetails.css" text="Danh sách vé xe" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe">
                <HBox.margin>
                   <Insets left="220.0" right="20.0" />

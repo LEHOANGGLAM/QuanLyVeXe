@@ -12,5 +12,4 @@ com\mycompany\services\AccountService.class
 com\mycompany\quanlyvexeapp\ChuyenDiController.class
 com\mycompany\services\ChuyenDiService.class
 com\mycompany\pojo\ChuyenDi.class
-.netbeans_automatic_build
 com\mycompany\services\XeKhachService.class

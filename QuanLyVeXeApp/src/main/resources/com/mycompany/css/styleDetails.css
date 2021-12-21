@@ -62,7 +62,7 @@ Button.btnLapVe {
     -fx-font-weight: bold;
     -fx-font-size:15;
 }
-Button.chuyenform {
+HBox Button.chuyenform {
     -fx-pref-height: 55;
     -fx-pref-width: 150;
     -fx-background-color: greenyellow;

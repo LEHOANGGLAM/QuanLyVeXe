@@ -48,6 +48,7 @@ TextField {
 Text.Subject {
     -fx-font-size: 36;
     -fx-fill: coral;
+    -fx-alignment: CENTER;
 }
 
 Text.Title {
@@ -57,6 +58,13 @@ Text.Title {
 Button.btnLapVe {
     -fx-pref-height: 55;
     -fx-pref-width: 100;
+    -fx-background-color: greenyellow;
+    -fx-font-weight: bold;
+    -fx-font-size:15;
+}
+HBox Button.chuyenform {
+    -fx-pref-height: 55;
+    -fx-pref-width: 150;
     -fx-background-color: greenyellow;
     -fx-font-weight: bold;
     -fx-font-size:15;
