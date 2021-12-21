@@ -29,14 +29,14 @@ public class VeXe {
     private String tenKhachHang;
     private Date ngayDat; 
     private int sdt;
-    private int maChuyenDi;
+    private String maChuyenDi;
     private String viTriGhe;
     private int trangThai;
 
     public VeXe() {
     }
 
-    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, int maChuyenDi, String viTriGhe, int trangThai) {
+    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, String maChuyenDi, String viTriGhe, int trangThai) {
         this.maVe = maVe;
         this.tenKhachHang = tenKhachHang;
         this.ngayDat = ngayDat;
@@ -107,14 +107,14 @@ public class VeXe {
     /**
      * @return the maChuyenDi
      */
-    public int getMaChuyenDi() {
+    public String getMaChuyenDi() {
         return maChuyenDi;
     }
 
     /**
      * @param maChuyenDi the maChuyenDi to set
      */
-    public void setMaChuyenDi(int maChuyenDi) {
+    public void setMaChuyenDi(String maChuyenDi) {
         this.maChuyenDi = maChuyenDi;
     }
 
