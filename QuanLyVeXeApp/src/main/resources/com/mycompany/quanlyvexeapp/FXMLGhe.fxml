@@ -69,6 +69,11 @@
             <RadioButton fx:id="A29" mnemonicParsing="false" text="A29" toggleGroup="$sit" />
          </children>
       </HBox>
-      <Button fx:id="btnOk" mnemonicParsing="false" onAction="#okHandler" text="OK" />
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="439.0" styleClass="tab">
+         <children>
+            <Button fx:id="btnOk" alignment="CENTER" mnemonicParsing="false" onAction="#okHandler" text="OK" />
+            <Button fx:id="btnOk1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelHandler" text="Cancel" />
+         </children>
+      </HBox>
    </children>
 </VBox>

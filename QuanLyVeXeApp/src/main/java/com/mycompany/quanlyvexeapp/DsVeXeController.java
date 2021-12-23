@@ -194,18 +194,16 @@ public class DsVeXeController implements Initializable {
     
     public void openFXMLGheHandler(ActionEvent event) throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLGhe.fxml"));
-      
-        
+            
         Dialog dialog = new Dialog();
         dialog.getDialogPane().setContent(fxmloader.load());
-        dialog.initStyle(StageStyle.TRANSPARENT);
-        
-//        String MaXe = this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaXe();    
-        FXMLGheController controller = fxmloader.getController();
-        controller.setSoCho(20);
-        //Utils.getBox(controller.MaXe, Alert.AlertType.INFORMATION).show();
-        
+        dialog.initStyle(StageStyle.TRANSPARENT);     
         dialog.show();
+        
+        String MaXe = this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaXe();    
+        String MaChuyenDi = this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi();
+        FXMLGheController controller = fxmloader.getController();
+        controller.loadForm(MaXe, MaChuyenDi);
     }
      
     public void banVeHandler(ActionEvent event) throws IOException{
@@ -239,10 +237,11 @@ public class DsVeXeController implements Initializable {
             }
         }
     }
-      public void closeHandler(ActionEvent event) throws IOException{
-          Button btn = (Button)event.getSource();
-          Stage stage = (Stage) btn.getScene().getWindow();
-          stage.close();
+
+    public void closeHandler(ActionEvent event) throws IOException {
+        Button btn = (Button) event.getSource();
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
     
     public void resetForm(){
@@ -252,5 +251,9 @@ public class DsVeXeController implements Initializable {
         this.txtTenKhachHang.setText("");
         this.txtTimKiem.setText("");
         this.txtViTriGhe.setText("");
+    }
+    
+    public void setTxtVitriGhe(String a){
+        this.txtViTriGhe.setText(a);
     }
 }

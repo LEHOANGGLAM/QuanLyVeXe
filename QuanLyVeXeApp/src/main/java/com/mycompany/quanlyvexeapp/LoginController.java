@@ -7,6 +7,7 @@ package com.mycompany.quanlyvexeapp;
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Account;
 import com.mycompany.services.AccountService;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,11 +19,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-
+import javafx.stage.Stage;
 /**
  *
  * @author dell
@@ -40,9 +44,10 @@ public class LoginController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
        cbQTC.setItems(ePermissionList);
+       this.cbQTC.getSelectionModel().selectFirst();
     }    
     
-    public void dangNhapHandler(ActionEvent event) throws SQLException{
+    public void dangNhapHandler(ActionEvent event) throws SQLException, IOException{
         if (this.txtTaiKhoan.getText().isEmpty() || this.txtMatKhau.getText().isEmpty()){
              Utils.getBox("Vui lòng nhập tài khoản, mật khẩu.", Alert.AlertType.WARNING).show();
         } else{
@@ -58,8 +63,21 @@ public class LoginController implements Initializable{
                            if (a1.getTaiKhoan().equals(this.txtTaiKhoan.getText())){                           
                                 if (a1.getMatKhau().equals(this.txtMatKhau.getText())){                           
                                     if (a1.getMaQuyen() == this.cbQTC.getSelectionModel().getSelectedIndex() + 1){
-                                        Utils.getBox("Đăng nhập thành công!", Alert.AlertType.INFORMATION).show();   
+                                       // Utils.getBox("Đăng nhập thành công!", Alert.AlertType.INFORMATION).show();   
                                         flag = true;
+                                        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Main.fxml"));
+                                       
+                                        Scene scene = new Scene(fxmloader.load());
+                                        Stage stage = new Stage();
+                                        stage.setScene(scene);
+                                        stage.setTitle("OuBus");
+                                        stage.show();
+                                        MainController controller = fxmloader.getController();
+                                        controller.loadMain(a1.getMaQuyen());
+                                        
+                                        Button btn = (Button) event.getSource();
+                                        Stage stagelogin = (Stage) btn.getScene().getWindow();
+                                        stagelogin.close();
                                     } else {
                                         Utils.getBox("Tài khoản này sai quyền truy cập!", Alert.AlertType.WARNING).show();
                                     }

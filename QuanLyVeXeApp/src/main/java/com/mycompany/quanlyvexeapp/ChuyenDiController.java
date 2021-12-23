@@ -10,6 +10,7 @@ import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.pojo.XeKhach;
 import com.mycompany.services.ChuyenDiService;
 import com.mycompany.services.XeKhachService;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -34,6 +35,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
  
 import org.apache.commons.lang3.RandomStringUtils;
@@ -201,6 +203,12 @@ public class ChuyenDiController implements Initializable {
     
     public void loadTableData() throws SQLException{
         this.tbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDi()));
+    }
+
+    public void closeHandler(ActionEvent event) throws IOException {
+        Button btn = (Button) event.getSource();
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
     
     public void resetForm(){

@@ -20,7 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -67,7 +69,7 @@ public class FXMLGheController implements Initializable {
     private final List<RadioButton> listcb = new ArrayList<>();
     private final List<VeXe> listVeXe = new ArrayList();
     private int soCho;
-    public String MaXe;
+    public String viTriGhe;
     
     private static final VeXeService vxService = new VeXeService();
     private static final ChuyenDiService cdService = new ChuyenDiService();
@@ -81,45 +83,67 @@ public class FXMLGheController implements Initializable {
          this.listcb.addAll(Arrays.asList(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16,
                 A17, A18, A19, A20, A21, A22, A23, A24, A25, A26, A27, A28, A29));
         
-        
-        Utils.getBox(String.valueOf(soCho), Alert.AlertType.INFORMATION).show();
-//        try {
-//            soCho = xkService.getXeKhachByMaXe(this.MaXe).getSoGhe();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(VeXeController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        if (soCho == 24) {
-//            this.A25.setDisable(true);
-//            this.A26.setDisable(true);
-//            this.A27.setDisable(true);
-//            this.A28.setDisable(true);
-//            this.A29.setDisable(true);
-//        } else {
-//            this.A25.setDisable(false);
-//            this.A26.setDisable(false);
-//            this.A27.setDisable(false);
-//            this.A28.setDisable(false);
-//            this.A29.setDisable(false);
-//        }
+        listcb.forEach(cb -> {
+            cb.selectedProperty().addListener(il -> {
+                if (cb.isSelected()) {
+                    viTriGhe = cb.getText();
+                } else {
+                    viTriGhe = "";
+                }
+            });
+        });
+     //   Utils.getBox(String.valueOf(soCho), Alert.AlertType.INFORMATION).show();
+     
     }    
     
-     public void okHandler(ActionEvent event) throws IOException{
-          Button btn = (Button)event.getSource();
-          Stage stage = (Stage) btn.getScene().getWindow();
-          stage.close();
+    public void okHandler(ActionEvent event) throws IOException {
+//        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLGhe.fxml"));
+//        Scene scene = new Scene(fxmloader.load());
+//        DsVeXeController controller = fxmloader.getController();
+//        controller.setTxtVitriGhe(viTriGhe);
+        
+        Button btn = (Button) event.getSource();
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
-     
-    /**
-     * @param MaXe the MaXe to set
-     */
-    public void setMaXe(String MaXe) {
-        this.MaXe = MaXe;
+
+    public void cancelHandler(ActionEvent event) throws IOException {
+        Button btn = (Button) event.getSource();
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
     }
     
-     /**
-     * @param soCho the soCho to set
-     */
-    public void setSoCho(int soCho) {
-        this.soCho = soCho;
+    public void loadForm(String maXe, String MaChuyenDi){
+        try {
+            soCho = xkService.getXeKhachByMaXe(maXe).getSoGhe();
+        } catch (SQLException ex) {
+            Logger.getLogger(VeXeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (soCho == 24) {
+            this.A25.setDisable(true);
+            this.A26.setDisable(true);
+            this.A27.setDisable(true);
+            this.A28.setDisable(true);
+            this.A29.setDisable(true);
+        } else {
+            this.A25.setDisable(false);
+            this.A26.setDisable(false);
+            this.A27.setDisable(false);
+            this.A28.setDisable(false);
+            this.A29.setDisable(false);
+        }
+        
+        try {
+            listVeXe.addAll(vxService.getVeXeByMaCD(MaChuyenDi));
+            listVeXe.forEach(v -> {
+                for (int i = 0; i < listcb.size(); i++) {
+                    if (v.getViTriGhe().equals(listcb.get(i).getId())) {
+                        this.listcb.get(i).setDisable(true);
+                    }
+                }
+            });
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLGheController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
