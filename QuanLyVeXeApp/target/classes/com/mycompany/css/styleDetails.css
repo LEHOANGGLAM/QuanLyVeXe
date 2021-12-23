@@ -29,7 +29,7 @@ VBox.tab {
 }
 
 HBox.tab{
-     -fx-alignment: CENTER;
+    -fx-alignment: CENTER;
 }
 
 RadioButton.Bien{
@@ -53,6 +53,7 @@ Text.Subject {
 
 Text.Title {
     -fx-fill: darkolivegreen;
+    -fx-font-weight: bold;
 }
 
 Button.btnLapVe {
@@ -68,4 +69,8 @@ HBox Button.chuyenform {
     -fx-background-color: greenyellow;
     -fx-font-weight: bold;
     -fx-font-size:15;
+}
+
+HBox.KhachHang{
+    -fx-background-color: #99FF66;
 }
