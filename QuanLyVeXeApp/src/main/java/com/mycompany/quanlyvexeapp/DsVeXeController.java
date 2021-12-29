@@ -12,7 +12,6 @@ import com.mycompany.services.VeXeService;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,14 +22,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -40,8 +36,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * FXML Controller class
@@ -57,7 +51,6 @@ public class DsVeXeController implements Initializable {
     @FXML private TextField txtTimKiem;
     @FXML private RadioButton byMa;
     @FXML private RadioButton byTen;
-    @FXML private RadioButton bySDT;
     @FXML private Button btnUpdate;
     @FXML private Button btnSell;
     @FXML private Button btnChoose;
@@ -192,7 +185,7 @@ public class DsVeXeController implements Initializable {
                         }
                         else{
                             try {
-                                vxService.deleteVeXe(v.getMaVe());
+                                vxService.deleteVeXe(v);
                                 Utils.getBox("Hủy thành công", Alert.AlertType.INFORMATION).show();
                                 this.loadTableData();
                                 //  this.resetForm();
