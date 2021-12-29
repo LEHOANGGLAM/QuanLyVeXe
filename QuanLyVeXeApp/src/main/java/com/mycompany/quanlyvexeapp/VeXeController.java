@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -194,46 +196,76 @@ public class VeXeController implements Initializable {
                 }
             });
         });
+        txtSdt.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    txtSdt.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
     }
     
-    public void datVeHandler(ActionEvent event){
-        VeXe v = new VeXe(RandomStringUtils.randomNumeric(6),this.txtHoTenKhachHang.getText(),Date.valueOf(LocalDate.now()),
-                Integer.parseInt(this.txtSdt.getText()),this.txtMaChuyenDi.getText(),this.txtVitriGhe.getText(),1);
-        try {
-            vxService.addVeXe(v);
-            Utils.getBox("Đặt vé thành công", Alert.AlertType.INFORMATION).show();
-            this.resetForm();
-        } catch (SQLException ex) {
-            Utils.getBox("Đặt vé thất bại: "+ ex.getMessage(), Alert.AlertType.WARNING).show();
-        }
+    public void datVeHandler(ActionEvent event) {
+        if (checkTextField()) {
+            if (checkSDT()) {
+                VeXe v = new VeXe(RandomStringUtils.randomNumeric(6), this.txtHoTenKhachHang.getText(), Date.valueOf(LocalDate.now()),
+                        this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Đặt");
+                try {
+                    vxService.addVeXe(v);
+                    Utils.getBox("Đặt vé thành công", Alert.AlertType.INFORMATION).show();
+                    this.resetForm();
+                } catch (SQLException ex) {
+                    Utils.getBox("Đặt vé thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                }
+            } else 
+                Utils.getBox("Số điện thoại không hợp lệ: số điện thoại phải có 10 chữ số", Alert.AlertType.WARNING).show();        
+        } else 
+            Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
     }
     
-    public void banVeHandler(ActionEvent event){
-         VeXe v = new VeXe(RandomStringUtils.randomNumeric(6),this.txtHoTenKhachHang.getText(),Date.valueOf(LocalDate.now()),
-                Integer.parseInt(this.txtSdt.getText()),this.txtMaChuyenDi.getText(),this.txtVitriGhe.getText(),0);
-        try {
-            vxService.addVeXe(v);
-            Utils.getBox("Bán vé thành công", Alert.AlertType.INFORMATION).show();
-            this.resetForm();
-        } catch (SQLException ex) {
-            Utils.getBox("Bán vé thất bại: "+ ex.getMessage(), Alert.AlertType.WARNING).show();
+    public void banVeHandler(ActionEvent event) throws IOException{
+        if (checkTextField()) {
+            if (checkSDT()) {
+                String maVe = RandomStringUtils.randomNumeric(6);
+                VeXe v = new VeXe(maVe, this.txtHoTenKhachHang.getText(), Date.valueOf(LocalDate.now()),
+                        this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Bán");
+                try {
+                    vxService.addVeXe(v);                  
+                    ///Mở form In vé          
+                    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLThongTinInVe.fxml"));
+                    Dialog dialog = new Dialog();
+                    dialog.getDialogPane().setContent(fxmloader.load());
+                    dialog.initStyle(StageStyle.TRANSPARENT);
+                    dialog.show();
+                    FXMLThongTinInVeController controller = fxmloader.getController();
+                    controller.loadForm(maVe,
+                            this.txtBienSoXe.getText(), this.txtDiemKhoiHanh.getText(), this.txtDiemKetThuc.getText(),
+                            this.txtVitriGhe.getText(), this.txtGiaVe.getText(), this.txtHoTenKhachHang.getText());
+                    
+                     this.resetForm();
+                } catch (SQLException ex) {
+                    Utils.getBox("Bán vé thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                }
+             } else 
+                Utils.getBox("Số điện thoại không hợp lệ: số điện thoại phải có 10 chữ số", Alert.AlertType.WARNING).show(); 
         }
+        else 
+             Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
     }
     
      public void openFormDSVeXeHandler(ActionEvent event) throws IOException{
-         //FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("DsVeXe.fxml"));
-//         Scene scene = new Scene(fxmloader.load());
-//         Stage stage = new Stage();
-//         stage.setScene(scene);
-//         stage.setTitle("Danh sách vé xe");
-//         stage.showAndWait(); 
-         
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("DsVeXe.fxml"));
         Dialog dialog = new Dialog();
         dialog.getDialogPane().setContent(fxmloader.load());
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.show();
     }
+     
+     private void openFXMLThongTinInVeHandler(ActionEvent event) throws IOException {
+       
+    } 
     
     private void loadTableView(){
         TableColumn colId = new TableColumn("Mã Chuyến Đi");
@@ -260,7 +292,6 @@ public class VeXeController implements Initializable {
     }
     
     public void setPropertiesRadioButton() throws SQLException{
-        // listVeXe =
         listVeXe.forEach(v -> {
             for(int i = 0; i < listcb.size(); i++)
                 if(v.getViTriGhe().equals(listcb.get(i).getId()))
@@ -269,20 +300,25 @@ public class VeXeController implements Initializable {
     }
     
     public void resetForm(){
-        this.tbChuyenDi.getSelectionModel().select(null);
-        this.txtBienSoXe.setText("");
-        this.txtDiemKetThuc.setText("");
-        this.txtDiemKhoiHanh.setText("");
-        this.txtGiaVe.setText("");
         this.txtHoTenKhachHang.setText("");
-        this.txtMaChuyenDi.setText("");
-        this.txtMaXe.setText("");
         this.txtSdt.setText("");
-        this.txtThoiGianKhoiHanh.setText("");
         this.txtTimKiem.setText("");
         this.txtVitriGhe.setText("");
         listcb.forEach(c -> {
             c.setDisable(true);
         });
+    }
+    
+    private boolean checkTextField(){
+        if(this.txtHoTenKhachHang.getText() == "" || this.txtSdt.getText() == ""
+                || this.txtVitriGhe.getText() == "" || this.txtMaChuyenDi.getText() == "")
+            return false;
+        return true;
+    }
+    
+    private boolean checkSDT(){
+        if(this.txtSdt.getText().length() != 10)
+            return false;
+        return true;
     }
 }

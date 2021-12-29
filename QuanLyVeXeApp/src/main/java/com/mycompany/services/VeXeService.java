@@ -30,8 +30,8 @@ public class VeXeService {
                             " ORDER BY vexe.MaChuyenDi");
 
             while (rs.next()) {
-                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
+                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
+                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getString("TrangThai"));
                 results.add(v);
             }
         }
@@ -84,8 +84,8 @@ public class VeXeService {
 
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
+                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
+                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getString("TrangThai"));
                 results.add(v);
             }
         }
@@ -100,8 +100,8 @@ public class VeXeService {
 
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
+                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
+                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getString("TrangThai"));
                 results.add(v);
             }
         }
@@ -116,8 +116,8 @@ public class VeXeService {
 
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
+                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
+                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getString("TrangThai"));
                 results.add(v);
             }
         }
@@ -142,10 +142,10 @@ public class VeXeService {
 
             stm.setString(1, v.getMaChuyenDi());
             stm.setString(2, v.getTenKhachHang());
-            stm.setInt(3, v.getSdt());
+            stm.setString(3, v.getSdt());
             stm.setDate(4, v.getNgayDat());
             stm.setString(5, v.getViTriGhe());
-            stm.setInt(6, v.getTrangThai());
+            stm.setString(6, v.getTrangThai());
             stm.setString(7, v.getMaVe());
 
             stm.executeUpdate();
@@ -157,7 +157,7 @@ public class VeXeService {
             try ( Connection conn = jdbcUtils.getConn()) {
             PreparedStatement stm = conn.prepareCall(sql);
 
-            stm.setInt(1, v.getTrangThai());
+            stm.setString(1, v.getTrangThai());
             stm.setString(2, v.getMaVe());
             stm.executeUpdate();
         }

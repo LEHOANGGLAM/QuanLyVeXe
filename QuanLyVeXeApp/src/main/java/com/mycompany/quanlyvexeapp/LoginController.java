@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -33,7 +34,7 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable{
     @FXML private TextField txtTaiKhoan;
-    @FXML private TextField txtMatKhau;
+    @FXML private PasswordField txtMatKhau;
     @FXML private ChoiceBox cbQTC;
 
     ObservableList<String> ePermissionList = FXCollections.observableArrayList("Quản trị viên", "Nhân viên");

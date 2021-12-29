@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.quanlyvexeapp;
-
-import com.mycompany.conf.Utils;
 import com.mycompany.pojo.VeXe;
 import com.mycompany.services.ChuyenDiService;
 import com.mycompany.services.VeXeService;
@@ -20,10 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
@@ -74,6 +69,7 @@ public class FXMLGheController implements Initializable {
     private static final VeXeService vxService = new VeXeService();
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private static final XeKhachService xkService = new XeKhachService();
+    public DsVeXeController ds;
     /**
      * Initializes the controller class.
      */
@@ -92,16 +88,10 @@ public class FXMLGheController implements Initializable {
                 }
             });
         });
-     //   Utils.getBox(String.valueOf(soCho), Alert.AlertType.INFORMATION).show();
-     
     }    
     
     public void okHandler(ActionEvent event) throws IOException {
-//        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLGhe.fxml"));
-//        Scene scene = new Scene(fxmloader.load());
-//        DsVeXeController controller = fxmloader.getController();
-//        controller.setTxtVitriGhe(viTriGhe);
-        
+        ds.setTxtVitriGhe(viTriGhe);
         Button btn = (Button) event.getSource();
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
@@ -113,7 +103,7 @@ public class FXMLGheController implements Initializable {
         stage.close();
     }
     
-    public void loadForm(String maXe, String MaChuyenDi){
+    public void loadForm(String maXe, String MaChuyenDi, DsVeXeController ds){
         try {
             soCho = xkService.getXeKhachByMaXe(maXe).getSoGhe();
         } catch (SQLException ex) {
@@ -145,5 +135,6 @@ public class FXMLGheController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(FXMLGheController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.ds = ds;
     }
 }

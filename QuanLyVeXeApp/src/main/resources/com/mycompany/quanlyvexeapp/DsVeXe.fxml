@@ -87,5 +87,6 @@
             </VBox>
          </children>
       </GridPane>
+      <Label text="Lưu ý: Những vé đã bán thì không thể sửa" />
    </children>
 </VBox>

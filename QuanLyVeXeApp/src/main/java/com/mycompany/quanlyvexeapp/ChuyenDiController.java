@@ -16,10 +16,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,6 +62,9 @@ public class ChuyenDiController implements Initializable {
 //    String stringDate = "22/01/2016";
 //    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
     //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
+     String pattern = "dd/MM/yyyy HH:mm:ss";
+    SimpleDateFormat df = new SimpleDateFormat(pattern);
+    
     /**
      * Initializes the controller class.
      */
@@ -87,7 +93,9 @@ public class ChuyenDiController implements Initializable {
                 this.giaVe.setText(String.valueOf(c.getGiaVe()));
                 this.diemKhoiHanh.setText(c.getDiemKhoiHanh());
                 this.diemKetThuc.setText(c.getDiemKetThuc());
-                //thoigiankhoihanh
+                Calendar calen = Calendar.getInstance();
+                calen.setTime(c.getThoiGianKhoiHanh());
+                this.dpThoiGianKhoiHanh.setValue(LocalDate.of(calen.get(Calendar.YEAR),calen.get(Calendar.MONTH)+1,calen.get(Calendar.DAY_OF_MONTH)));
                 this.btnUpdate.setDisable(false);
                 try {
                     this.cbXeKhach.getSelectionModel().select(xkService.getXeKhachByMaXe(c.getMaXe()));
@@ -98,7 +106,7 @@ public class ChuyenDiController implements Initializable {
             return row;
         });
         
-        /////////////loiiiiiiiiiii
+     
         this.timKiem.textProperty().addListener(cl->{
             try {
                 this.tbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiByKw(this.timKiem.getText())));
@@ -106,36 +114,57 @@ public class ChuyenDiController implements Initializable {
                 Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
             }
         });
+        
+        giaVe.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    giaVe.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
     }    
     
     public void addChuyenDiHandler(ActionEvent event) throws SQLException{
-        //String RandomStringUtil;
-        ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
-                this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
-        try {
-            cdService.addChuyenDi(c);
-            Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
-            this.loadTableData();
-            this.resetForm();
-        } catch (SQLException ex) {
-            Utils.getBox("Thêm thất bại: "+ ex.getMessage(), Alert.AlertType.WARNING).show();
-        }
-    }
-    
-    public void updateChuyenDiHandler(ActionEvent event) throws SQLException{
-        ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                Integer.parseInt(this.giaVe.getText()), null, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(), 
-                this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
-        if(c != null){
+        if (checkTextField()) {
+            LocalDate local = this.dpThoiGianKhoiHanh.getValue();
+            Date date = Date.valueOf(local);
+            ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+                    Integer.parseInt(this.giaVe.getText()), date, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                    this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
             try {
-                cdService.updateChuyenDi(c);
-                Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                cdService.addChuyenDi(c);
+                Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
                 this.loadTableData();
                 this.resetForm();
             } catch (SQLException ex) {
-                Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                Utils.getBox("Thêm thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
             }
+        } else {
+            Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
+        }
+    }
+    
+    public void updateChuyenDiHandler(ActionEvent event) throws SQLException {
+        if (checkTextField()) {
+            LocalDate local = this.dpThoiGianKhoiHanh.getValue();
+            Date date = Date.valueOf(local);
+            ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+                    Integer.parseInt(this.giaVe.getText()), date, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                    this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+            if (c != null) {
+                try {
+                    cdService.updateChuyenDi(c);
+                    Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                    this.loadTableData();
+                    this.resetForm();
+                } catch (SQLException ex) {
+                    Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                } 
+            }
+        } else {
+            Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
         }
     }
     
@@ -218,6 +247,14 @@ public class ChuyenDiController implements Initializable {
         this.diemKetThuc.setText("");
         this.diemKhoiHanh.setText("");
         this.btnUpdate.setDisable(true);
-        //this.dpThoiGianKhoiHanh
+        this.dpThoiGianKhoiHanh.setValue(null);
+    }
+    
+    private boolean checkTextField() {
+        if (this.giaVe.getText() == "" || this.diemKhoiHanh.getText() == ""
+                || this.diemKetThuc.getText() == "" || this.cbXeKhach.getSelectionModel().getSelectedItem() == null
+                || this.dpThoiGianKhoiHanh.getValue() == null) 
+            return false;
+        return true;
     }
 }
