@@ -15,28 +15,28 @@ public class VeXe {
     /**
      * @return the trangThai
      */
-    public int getTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
     /**
      * @param trangThai the trangThai to set
      */
-    public void setTrangThai(int trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
     private String maVe;
     private String tenKhachHang;
     private Date ngayDat; 
-    private int sdt;
+    private String sdt;
     private String maChuyenDi;
     private String viTriGhe;
-    private int trangThai;
+    private String trangThai;
 
     public VeXe() {
     }
 
-    public VeXe(String maVe, String tenKhachHang, Date ngayDat, int sdt, String maChuyenDi, String viTriGhe, int trangThai) {
+    public VeXe(String maVe, String tenKhachHang, Date ngayDat, String sdt, String maChuyenDi, String viTriGhe, String trangThai) {
         this.maVe = maVe;
         this.tenKhachHang = tenKhachHang;
         this.ngayDat = ngayDat;
@@ -93,14 +93,14 @@ public class VeXe {
     /**
      * @return the sdt
      */
-    public int getSdt() {
+    public String getSdt() {
         return sdt;
     }
 
     /**
      * @param sdt the sdt to set
      */
-    public void setSdt(int sdt) {
+    public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 

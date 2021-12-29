@@ -5,6 +5,7 @@
 package com.mycompany.pojo;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -32,6 +33,10 @@ public class ChuyenDi {
         this.diemKetThuc = diemKetThuc;
         this.soGheTrong = soGheTrong;
         this.soGheDat = soGheDat;
+    }
+
+    public ChuyenDi(String randomNumeric, String maXe, int parseInt, LocalDate date, String text, String text0, int soGhe, int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**

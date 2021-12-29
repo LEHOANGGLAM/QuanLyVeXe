@@ -7,6 +7,7 @@ com\mycompany\pojo\ChuyenDi.class
 com\mycompany\quanlyvexeapp\VeXeController.class
 com\mycompany\conf\Utils.class
 com\mycompany\pojo\XeKhach.class
+com\mycompany\quanlyvexeapp\FXMLGheController.class
 com\mycompany\pojo\VeXe.class
 com\mycompany\pojo\Account.class
 com\mycompany\services\AccountService.class

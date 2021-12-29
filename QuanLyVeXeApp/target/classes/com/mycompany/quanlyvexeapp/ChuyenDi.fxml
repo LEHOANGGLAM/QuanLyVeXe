@@ -62,7 +62,7 @@
                         <HBox prefHeight="34.0" prefWidth="600.0">
                            <children>
                               <Label text="Thời gian khởi hành" />
-                              <DatePicker prefHeight="54.0" prefWidth="292.0" />
+                              <DatePicker fx:id="dpThoiGianKhoiHanh" prefHeight="54.0" prefWidth="292.0" />
                            </children>
                         </HBox>
                      </children>
