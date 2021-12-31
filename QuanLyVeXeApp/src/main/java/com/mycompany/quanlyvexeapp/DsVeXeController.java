@@ -11,8 +11,13 @@ import com.mycompany.services.ChuyenDiService;
 import com.mycompany.services.VeXeService;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
@@ -55,15 +60,31 @@ public class DsVeXeController implements Initializable {
     @FXML private Button btnSell;
     @FXML private Button btnChoose;
     
+    private final List<VeXe> listVeXe = new ArrayList(); 
+    
     private static final VeXeService vxService = new VeXeService();
     private static final ChuyenDiService cdService = new ChuyenDiService();
     
+    String pattern = "dd/MM/yyyy HH:mm:ss";
+    SimpleDateFormat df = new SimpleDateFormat(pattern);
+    private Date dateKhoiHanh;
+    private Date dateNow;
+    long minutes = 10;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        try {     
+            if(autoDeleteVeXe()){
+                Utils.getBox("Hệ thống đã tự động hủy những vé của chuyến đi sắp khởi hành trong 30 phút vì chưa có người nhận vé",
+                        Alert.AlertType.INFORMATION).show();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         this.btnSell.setDisable(true);
         this.btnUpdate.setDisable(true);
@@ -76,7 +97,7 @@ public class DsVeXeController implements Initializable {
          }
          
          try {
-            this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDi()));
+            this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,10 +123,24 @@ public class DsVeXeController implements Initializable {
                     this.btnSell.setDisable(true);
                 }
                 this.btnChoose.setDisable(false);
+         
+                try {
+                    ChuyenDi c = cdService.getChuyenDiByMaChuyenDi(v.getMaChuyenDi());
+                     dateKhoiHanh = c.getThoiGianKhoiHanh();
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                               
+                long millis = System.currentTimeMillis();
+                dateNow = new Date(millis);
+                
+                long s =  dateKhoiHanh.getTime() - dateNow.getTime();
+                minutes = TimeUnit.MILLISECONDS.toMinutes(s);
+                System.out.println(String.valueOf(minutes));                 
             });
             return row;
         });
-      
+         
          
         this.txtTimKiem.textProperty().addListener(cl->{
             try {
@@ -138,8 +173,8 @@ public class DsVeXeController implements Initializable {
                     txtSDT.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
-        });
-    }    
+        });       
+    }
     
      private void loadTableView(){
         TableColumn colId = new TableColumn("Mã Vé");
@@ -172,7 +207,7 @@ public class DsVeXeController implements Initializable {
         
         TableColumn colAction = new TableColumn();
         colAction.setCellFactory(l ->{
-            Button btn = new Button("Hủy vé");
+            Button btn = new Button("Hoàn vé");
             btn.setOnAction(eh->{
                
                 Alert confirm = Utils.getBox("Bạn có chắc chắn hủy vé này không?", Alert.AlertType.CONFIRMATION);
@@ -181,16 +216,16 @@ public class DsVeXeController implements Initializable {
                         TableCell cell = (TableCell)((Button)eh.getSource()).getParent();
                         VeXe v = (VeXe)cell.getTableRow().getItem();  
                         if(v.getTrangThai().equals("Bán")){
-                              Utils.getBox("Hủy thất bại: Vé đã bán không thế hủy", Alert.AlertType.WARNING).show();
+                              Utils.getBox("Hoàn thất bại: Vé đã bán không thế hoàn", Alert.AlertType.WARNING).show();
                         }
                         else{
                             try {
                                 vxService.deleteVeXe(v);
-                                Utils.getBox("Hủy thành công", Alert.AlertType.INFORMATION).show();
+                                Utils.getBox("Hoàn thành công", Alert.AlertType.INFORMATION).show();
                                 this.loadTableData();
-                                //  this.resetForm();
+                                this.resetForm();
                             } catch (SQLException ex) {
-                                Utils.getBox("Hủy thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                                Utils.getBox("Hoàn thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
                             }
                         }
                     }
@@ -255,27 +290,50 @@ public class DsVeXeController implements Initializable {
             Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
     }
     public void updateHandler(ActionEvent event) throws IOException{
-        if (checkTextField()) {
-            if (checkSDT()) {
-                VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();
-                if (v != null) {
-                    try {
-                        v.setMaChuyenDi(this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi());
-                        v.setTenKhachHang(this.txtTenKhachHang.getText());
-                        v.setSdt(this.txtSDT.getText());
-                        v.setViTriGhe(this.txtViTriGhe.getText());
-                        vxService.updateVeXe(v);
-                        Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-                        this.loadTableData();
-                        this.resetForm();
-                    } catch (SQLException ex) {
-                        Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+        if(minutes > 60)
+            if (checkTextField()) {
+                if (checkSDT()) {
+                    VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();
+                    if (v != null) {
+                        try {
+                            v.setMaChuyenDi(this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi());
+                            v.setTenKhachHang(this.txtTenKhachHang.getText());
+                            v.setSdt(this.txtSDT.getText());
+                            v.setViTriGhe(this.txtViTriGhe.getText());
+                            vxService.updateVeXe(v);
+                            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                            this.loadTableData();
+                            this.resetForm();
+                        } catch (SQLException ex) {
+                            Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                        }
                     }
-                }
+                } else 
+                    Utils.getBox("Số điện thoại không hợp lệ: số điện thoại phải có 10 chữ số", Alert.AlertType.WARNING).show();                
             } else
-                Utils.getBox("Số điện thoại không hợp lệ: số điện thoại phải có 10 chữ số", Alert.AlertType.WARNING).show();
-        } else 
-            Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
+                Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
+        else 
+            Utils.getBox("Sửa thất bại: Chỉ được đổi vé trước 60 phút khi chuyến đi khởi hành", Alert.AlertType.WARNING).show();
+    }
+    
+    public boolean autoDeleteVeXe() throws SQLException{
+       boolean flag = false;
+       this.listVeXe.addAll(vxService.getVeXe());
+       for(VeXe v : listVeXe){
+           ChuyenDi c = cdService.getChuyenDiByMaChuyenDi(v.getMaChuyenDi());
+           dateKhoiHanh = c.getThoiGianKhoiHanh();
+           
+           long millis = System.currentTimeMillis();
+           dateNow = new Date(millis);
+
+           long s = dateKhoiHanh.getTime() - dateNow.getTime();
+           minutes = TimeUnit.MILLISECONDS.toMinutes(s);
+           if(minutes<=30){
+               vxService.deleteVeXe(v);
+               flag = true;
+           }
+       }
+       return flag;
     }
 
     public void closeHandler(ActionEvent event) throws IOException {

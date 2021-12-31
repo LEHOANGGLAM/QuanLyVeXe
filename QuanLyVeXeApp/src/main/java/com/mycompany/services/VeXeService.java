@@ -38,22 +38,6 @@ public class VeXeService {
         return results;
     }
 
-//    public List<VeXe> getVeXeByMaChuyenDi(String MaChuyenDi) throws SQLException {
-//        List<VeXe> results = new ArrayList<>();
-//        try ( Connection conn = jdbcUtils.getConn()) {
-//            PreparedStatement stm = conn.prepareCall("SELECT * FROM vexe WHERE MaChuyenDi = ?");
-//            stm.setString(1, MaChuyenDi);
-//
-//            ResultSet rs = stm.executeQuery();
-//            while (rs.next()) {
-//                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-//                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
-//                results.add(v);
-//            }
-//        }
-//        return results;
-//    }
-
     public void deleteVeXe(VeXe v) throws SQLException {
         try ( Connection conn = jdbcUtils.getConn()) {
             conn.setAutoCommit(false);

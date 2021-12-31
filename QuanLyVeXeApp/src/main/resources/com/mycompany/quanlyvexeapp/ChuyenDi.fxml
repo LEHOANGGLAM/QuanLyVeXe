@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -62,8 +63,18 @@
                         <HBox prefHeight="34.0" prefWidth="600.0">
                            <children>
                               <Label text="Thời gian khởi hành" />
-                              <DatePicker fx:id="dpThoiGianKhoiHanh" prefHeight="54.0" prefWidth="292.0" />
+                              <DatePicker fx:id="dpThoiGianKhoiHanh" prefHeight="28.0" prefWidth="242.0" />
+                              <TextField fx:id="gio" prefHeight="28.0" prefWidth="37.0" styleClass="hour" />
+                              <Label text=":">
+                                 <HBox.margin>
+                                    <Insets left="-15.0" right="-15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="phut" prefHeight="28.0" prefWidth="38.0" styleClass="hour" />
                            </children>
+                           <VBox.margin>
+                              <Insets top="1.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>

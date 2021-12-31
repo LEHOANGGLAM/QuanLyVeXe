@@ -14,11 +14,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
@@ -39,6 +43,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
  
 import org.apache.commons.lang3.RandomStringUtils;
@@ -56,6 +61,8 @@ public class ChuyenDiController implements Initializable {
     @FXML private DatePicker dpThoiGianKhoiHanh;
     @FXML private Button btnUpdate;
     @FXML private TextField timKiem;
+    @FXML private TextField gio;
+    @FXML private TextField phut;
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private static final XeKhachService xkService = new XeKhachService();
     
@@ -64,13 +71,38 @@ public class ChuyenDiController implements Initializable {
     //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
      String pattern = "dd/MM/yyyy HH:mm:ss";
     SimpleDateFormat df = new SimpleDateFormat(pattern);
+   
+    StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+        DateTimeFormatter dateFormatter
+                = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        @Override
+        public String toString(LocalDate date) {
+            if (date != null) {
+                return dateFormatter.format(date);
+            } else {
+                return "";
+            }
+        }
+
+        @Override
+        public LocalDate fromString(String string) {
+            if (string != null && !string.isEmpty()) {
+                return LocalDate.parse(string, dateFormatter);
+            } else {
+                return null;
+            }
+        }
+    };
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // TODO   
+        this.dpThoiGianKhoiHanh.setConverter(converter);
+        
         this.btnUpdate.setDisable(true);
         
         try {
@@ -102,6 +134,9 @@ public class ChuyenDiController implements Initializable {
                 } catch (SQLException ex) {
                     System.err.println(ex.getMessage());
                 }
+                
+                this.gio.setText(String.valueOf(calen.get(Calendar.HOUR_OF_DAY)));
+                this.phut.setText(String.valueOf(calen.get(Calendar.MINUTE)));
             });
             return row;
         });
@@ -149,7 +184,16 @@ public class ChuyenDiController implements Initializable {
     public void updateChuyenDiHandler(ActionEvent event) throws SQLException {
         if (checkTextField()) {
             LocalDate local = this.dpThoiGianKhoiHanh.getValue();
-            Date date = Date.valueOf(local);
+            Date date = Date.valueOf(local);          
+//             Utils.getBox(String.valueOf(tmp.getTime()), Alert.AlertType.WARNING).show();
+//            long hour = Long.parseLong(this.gio.getText());
+//            hour = TimeUnit.HOURS.toMillis(hour);
+//            long mitutes = Long.parseLong(this.phut.getText());
+//            mitutes = TimeUnit.MINUTES.toMillis(mitutes);
+//            long timeStart = tmp.getTime() + hour + mitutes;
+//            Date date = new Date(timeStart);
+//             Utils.getBox(String.valueOf(date.getTime()), Alert.AlertType.WARNING).show();
+            
             ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
                     Integer.parseInt(this.giaVe.getText()), date, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
                     this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
@@ -183,6 +227,22 @@ public class ChuyenDiController implements Initializable {
         
         TableColumn colThoiGianKhoiHanh = new TableColumn("Thời Gian Khởi Hành");
         colThoiGianKhoiHanh.setCellValueFactory(new PropertyValueFactory("thoiGianKhoiHanh"));
+        colThoiGianKhoiHanh.setCellFactory(column -> {
+            TableCell<ChuyenDi, Date> cell = new TableCell<ChuyenDi, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) 
+                        setText(null);
+                     else 
+                        this.setText(format.format(item));             
+                }
+            };
+
+            return cell;
+        });
         colThoiGianKhoiHanh.setPrefWidth(200);
         
         TableColumn colDiemKhoiHanh = new TableColumn("Điểm Khởi Hành");
