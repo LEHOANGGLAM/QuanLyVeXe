@@ -26,7 +26,7 @@ public class VeXeService {
         try ( Connection conn = jdbcUtils.getConn()) {
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM vexe, chuyendi \n" +
-                            "WHERE vexe.MaChuyenDi = chuyendi.MaChuyenDi and ThoiGianKhoiHanh> DATE(NOW())\n" +
+                            "WHERE vexe.MaChuyenDi = chuyendi.MaChuyenDi and NgayKhoiHanh >= DATE(NOW())\n" +
                             " ORDER BY vexe.MaChuyenDi");
 
             while (rs.next()) {
@@ -38,22 +38,6 @@ public class VeXeService {
         return results;
     }
 
-//    public List<VeXe> getVeXeByMaChuyenDi(String MaChuyenDi) throws SQLException {
-//        List<VeXe> results = new ArrayList<>();
-//        try ( Connection conn = jdbcUtils.getConn()) {
-//            PreparedStatement stm = conn.prepareCall("SELECT * FROM vexe WHERE MaChuyenDi = ?");
-//            stm.setString(1, MaChuyenDi);
-//
-//            ResultSet rs = stm.executeQuery();
-//            while (rs.next()) {
-//                VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getInt("SoDienThoai"),
-//                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getInt("TrangThai"));
-//                results.add(v);
-//            }
-//        }
-//        return results;
-//    }
-
     public void deleteVeXe(VeXe v) throws SQLException {
         try ( Connection conn = jdbcUtils.getConn()) {
             conn.setAutoCommit(false);
@@ -62,7 +46,7 @@ public class VeXeService {
             stm.setString(1, v.getMaVe());
             stm.executeUpdate();
             
-            String sql = "UPDATE chuyendi SET SoGheTrong = SoGheTrong+1,SoGheDat = SoGheDat-1 WHERE MaChuyenDi = ?";     
+            String sql = "UPDATE chuyendi SET SoGheTrong = SoGheTrong+1, SoGheDat = SoGheDat-1 WHERE MaChuyenDi = ?";     
             PreparedStatement stm2 = conn.prepareCall(sql);
             stm2.setString(1, v.getMaChuyenDi());
             stm2.executeUpdate();
@@ -151,7 +135,7 @@ public class VeXeService {
             stm.executeUpdate();
             
             //khi thêm thì số ghế trống của chuyến đi sẽ giảm 1 và số ghế đặt tăng 1
-            String sql2 = "UPDATE chuyendi SET SoGheTrong = SoGheTrong-1,SoGheDat = SoGheDat +1 WHERE MaChuyenDi = ?";
+            String sql2 = "UPDATE chuyendi SET SoGheTrong = SoGheTrong-1, SoGheDat = SoGheDat +1 WHERE MaChuyenDi = ?";
             PreparedStatement stm2 = conn.prepareCall(sql2);
             stm2.setString(1, v.getMaChuyenDi());
             stm2.executeUpdate();

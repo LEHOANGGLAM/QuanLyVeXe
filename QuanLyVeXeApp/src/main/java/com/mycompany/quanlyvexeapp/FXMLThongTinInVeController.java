@@ -32,6 +32,7 @@ public class FXMLThongTinInVeController implements Initializable {
     @FXML private Label ghe;
     @FXML private Label gia;
     @FXML private Label ten;
+    @FXML private Label khoiHanh;
     /**
      * Initializes the controller class.
      */
@@ -47,7 +48,7 @@ public class FXMLThongTinInVeController implements Initializable {
         Utils.getBox("Bán vé thành công", Alert.AlertType.INFORMATION).show();
     }
     
-    public void loadForm(String maVe, String bienSo, String noiDi, String noiDen, String ghe, String gia, String ten) {
+    public void loadForm(String maVe, String bienSo, String noiDi, String noiDen, String ghe, String gia, String ten,String khoiHanh) {
         this.maVe.setText(maVe);
         this.bienSo.setText(bienSo);
         this.noiDi.setText(noiDi);
@@ -55,5 +56,6 @@ public class FXMLThongTinInVeController implements Initializable {
         this.ghe.setText(ghe);
         this.gia.setText(gia);
         this.ten.setText(ten);
+        this.khoiHanh.setText(khoiHanh);
     }
 }

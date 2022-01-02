@@ -8,10 +8,13 @@ import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.pojo.VeXe;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class ChuyenDiService {
             ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi ORDER BY MaXe");
 
             while (rs.next()) {
-                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("NgayKhoiHanh"), rs.getTime("GioKhoiHanh"),
                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
@@ -40,35 +43,36 @@ public class ChuyenDiService {
         List<ChuyenDi> results = new ArrayList<>();
         try ( Connection conn = jdbcUtils.getConn()) {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi WHERE ThoiGianKhoiHanh >DATE(NOW())");
+            ResultSet rs = stm.executeQuery("SELECT * FROM chuyendi WHERE NgayKhoiHanh >= DATE(NOW())");
 
             while (rs.next()) {
-                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"),  rs.getDate("NgayKhoiHanh"), rs.getTime("GioKhoiHanh"),
                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
         }
         return results;
     }
+   
 
     //////////////loiii
     public List<ChuyenDi> getChuyenDiByKw(String kw) throws SQLException {
         List<ChuyenDi> results = new ArrayList<>();
         try ( Connection conn = jdbcUtils.getConn()) {
-            // String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '?', '%')"; 
+             //String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '?', '%')"; 
             String sql = "SELECT * FROM chuyendi WHERE DiemKhoiHanh like concat('%', '" + kw + "', '%') or \n"
                     + "DiemKetThuc like concat('%', '" + kw + "', '%') or GiaVe like concat('%', '" + kw + "', '%') or"
-                    + " ThoiGianKhoiHanh like concat('%', '" + kw + "', '%') or MaXe like concat('%', '" + kw + "', '%')";
+                    + " NgayKhoiHanh like concat('%', '" + kw + "', '%') or MaXe like concat('%', '" + kw + "', '%')";
 
             PreparedStatement stm = conn.prepareStatement(sql);
             // Làm theo cách này bị lỗi???
 //          if(kw != null && !kw.isEmpty()){
-//              stm.setString(1, kw);
+//             stm.setString(1, kw);
 //          }
           
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"),  rs.getDate("NgayKhoiHanh"), rs.getTime("GioKhoiHanh"),
                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
@@ -79,13 +83,13 @@ public class ChuyenDiService {
     public List<ChuyenDi> getChuyenDiByKwAndSortDate(String kw) throws SQLException {
         List<ChuyenDi> results = new ArrayList<>();
         try ( Connection conn = jdbcUtils.getConn()) {
-                String sql = "SELECT * FROM chuyendi WHERE ThoiGianKhoiHanh >DATE(NOW()) and (DiemKhoiHanh like concat('%', '" + kw + "', '%') or \n"
+                String sql = "SELECT * FROM chuyendi WHERE NgayKhoiHanh >=DATE(NOW()) and (DiemKhoiHanh like concat('%', '" + kw + "', '%') or \n"
                     + "DiemKetThuc like concat('%', '" + kw + "', '%'))";
             PreparedStatement stm = conn.prepareStatement(sql);
             
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                ChuyenDi c = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("NgayKhoiHanh"), rs.getTime("GioKhoiHanh"),
                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
                 results.add(c);
             }
@@ -102,13 +106,13 @@ public class ChuyenDiService {
     }
 
     public void addChuyenDi(ChuyenDi c) throws SQLException {
-        String sql = "INSERT INTO chuyendi(MaXe, GiaVe, ThoiGianKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat, MaChuyenDi)"
-                + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO chuyendi(MaXe, GiaVe, NgayKhoiHanh,GioKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat, MaChuyenDi)"
+                + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         addOrUpdateChuyenDi(c, sql);
     }
 
     public void updateChuyenDi(ChuyenDi c) throws SQLException {
-        String sql = "UPDATE chuyendi SET MaXe=?, GiaVe=?, ThoiGianKhoiHanh=?, DiemKhoiHanh=?, DiemKetThuc=?, SoGheTrong=?, SoGheDat=? WHERE MaChuyenDi = ?";
+        String sql = "UPDATE chuyendi SET MaXe=?, GiaVe=?,  NgayKhoiHanh=?,GioKhoiHanh=?, DiemKhoiHanh=?, DiemKetThuc=?, SoGheTrong=?, SoGheDat=? WHERE MaChuyenDi = ?";
         addOrUpdateChuyenDi(c, sql);
     }
 
@@ -118,12 +122,13 @@ public class ChuyenDiService {
 
             stm.setString(1, c.getMaXe());
             stm.setInt(2, c.getGiaVe());
-            stm.setDate(3, c.getThoiGianKhoiHanh());
-            stm.setString(4, c.getDiemKhoiHanh());
-            stm.setString(5, c.getDiemKetThuc());
-            stm.setInt(6, c.getSoGheTrong());
-            stm.setInt(7, c.getSoGheDat());
-            stm.setString(8, c.getMaChuyenDi());
+            stm.setDate(3, c.getNgayKhoiHanh());
+            stm.setTime(4, c.getGioKhoiHanh());
+            stm.setString(5, c.getDiemKhoiHanh());
+            stm.setString(6, c.getDiemKetThuc());
+            stm.setInt(7, c.getSoGheTrong());
+            stm.setInt(8, c.getSoGheDat());
+            stm.setString(9, c.getMaChuyenDi());
 
             stm.executeUpdate();
         }
@@ -138,7 +143,7 @@ public class ChuyenDiService {
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
                 
-                result  = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"), rs.getDate("ThoiGianKhoiHanh"),
+                result  = new ChuyenDi(rs.getString("MaChuyenDi"), rs.getString("MaXe"), rs.getInt("GiaVe"),  rs.getDate("NgayKhoiHanh"), rs.getTime("GioKhoiHanh"),
                         rs.getString("DiemKhoiHanh"), rs.getString("DiemKetThuc"), rs.getInt("SoGheTrong"), rs.getInt("SoGheDat"));
             }
         }
