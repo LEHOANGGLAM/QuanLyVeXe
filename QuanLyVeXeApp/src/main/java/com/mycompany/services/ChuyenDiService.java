@@ -6,15 +6,11 @@ package com.mycompany.services;
 
 import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.ChuyenDi;
-import com.mycompany.pojo.VeXe;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
