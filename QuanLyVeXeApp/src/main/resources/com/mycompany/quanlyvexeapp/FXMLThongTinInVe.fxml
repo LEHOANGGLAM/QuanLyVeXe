@@ -51,6 +51,16 @@
             </HBox>
             <HBox prefHeight="49.0" prefWidth="439.0">
                <children>
+                  <Label text="Khởi hành/Departure time:">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="khoiHanh" text="label1" />
+               </children>
+            </HBox>
+            <HBox prefHeight="49.0" prefWidth="439.0">
+               <children>
                   <Label text="Ghế/Seat:">
                      <font>
                         <Font size="15.0" />

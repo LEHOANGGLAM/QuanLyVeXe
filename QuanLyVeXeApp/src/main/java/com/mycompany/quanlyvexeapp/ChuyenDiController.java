@@ -15,9 +15,11 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.ResourceBundle;
@@ -58,20 +60,15 @@ public class ChuyenDiController implements Initializable {
     @FXML private TextField diemKhoiHanh;
     @FXML private TextField diemKetThuc;
     @FXML private TextField giaVe;
-    @FXML private DatePicker dpThoiGianKhoiHanh;
+    @FXML private DatePicker dpNgayKhoiHanh;
     @FXML private Button btnUpdate;
     @FXML private TextField timKiem;
     @FXML private TextField gio;
-    @FXML private TextField phut;
+ 
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private static final XeKhachService xkService = new XeKhachService();
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
     
-//    String stringDate = "22/01/2016";
-//    SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
-    //SimpleDateFormat.("yyyy/MM/dd").parse(this.thoiGianKhoiHanh.getText())
-     String pattern = "dd/MM/yyyy HH:mm:ss";
-    SimpleDateFormat df = new SimpleDateFormat(pattern);
-   
     StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
         DateTimeFormatter dateFormatter
                 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -100,8 +97,8 @@ public class ChuyenDiController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO   
-        this.dpThoiGianKhoiHanh.setConverter(converter);
+        // TODO         
+        this.dpNgayKhoiHanh.setConverter(converter);
         
         this.btnUpdate.setDisable(true);
         
@@ -126,8 +123,8 @@ public class ChuyenDiController implements Initializable {
                 this.diemKhoiHanh.setText(c.getDiemKhoiHanh());
                 this.diemKetThuc.setText(c.getDiemKetThuc());
                 Calendar calen = Calendar.getInstance();
-                calen.setTime(c.getThoiGianKhoiHanh());
-                this.dpThoiGianKhoiHanh.setValue(LocalDate.of(calen.get(Calendar.YEAR),calen.get(Calendar.MONTH)+1,calen.get(Calendar.DAY_OF_MONTH)));
+                calen.setTime(c.getNgayKhoiHanh());
+                this.dpNgayKhoiHanh.setValue(LocalDate.of(calen.get(Calendar.YEAR),calen.get(Calendar.MONTH)+1,calen.get(Calendar.DAY_OF_MONTH)));
                 this.btnUpdate.setDisable(false);
                 try {
                     this.cbXeKhach.getSelectionModel().select(xkService.getXeKhachByMaXe(c.getMaXe()));
@@ -135,8 +132,8 @@ public class ChuyenDiController implements Initializable {
                     System.err.println(ex.getMessage());
                 }
                 
-                this.gio.setText(String.valueOf(calen.get(Calendar.HOUR_OF_DAY)));
-                this.phut.setText(String.valueOf(calen.get(Calendar.MINUTE)));
+                this.gio.setText(sdf.format(c.getGioKhoiHanh()));
+              
             });
             return row;
         });
@@ -159,14 +156,19 @@ public class ChuyenDiController implements Initializable {
                 }
             }
         });
+        
+      
     }    
+     
     
-    public void addChuyenDiHandler(ActionEvent event) throws SQLException{
+    public void addChuyenDiHandler(ActionEvent event){
         if (checkTextField()) {
-            LocalDate local = this.dpThoiGianKhoiHanh.getValue();
-            Date date = Date.valueOf(local);
+            LocalDate local = this.dpNgayKhoiHanh.getValue();
+            Date date = Date.valueOf(local);         
+            Time time = Time.valueOf(gio.getText() + ":00");
+            
             ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                    Integer.parseInt(this.giaVe.getText()), date, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                    Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
                     this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
             try {
                 cdService.addChuyenDi(c);
@@ -175,27 +177,20 @@ public class ChuyenDiController implements Initializable {
                 this.resetForm();
             } catch (SQLException ex) {
                 Utils.getBox("Thêm thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
-            }
+            } 
         } else {
             Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
         }
     }
     
-    public void updateChuyenDiHandler(ActionEvent event) throws SQLException {
+    public void updateChuyenDiHandler(ActionEvent event){
         if (checkTextField()) {
-            LocalDate local = this.dpThoiGianKhoiHanh.getValue();
+            LocalDate local = this.dpNgayKhoiHanh.getValue();
             Date date = Date.valueOf(local);          
-//             Utils.getBox(String.valueOf(tmp.getTime()), Alert.AlertType.WARNING).show();
-//            long hour = Long.parseLong(this.gio.getText());
-//            hour = TimeUnit.HOURS.toMillis(hour);
-//            long mitutes = Long.parseLong(this.phut.getText());
-//            mitutes = TimeUnit.MINUTES.toMillis(mitutes);
-//            long timeStart = tmp.getTime() + hour + mitutes;
-//            Date date = new Date(timeStart);
-//             Utils.getBox(String.valueOf(date.getTime()), Alert.AlertType.WARNING).show();
+            Time time = Time.valueOf(gio.getText() + ":00");
             
             ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                    Integer.parseInt(this.giaVe.getText()), date, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                    Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
                     this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
             if (c != null) {
                 try {
@@ -225,25 +220,29 @@ public class ChuyenDiController implements Initializable {
         colGiaVe.setCellValueFactory(new PropertyValueFactory("giaVe"));
         colGiaVe.setPrefWidth(60);
         
-        TableColumn colThoiGianKhoiHanh = new TableColumn("Thời Gian Khởi Hành");
-        colThoiGianKhoiHanh.setCellValueFactory(new PropertyValueFactory("thoiGianKhoiHanh"));
-        colThoiGianKhoiHanh.setCellFactory(column -> {
+        TableColumn colNgayKhoiHanh = new TableColumn("Ngày Khởi Hành");
+        colNgayKhoiHanh.setCellValueFactory(new PropertyValueFactory("ngayKhoiHanh"));
+        colNgayKhoiHanh.setCellFactory(column -> {
             TableCell<ChuyenDi, Date> cell = new TableCell<ChuyenDi, Date>() {
-                private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty) 
                         setText(null);
-                     else 
-                        this.setText(format.format(item));             
+                    else 
+                        this.setText(format.format(item));
                 }
             };
 
             return cell;
         });
-        colThoiGianKhoiHanh.setPrefWidth(200);
+        colNgayKhoiHanh.setPrefWidth(110);
+        
+        TableColumn colGioKhoiHanh = new TableColumn("Giờ Khởi Hành");
+        colGioKhoiHanh.setCellValueFactory(new PropertyValueFactory("gioKhoiHanh"));
+        colGioKhoiHanh.setPrefWidth(90);
         
         TableColumn colDiemKhoiHanh = new TableColumn("Điểm Khởi Hành");
         colDiemKhoiHanh.setCellValueFactory(new PropertyValueFactory("diemKhoiHanh"));
@@ -286,7 +285,7 @@ public class ChuyenDiController implements Initializable {
             return cell;
         });
         
-        this.tbChuyenDi.getColumns().addAll(colId, colXeId, colGiaVe, colThoiGianKhoiHanh, colDiemKhoiHanh,
+        this.tbChuyenDi.getColumns().addAll(colId, colXeId, colGiaVe, colNgayKhoiHanh, colGioKhoiHanh, colDiemKhoiHanh,
                 colDiemKetThuc, colGheTrong, colGheDat, colAction);
     }
     
@@ -307,13 +306,14 @@ public class ChuyenDiController implements Initializable {
         this.diemKetThuc.setText("");
         this.diemKhoiHanh.setText("");
         this.btnUpdate.setDisable(true);
-        this.dpThoiGianKhoiHanh.setValue(null);
+        this.dpNgayKhoiHanh.setValue(null);
+        this.gio.setText("");
     }
     
     private boolean checkTextField() {
         if (this.giaVe.getText() == "" || this.diemKhoiHanh.getText() == ""
                 || this.diemKetThuc.getText() == "" || this.cbXeKhach.getSelectionModel().getSelectedItem() == null
-                || this.dpThoiGianKhoiHanh.getValue() == null) 
+                || this.dpNgayKhoiHanh.getValue() == null) 
             return false;
         return true;
     }

@@ -5,6 +5,7 @@
 package com.mycompany.pojo;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 
 /**
@@ -12,10 +13,25 @@ import java.time.LocalDate;
  * @author dell
  */
 public class ChuyenDi {
+
+    /**
+     * @return the gioKhoiHanh
+     */
+    public Time getGioKhoiHanh() {
+        return gioKhoiHanh;
+    }
+
+    /**
+     * @param gioKhoiHanh the gioKhoiHanh to set
+     */
+    public void setGioKhoiHanh(Time gioKhoiHanh) {
+        this.gioKhoiHanh = gioKhoiHanh;
+    }
     private String maChuyenDi;
     private String maXe;
     private int giaVe;
-    private Date thoiGianKhoiHanh;
+    private Date ngayKhoiHanh;
+    private Time gioKhoiHanh;
     private String diemKhoiHanh;
     private String diemKetThuc;
     private int soGheTrong;
@@ -24,19 +40,16 @@ public class ChuyenDi {
     public ChuyenDi() {
     }
 
-    public ChuyenDi(String maChuyenDi, String maXe, int giaVe, Date thoiGianKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
+    public ChuyenDi(String maChuyenDi, String maXe, int giaVe, Date ngayKhoiHanh, Time gioKhoiHanh,String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
         this.maChuyenDi = maChuyenDi;
         this.maXe = maXe;
         this.giaVe = giaVe;
-        this.thoiGianKhoiHanh = thoiGianKhoiHanh;
+        this.ngayKhoiHanh = ngayKhoiHanh;
+        this.gioKhoiHanh = gioKhoiHanh;
         this.diemKhoiHanh = diemKhoiHanh;
         this.diemKetThuc = diemKetThuc;
         this.soGheTrong = soGheTrong;
         this.soGheDat = soGheDat;
-    }
-
-    public ChuyenDi(String randomNumeric, String maXe, int parseInt, LocalDate date, String text, String text0, int soGhe, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -84,15 +97,15 @@ public class ChuyenDi {
     /**
      * @return the thoiGianKhoiHanh
      */
-    public Date getThoiGianKhoiHanh() {
-        return thoiGianKhoiHanh;
+    public Date getNgayKhoiHanh() {
+        return ngayKhoiHanh;
     }
 
     /**
-     * @param thoiGianKhoiHanh the thoiGianKhoiHanh to set
+     * @param ngayKhoiHanh the ngayKhoiHanh to set
      */
-    public void setThoiGianKhoiHanh(Date thoiGianKhoiHanh) {
-        this.thoiGianKhoiHanh = thoiGianKhoiHanh;
+    public void setNgayKhoiHanh(Date ngayKhoiHanh) {
+        this.ngayKhoiHanh = ngayKhoiHanh;
     }
 
     /**

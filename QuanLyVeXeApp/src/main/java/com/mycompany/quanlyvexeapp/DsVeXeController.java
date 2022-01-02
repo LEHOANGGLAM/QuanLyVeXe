@@ -14,6 +14,8 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -76,16 +78,6 @@ public class DsVeXeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        try {     
-            if(autoDeleteVeXe()){
-                Utils.getBox("Hệ thống đã tự động hủy những vé của chuyến đi sắp khởi hành trong 30 phút vì chưa có người nhận vé",
-                        Alert.AlertType.INFORMATION).show();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
         this.btnSell.setDisable(true);
         this.btnUpdate.setDisable(true);
         this.btnChoose.setDisable(true);
@@ -124,23 +116,25 @@ public class DsVeXeController implements Initializable {
                 }
                 this.btnChoose.setDisable(false);
          
+                
                 try {
                     ChuyenDi c = cdService.getChuyenDiByMaChuyenDi(v.getMaChuyenDi());
-                     dateKhoiHanh = c.getThoiGianKhoiHanh();
+                    long tmpp = TimeUnit.MINUTES.toMillis(480);
+                    long time = c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp;
+                    dateKhoiHanh = new Date(time);
                 } catch (SQLException ex) {
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                                
                 long millis = System.currentTimeMillis();
-                dateNow = new Date(millis);
+                dateNow = new Date(millis); 
                 
                 long s =  dateKhoiHanh.getTime() - dateNow.getTime();
                 minutes = TimeUnit.MILLISECONDS.toMinutes(s);
-                System.out.println(String.valueOf(minutes));                 
+                System.out.println(String.valueOf(minutes));         
             });
             return row;
-        });
-         
+        });         
          
         this.txtTimKiem.textProperty().addListener(cl->{
             try {
@@ -173,9 +167,18 @@ public class DsVeXeController implements Initializable {
                     txtSDT.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
-        });       
+        });   
+        
+         try {
+             if (autoDeleteVeXe()) {              
+                 Utils.getBox("Hệ thống đã tự động hủy những vé của chuyến đi sắp khởi hành trong 30 phút vì chưa có người nhận vé",
+                         Alert.AlertType.INFORMATION).showAndWait();
+             }
+         } catch (SQLException ex) {
+             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+         } 
     }
-    
+ 
      private void loadTableView(){
         TableColumn colId = new TableColumn("Mã Vé");
         colId.setCellValueFactory(new PropertyValueFactory("maVe"));
@@ -196,6 +199,23 @@ public class DsVeXeController implements Initializable {
         TableColumn colNgayDat = new TableColumn("Ngày Đặt");
         colNgayDat.setCellValueFactory(new PropertyValueFactory("ngayDat"));
         colNgayDat.setPrefWidth(120);
+        colNgayDat.setCellFactory(column -> {
+             TableCell<ChuyenDi, Date> cell = new TableCell<ChuyenDi, Date>() {
+                 private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+                 @Override
+                 protected void updateItem(Date item, boolean empty) {
+                     super.updateItem(item, empty);
+                     if (empty) {
+                         setText(null);
+                     } else {
+                         this.setText(format.format(item));
+                     }
+                 }
+             };
+
+             return cell;
+         });
         
         TableColumn colViTriGhe = new TableColumn("Vị Trí Ghế");
         colViTriGhe.setCellValueFactory(new PropertyValueFactory("viTriGhe"));
@@ -277,7 +297,7 @@ public class DsVeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(v.getMaVe(),
                                 c.getMaXe(), c.getDiemKhoiHanh(), c.getDiemKetThuc(),
-                                v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang());
+                                v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString());
                         
                         this.resetForm();
                     } catch (SQLException ex) {
@@ -319,18 +339,22 @@ public class DsVeXeController implements Initializable {
     public boolean autoDeleteVeXe() throws SQLException{
        boolean flag = false;
        this.listVeXe.addAll(vxService.getVeXe());
-       for(VeXe v : listVeXe){
+       for(VeXe v : listVeXe){  
            ChuyenDi c = cdService.getChuyenDiByMaChuyenDi(v.getMaChuyenDi());
-           dateKhoiHanh = c.getThoiGianKhoiHanh();
+           long tmpp = TimeUnit.MINUTES.toMillis(480);// Không hiểu vì sao c.getGioKhoiHanh().getTime() bị mất 480p nên dòng này để add thêm 480p
+           long time = c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp;
+           dateKhoiHanh = new Date(time);
            
            long millis = System.currentTimeMillis();
            dateNow = new Date(millis);
 
            long s = dateKhoiHanh.getTime() - dateNow.getTime();
            minutes = TimeUnit.MILLISECONDS.toMinutes(s);
-           if(minutes<=30){
-               vxService.deleteVeXe(v);
-               flag = true;
+           if (minutes <= 30) {
+               if (v.getTrangThai().equals("Đặt")) {
+                   vxService.deleteVeXe(v);
+                   flag = true;
+               }
            }
        }
        return flag;
