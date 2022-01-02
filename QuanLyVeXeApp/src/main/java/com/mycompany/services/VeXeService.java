@@ -5,7 +5,6 @@
 package com.mycompany.services;
 
 import com.mycompany.conf.jdbcUtils;
-import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.pojo.VeXe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
