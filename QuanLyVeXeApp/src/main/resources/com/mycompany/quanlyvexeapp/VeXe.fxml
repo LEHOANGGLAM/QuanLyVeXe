@@ -15,9 +15,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="913.0" styleClass="Subject" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.VeXeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="925.0" styleClass="Subject" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.VeXeController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#openFormDSVeXeHandler" prefWidth="163.0" styleClass="chuyenform" stylesheets="@../css/styleDetails.css" text="Danh sách vé xe" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Vé Xe">
+               <HBox.margin>
+                  <Insets left="220.0" right="20.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
       <GridPane prefHeight="606.0" prefWidth="933.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="591.9999877929688" minWidth="10.0" prefWidth="347.9999633789063" />
@@ -180,19 +189,19 @@
                         <TextField fx:id="txtDiemKetThuc" editable="false" prefHeight="34.0" prefWidth="173.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="34.0" prefWidth="301.0">
+                  <HBox prefHeight="34.0" prefWidth="301.0" styleClass="KhachHang">
                      <children>
-                        <Label prefHeight="58.0" prefWidth="130.0" text="Họ tên khách hàng" />
+                        <Label prefHeight="58.0" prefWidth="130.0" styleClass="KhachHang" text="Họ tên khách hàng" />
                         <TextField fx:id="txtHoTenKhachHang" prefHeight="23.0" prefWidth="173.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="34.0" prefWidth="301.0">
+                  <HBox prefHeight="34.0" prefWidth="301.0" styleClass="KhachHang">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Số điện thoại" />
                         <TextField fx:id="txtSdt" prefHeight="34.0" prefWidth="173.0" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="34.0" prefWidth="301.0">
+                  <HBox prefHeight="34.0" prefWidth="301.0" styleClass="KhachHang">
                      <children>
                         <Label prefHeight="58.0" prefWidth="130.0" text="Vị trí ghế" />
                         <TextField fx:id="txtVitriGhe" editable="false" prefHeight="34.0" prefWidth="173.0" />

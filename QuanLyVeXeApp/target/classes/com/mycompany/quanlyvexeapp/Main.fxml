@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="782.0" stylesheets="@../css/stylemain.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.MainController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="OuBus">
+         <font>
+            <Font name="System Bold" size="42.0" />
+         </font>
+      </Text>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="btnDoanhThu" mnemonicParsing="false" onAction="#openFormDoanhThuHandler" text="Thống kê &amp; Doanh thu" />
+            <Button fx:id="btnNhanVien" mnemonicParsing="false" onAction="#openFormQLNVHandler" text="Quản lí nhân viên" />
+            <Button fx:id="btnChuyenDi" mnemonicParsing="false" onAction="#openFormChuyenDiHandler" text="Quản lí chuyến đi" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#openFormBanVeHandler" text="Quan lí bán vé" />
+            <Button mnemonicParsing="false" onAction="#openFormDSVeXeHandler" text="Danh sách vé xe" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="signout">
+         <children>
+            <Button mnemonicParsing="false" onAction="#signOutHandler" styleClass="signout" text="Đăng xuất" />
+         </children>
+      </HBox>
+      <VBox prefHeight="132.0" prefWidth="774.0" style="-fx-background-color: lightgray;">
+         <children>
+            <Label text="Thành viên: " />
+            <Label text="Developers: Lê Cẩm Hoàng Lâm, Trương Thuận Tâm " />
+            <Label text="Tester: Trần Quốc Hưng, Trần Khải Vy " />
+         </children>
+      </VBox>
+   </children>
+</VBox>
