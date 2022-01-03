@@ -5,8 +5,19 @@
 package com.mycompany.quanlyvexeapp;
 
 import com.mycompany.conf.Utils;
+<<<<<<< HEAD
 import java.io.IOException;
 import java.net.URL;
+=======
+import com.mycompany.pojo.DoanhThuChuyenDi;
+import com.mycompany.services.ChuyenDiService;
+import com.mycompany.services.DoanhThuChuyenDiService;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,19 +44,55 @@ public class FXMLThongTinInVeController implements Initializable {
     /**
      * Initializes the controller class.
      */
+<<<<<<< HEAD
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
     public void inHandler(ActionEvent event) throws IOException {
+=======
+    
+    private static final DoanhThuChuyenDiService dtcdService = new DoanhThuChuyenDiService(); 
+    private static final ChuyenDiService cdService = new ChuyenDiService();
+    private String maChuyenDii;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+        
+    }    
+    public void inHandler(ActionEvent event) throws IOException, SQLException {
+        
+        
+        // Update Or Them Vao Thong Ke Doanh Thu
+            // Kiem tra MaChuyenDi co ton tai trong bang dtcd ko
+            // Kiem tra MCD roi thi kiemtra xem co ton tai thoi gian ban ve trog hom nay ko
+        if (dtcdService.isMCDExist(maChuyenDii) && dtcdService.isDateExist()){ 
+            // Co ton tai thi` update
+                int doanhThu = dtcdService.getDoanhThuByDateAndMCD(maChuyenDii, Date.valueOf(LocalDate.now()));
+                int soVeDat = dtcdService.getSoVeDatByDateAndMCD(maChuyenDii, Date.valueOf(LocalDate.now()));
+                doanhThu = doanhThu + (doanhThu / soVeDat); 
+                soVeDat++;
+                DoanhThuChuyenDi dtcd = new DoanhThuChuyenDi(maChuyenDii, doanhThu, soVeDat, Date.valueOf(LocalDate.now()));
+                dtcdService.updateSoVeAndDoanhThu(dtcd);           
+        } else{
+                DoanhThuChuyenDi dtcd = new DoanhThuChuyenDi(maChuyenDii, cdService.getGiaVeByMCD(maChuyenDii), 1, Date.valueOf(LocalDate.now()));
+                dtcdService.insertDTCD(dtcd);
+        }
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
         
         Button btn = (Button) event.getSource();
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
         Utils.getBox("Bán vé thành công", Alert.AlertType.INFORMATION).show();
     }
+<<<<<<< HEAD
     
     public void loadForm(String maVe, String bienSo, String noiDi, String noiDen, String ghe, String gia, String ten,String khoiHanh) {
+=======
+   
+    public void loadForm(String maVe, String bienSo, String noiDi, String noiDen, String ghe, String gia, String ten,String khoiHanh, String mCD) {
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
         this.maVe.setText(maVe);
         this.bienSo.setText(bienSo);
         this.noiDi.setText(noiDi);
@@ -54,5 +101,12 @@ public class FXMLThongTinInVeController implements Initializable {
         this.gia.setText(gia);
         this.ten.setText(ten);
         this.khoiHanh.setText(khoiHanh);
+<<<<<<< HEAD
     }
+=======
+        maChuyenDii = mCD;
+
+    }
+    
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 }

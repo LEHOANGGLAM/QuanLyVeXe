@@ -76,11 +76,31 @@ public class MainController implements Initializable {
     }
 
     public void openFormDoanhThuHandler(ActionEvent event) throws IOException {
+<<<<<<< HEAD
       
     }
 
     public void openFormQLNVHandler(ActionEvent event) throws IOException {
 
+=======
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("ThongKeDoanhThu.fxml"));
+        
+        Scene scene = new Scene(fxmloader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Thống Kê Doanh Thu");
+        stage.show(); 
+    }
+
+    public void openFormQLNVHandler(ActionEvent event) throws IOException {
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("NhanVien.fxml"));
+        
+        Scene scene = new Scene(fxmloader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Quản Lý Nhân Viên");
+        stage.show(); 
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
     }
 
     public void signOutHandler(ActionEvent event) throws IOException {
