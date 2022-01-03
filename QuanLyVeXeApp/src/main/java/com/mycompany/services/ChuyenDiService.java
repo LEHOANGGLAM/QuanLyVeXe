@@ -145,4 +145,23 @@ public class ChuyenDiService {
         }
         return result; 
     }
+<<<<<<< HEAD
+=======
+    
+    // TT01
+    // Lay Doanh Thu Tu Ma Chuyen Di
+    public int getGiaVeByMCD(String mCD) throws SQLException {
+        int res = 0;
+        try ( Connection conn = jdbcUtils.getConn()) {
+            PreparedStatement stm = conn.prepareCall("SELECT * FROM chuyendi WHERE MaChuyenDi = ?");
+            stm.setString(1, mCD);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                res = rs.getInt("GiaVe");
+            }
+        }
+        return res;
+    }
+>>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 }
