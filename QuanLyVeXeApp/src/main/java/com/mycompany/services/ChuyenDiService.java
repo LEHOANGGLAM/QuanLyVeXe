@@ -145,8 +145,7 @@ public class ChuyenDiService {
         }
         return result; 
     }
-<<<<<<< HEAD
-=======
+
     
     // TT01
     // Lay Doanh Thu Tu Ma Chuyen Di
@@ -163,5 +162,4 @@ public class ChuyenDiService {
         }
         return res;
     }
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 }
