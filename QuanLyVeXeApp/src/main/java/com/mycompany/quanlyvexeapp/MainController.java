@@ -27,20 +27,23 @@ import javafx.stage.StageStyle;
  * @author dell
  */
 public class MainController implements Initializable {
-    @FXML private Button btnDoanhThu;
-    @FXML private Button btnNhanVien;
-    @FXML private Button btnChuyenDi; 
-    
-    
+
+    @FXML
+    private Button btnDoanhThu;
+    @FXML
+    private Button btnNhanVien;
+    @FXML
+    private Button btnChuyenDi;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //TODO
-           
+
     }
-    
+
     public void loadMain(int maQuyen) {
         if (maQuyen == 2) {
             this.btnDoanhThu.setDisable(true);
@@ -76,31 +79,25 @@ public class MainController implements Initializable {
     }
 
     public void openFormDoanhThuHandler(ActionEvent event) throws IOException {
-<<<<<<< HEAD
-      
-    }
-
-    public void openFormQLNVHandler(ActionEvent event) throws IOException {
-
-=======
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("ThongKeDoanhThu.fxml"));
-        
+
         Scene scene = new Scene(fxmloader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Thống Kê Doanh Thu");
-        stage.show(); 
+        stage.show();
+
     }
 
     public void openFormQLNVHandler(ActionEvent event) throws IOException {
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("NhanVien.fxml"));
-        
+
         Scene scene = new Scene(fxmloader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Quản Lý Nhân Viên");
-        stage.show(); 
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
+        stage.show();
+
     }
 
     public void signOutHandler(ActionEvent event) throws IOException {

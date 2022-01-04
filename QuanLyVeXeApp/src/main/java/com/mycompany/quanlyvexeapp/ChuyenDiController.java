@@ -153,25 +153,25 @@ public class ChuyenDiController implements Initializable {
             }
         });
         
-        this.diemKhoiHanh.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                    String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    diemKhoiHanh.setText(newValue.replaceAll("[^a-z]", ""));
-                }
-            }
-        });
-        
-        this.diemKetThuc.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                    String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    diemKetThuc.setText(newValue.replaceAll("[^a-z]", ""));
-                }
-            }
-        });
+//        this.diemKhoiHanh.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue,
+//                    String newValue) {
+//                if (!newValue.matches("\\d*")) {
+//                    diemKhoiHanh.setText(newValue.replaceAll("[\\W+]", ""));
+//                }
+//            }
+//        });
+//
+//        this.diemKetThuc.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue,
+//                    String newValue) {
+//                if (!newValue.matches("\\d*")) {
+//                    diemKetThuc.setText(newValue.replaceAll("[^a-z]", ""));
+//                }
+//            }
+//        });
     }    
      
     
