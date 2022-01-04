@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\LoginController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\services\AccountService.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\XeKhach.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\FXMLGheController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\conf\Utils.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\services\XeKhachService.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\MainController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\module-info.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\ChuyenDi.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\ChuyenDiController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\Account.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\VeXe.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\DsVeXeController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\FXMLThongTinInVeController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\services\ChuyenDiService.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\conf\jdbcUtils.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\services\VeXeService.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\VeXeController.java
-C:\MyFolder\KiemThu\QuanLyVeXe\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\App.java
-=======
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexeapp\ThongKeDoanhThuController.java
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\Account.java
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\conf\Utils.java
@@ -44,4 +23,3 @@ E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\quanlyvexea
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\services\VeXeService.java
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\NhanVien.java
 E:\DH\KTPM\QuanLyVeXe-main\QuanLyVeXeApp\src\main\java\com\mycompany\pojo\XeKhach.java
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb

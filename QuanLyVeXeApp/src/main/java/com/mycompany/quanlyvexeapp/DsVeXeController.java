@@ -14,10 +14,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-<<<<<<< HEAD
-=======
 import java.time.LocalDate;
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -85,19 +82,11 @@ public class DsVeXeController implements Initializable {
         this.btnUpdate.setDisable(true);
         this.btnChoose.setDisable(true);
         this.loadTableView();
-<<<<<<< HEAD
-         try {
-             this.loadTableData();
-         } catch (SQLException ex) {
-             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-         }
-=======
         try {
             this.loadTableData();
         } catch (SQLException ex) {
             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
         }
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
          
          try {
             this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
@@ -105,11 +94,7 @@ public class DsVeXeController implements Initializable {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-<<<<<<< HEAD
-         this.tbVeXe.setRowFactory(l1 -> {
-=======
         this.tbVeXe.setRowFactory(l1 -> {
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
             TableRow row  = new TableRow();
             row.setOnMouseClicked(l2 ->{
                 VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();     
@@ -349,11 +334,7 @@ public class DsVeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(v.getMaVe(),
                                 c.getMaXe(), c.getDiemKhoiHanh(), c.getDiemKetThuc(),
-<<<<<<< HEAD
-                                v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString());
-=======
                                 v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString(),c.getMaChuyenDi());
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
                         
                         this.resetForm();
                     } catch (SQLException ex) {

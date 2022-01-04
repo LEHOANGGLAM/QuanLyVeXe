@@ -76,13 +76,6 @@ public class MainController implements Initializable {
     }
 
     public void openFormDoanhThuHandler(ActionEvent event) throws IOException {
-<<<<<<< HEAD
-      
-    }
-
-    public void openFormQLNVHandler(ActionEvent event) throws IOException {
-
-=======
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("ThongKeDoanhThu.fxml"));
         
         Scene scene = new Scene(fxmloader.load());
@@ -100,7 +93,6 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("Quản Lý Nhân Viên");
         stage.show(); 
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
     }
 
     public void signOutHandler(ActionEvent event) throws IOException {
