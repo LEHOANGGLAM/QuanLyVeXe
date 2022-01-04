@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
@@ -159,20 +160,31 @@ public class ChuyenDiController implements Initializable {
     public void addChuyenDiHandler(ActionEvent event){
         if (checkTextField()) {
             LocalDate local = this.dpNgayKhoiHanh.getValue();
-            Date date = Date.valueOf(local);         
-            Time time = Time.valueOf(gio.getText() + ":00");
-            
-            ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                    Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
-                    this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+            Date date = Date.valueOf(local); 
             try {
-                cdService.addChuyenDi(c);
-                Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
-                this.loadTableData();
-                this.resetForm();
+                Time time = Time.valueOf(gio.getText() + ":00");
+                ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+                        Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+
+                if (c.getGiaVe() != 0) {
+                    long tmpp = TimeUnit.MINUTES.toMillis(480);
+                    if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
+                        cdService.addChuyenDi(c);
+                        Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+                        this.loadTableData();
+                        this.resetForm();
+                    } else {
+                        Utils.getBox("Thêm thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
+                    }
+                } else {
+                    Utils.getBox("Thêm thất bại: Không thể nhập giá chuyến đi là 0", Alert.AlertType.INFORMATION).show();
+                }
             } catch (SQLException ex) {
                 Utils.getBox("Thêm thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
-            } 
+            } catch (Exception ex) {
+                Utils.getBox("Vui lòng nhập thời gian theo định dang Giờ:Phút", Alert.AlertType.INFORMATION).show();
+            }
         } else {
             Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
         }
@@ -181,21 +193,31 @@ public class ChuyenDiController implements Initializable {
     public void updateChuyenDiHandler(ActionEvent event){
         if (checkTextField()) {
             LocalDate local = this.dpNgayKhoiHanh.getValue();
-            Date date = Date.valueOf(local);          
-            Time time = Time.valueOf(gio.getText() + ":00");
-            
-            ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
-                    Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
-                    this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
-            if (c != null) {
-                try {
-                    cdService.updateChuyenDi(c);
-                    Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-                    this.loadTableData();
-                    this.resetForm();
-                } catch (SQLException ex) {
-                    Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
-                } 
+            Date date = Date.valueOf(local); 
+            try {
+                Time time = Time.valueOf(gio.getText() + ":00");
+                ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
+                        Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
+                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+                if (c != null) {
+                    if (c.getGiaVe() != 0) {
+                        long tmpp = TimeUnit.MINUTES.toMillis(480);
+                        if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
+                            cdService.updateChuyenDi(c);
+                            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                            this.loadTableData();
+                            this.resetForm();
+                        } else {
+                            Utils.getBox("Sửa thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
+                        }
+                    } else {
+                        Utils.getBox("Sửa thất bại: Không thể nhập giá chuyến đi là 0", Alert.AlertType.INFORMATION).show();
+                    }
+                }
+            } catch (SQLException ex) {
+                Utils.getBox("Sửa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+            } catch (Exception ex) {
+                Utils.getBox("Vui lòng nhập thời gian theo định dang Giờ:Phút", Alert.AlertType.WARNING).show();
             }
         } else {
             Utils.getBox("Vui lòng nhập đầy đủ thông tin", Alert.AlertType.WARNING).show();
