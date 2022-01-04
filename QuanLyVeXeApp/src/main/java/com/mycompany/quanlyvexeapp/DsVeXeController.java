@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,13 +89,13 @@ public class DsVeXeController implements Initializable {
              Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
          }
         
+
          try {
             this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-
         this.tbVeXe.setRowFactory(l1 -> {
             TableRow row  = new TableRow();
             row.setOnMouseClicked(l2 ->{

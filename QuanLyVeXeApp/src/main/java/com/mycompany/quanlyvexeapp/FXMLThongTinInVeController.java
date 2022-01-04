@@ -42,7 +42,7 @@ public class FXMLThongTinInVeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-   
+
     private static final DoanhThuChuyenDiService dtcdService = new DoanhThuChuyenDiService(); 
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private String maChuyenDii;
