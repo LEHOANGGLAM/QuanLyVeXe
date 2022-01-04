@@ -266,11 +266,7 @@ public class VeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(maVe,
                                 this.txtBienSoXe.getText(), this.txtDiemKhoiHanh.getText(), this.txtDiemKetThuc.getText(),this.txtVitriGhe.getText(),
-<<<<<<< HEAD
-                                this.txtGiaVe.getText(), this.txtHoTenKhachHang.getText(), this.txtThoiGianKhoiHanh.getText());
-=======
                                 this.txtGiaVe.getText(), this.txtHoTenKhachHang.getText(), this.txtThoiGianKhoiHanh.getText(), this.txtMaChuyenDi.getText());
->>>>>>> 93d0d9ac59c41cc94c277ff9beec6e7b369e90eb
 
                         this.resetForm();
                     } catch (SQLException ex) {
