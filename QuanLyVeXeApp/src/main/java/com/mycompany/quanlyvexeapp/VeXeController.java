@@ -266,7 +266,6 @@ public class VeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(maVe,
                                 this.txtBienSoXe.getText(), this.txtDiemKhoiHanh.getText(), this.txtDiemKetThuc.getText(),this.txtVitriGhe.getText(),
-                                this.txtGiaVe.getText(), this.txtHoTenKhachHang.getText(), this.txtThoiGianKhoiHanh.getText());
                                 this.txtGiaVe.getText(), this.txtHoTenKhachHang.getText(), this.txtThoiGianKhoiHanh.getText(), this.txtMaChuyenDi.getText());
 
                         this.resetForm();

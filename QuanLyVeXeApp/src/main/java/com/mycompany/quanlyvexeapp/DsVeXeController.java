@@ -14,7 +14,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,11 +81,6 @@ public class DsVeXeController implements Initializable {
         this.btnUpdate.setDisable(true);
         this.btnChoose.setDisable(true);
         this.loadTableView();
-         try {
-             this.loadTableData();
-         } catch (SQLException ex) {
-             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-         }
         try {
             this.loadTableData();
         } catch (SQLException ex) {
@@ -99,8 +93,6 @@ public class DsVeXeController implements Initializable {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-         this.tbVeXe.setRowFactory(l1 -> {
-
         this.tbVeXe.setRowFactory(l1 -> {
             TableRow row  = new TableRow();
             row.setOnMouseClicked(l2 ->{
@@ -304,8 +296,6 @@ public class DsVeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(v.getMaVe(),
                                 c.getMaXe(), c.getDiemKhoiHanh(), c.getDiemKetThuc(),
-                                v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString());
-
                                 v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString(),c.getMaChuyenDi());
                         
                         this.resetForm();
