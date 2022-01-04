@@ -5,9 +5,6 @@
 package com.mycompany.quanlyvexeapp;
 
 import com.mycompany.conf.Utils;
-import java.io.IOException;
-import java.net.URL;
-
 import com.mycompany.pojo.DoanhThuChuyenDi;
 import com.mycompany.services.ChuyenDiService;
 import com.mycompany.services.DoanhThuChuyenDiService;
@@ -42,7 +39,7 @@ public class FXMLThongTinInVeController implements Initializable {
     /**
      * Initializes the controller class.
      */
-
+    
     private static final DoanhThuChuyenDiService dtcdService = new DoanhThuChuyenDiService(); 
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private String maChuyenDii;
@@ -76,7 +73,7 @@ public class FXMLThongTinInVeController implements Initializable {
         stage.close();
         Utils.getBox("Bán vé thành công", Alert.AlertType.INFORMATION).show();
     }
-
+   
     public void loadForm(String maVe, String bienSo, String noiDi, String noiDen, String ghe, String gia, String ten,String khoiHanh, String mCD) {
         this.maVe.setText(maVe);
         this.bienSo.setText(bienSo);

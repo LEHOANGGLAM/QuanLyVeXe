@@ -76,7 +76,6 @@ public class MainController implements Initializable {
     }
 
     public void openFormDoanhThuHandler(ActionEvent event) throws IOException {
-
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("ThongKeDoanhThu.fxml"));
         
         Scene scene = new Scene(fxmloader.load());
