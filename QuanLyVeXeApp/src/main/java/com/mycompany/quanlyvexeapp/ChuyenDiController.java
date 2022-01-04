@@ -153,7 +153,25 @@ public class ChuyenDiController implements Initializable {
             }
         });
         
-      
+        this.diemKhoiHanh.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    diemKhoiHanh.setText(newValue.replaceAll("[^a-z]", ""));
+                }
+            }
+        });
+        
+        this.diemKetThuc.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    diemKetThuc.setText(newValue.replaceAll("[^a-z]", ""));
+                }
+            }
+        });
     }    
      
     
@@ -167,7 +185,7 @@ public class ChuyenDiController implements Initializable {
                         Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
                         this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
 
-                if (c.getGiaVe() != 0) {
+                if (c.getGiaVe() >50000) {
                     long tmpp = TimeUnit.MINUTES.toMillis(480);
                     if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
                         cdService.addChuyenDi(c);
@@ -178,7 +196,7 @@ public class ChuyenDiController implements Initializable {
                         Utils.getBox("Thêm thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
                     }
                 } else {
-                    Utils.getBox("Thêm thất bại: Không thể nhập giá chuyến đi là 0", Alert.AlertType.INFORMATION).show();
+                    Utils.getBox("Giá vé phải lớn hơn 50000 VND", Alert.AlertType.INFORMATION).show();
                 }
             } catch (SQLException ex) {
                 Utils.getBox("Thêm thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
@@ -200,7 +218,7 @@ public class ChuyenDiController implements Initializable {
                         Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
                         this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
                 if (c != null) {
-                    if (c.getGiaVe() != 0) {
+                    if (c.getGiaVe() >50000) {
                         long tmpp = TimeUnit.MINUTES.toMillis(480);
                         if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
                             cdService.updateChuyenDi(c);
@@ -211,7 +229,7 @@ public class ChuyenDiController implements Initializable {
                             Utils.getBox("Sửa thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
                         }
                     } else {
-                        Utils.getBox("Sửa thất bại: Không thể nhập giá chuyến đi là 0", Alert.AlertType.INFORMATION).show();
+                        Utils.getBox("Giá vé phải lớn hơn 50000", Alert.AlertType.INFORMATION).show();
                     }
                 }
             } catch (SQLException ex) {
