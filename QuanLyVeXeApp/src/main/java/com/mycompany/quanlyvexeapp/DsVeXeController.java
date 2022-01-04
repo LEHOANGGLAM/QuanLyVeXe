@@ -170,7 +170,7 @@ public class DsVeXeController implements Initializable {
         this.bySDT.selectedProperty().addListener(cl->{
             if (bySDT.isSelected()) 
                 try {
-                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaSDT(this.txtTimKiem.getText())));
                 } catch (SQLException ex) {
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -179,7 +179,7 @@ public class DsVeXeController implements Initializable {
         this.byTen.selectedProperty().addListener(cl->{
             if (byTen.isSelected()) 
                 try {
-                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaTen(this.txtTimKiem.getText())));
                 } catch (SQLException ex) {
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -194,6 +194,16 @@ public class DsVeXeController implements Initializable {
                 }
             }
         });   
+        
+        this.txtTenKhachHang.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    txtTenKhachHang.setText(newValue.replaceAll("[^a-z]", ""));
+                }
+            }
+        });
         
          try {
              if (autoDeleteVeXe()) {              
