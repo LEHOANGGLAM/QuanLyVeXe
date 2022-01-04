@@ -14,8 +14,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +81,12 @@ public class DsVeXeController implements Initializable {
         this.btnUpdate.setDisable(true);
         this.btnChoose.setDisable(true);
         this.loadTableView();
-         try {
-             this.loadTableData();
-         } catch (SQLException ex) {
-             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-         }
-        
-
+        try {
+            this.loadTableData();
+        } catch (SQLException ex) {
+            Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
          try {
             this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
         } catch (SQLException ex) {
