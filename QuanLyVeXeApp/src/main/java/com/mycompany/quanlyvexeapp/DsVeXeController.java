@@ -57,6 +57,7 @@ public class DsVeXeController implements Initializable {
     @FXML private TextField txtTimKiem;
     @FXML private RadioButton byMa;
     @FXML private RadioButton byTen;
+    @FXML private RadioButton bySDT;
     @FXML private Button btnUpdate;
     @FXML private Button btnSell;
     @FXML private Button btnChoose;
@@ -158,6 +159,33 @@ public class DsVeXeController implements Initializable {
             }
         });
         
+        this.byMa.selectedProperty().addListener(cl->{
+            if (byMa.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
+        this.bySDT.selectedProperty().addListener(cl->{
+            if (bySDT.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaSDT(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
+        this.byTen.selectedProperty().addListener(cl->{
+            if (byTen.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaTen(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
         this.txtSDT.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -167,6 +195,16 @@ public class DsVeXeController implements Initializable {
                 }
             }
         });   
+        
+        this.txtTenKhachHang.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                    String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    txtTenKhachHang.setText(newValue.replaceAll("[^a-z]", ""));
+                }
+            }
+        });
         
          try {
              if (autoDeleteVeXe()) {              
