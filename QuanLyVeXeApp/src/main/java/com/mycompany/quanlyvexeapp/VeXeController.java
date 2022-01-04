@@ -142,7 +142,9 @@ public class VeXeController implements Initializable {
                 long tmpp = TimeUnit.MINUTES.toMillis(480); // Không hiểu vì sao c.getGioKhoiHanh().getTime() bị mất 480p nên dòng này để add thêm 480p
                 long time = c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp;
                 dateKhoiHanh = new Date(time);
-              //  System.out.println(df.format(dateKhoiHanh));
+                String demo = "dd/MM/yyyy HH:mm:ss";
+                SimpleDateFormat eee = new SimpleDateFormat(demo);
+                System.out.println(eee.format(dateKhoiHanh));
                 
                 long millis = System.currentTimeMillis();
                 dateNow = new Date(millis);

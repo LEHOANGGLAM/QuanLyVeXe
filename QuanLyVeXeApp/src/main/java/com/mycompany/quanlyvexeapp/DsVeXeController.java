@@ -60,6 +60,7 @@ public class DsVeXeController implements Initializable {
     @FXML private TextField txtTimKiem;
     @FXML private RadioButton byMa;
     @FXML private RadioButton byTen;
+    @FXML private RadioButton bySDT;
     @FXML private Button btnUpdate;
     @FXML private Button btnSell;
     @FXML private Button btnChoose;
@@ -171,6 +172,33 @@ public class DsVeXeController implements Initializable {
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        });
+        
+        this.byMa.selectedProperty().addListener(cl->{
+            if (byMa.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
+        this.bySDT.selectedProperty().addListener(cl->{
+            if (bySDT.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
+        this.byTen.selectedProperty().addListener(cl->{
+            if (byTen.isSelected()) 
+                try {
+                    this.tbVeXe.setItems(FXCollections.observableList(vxService.getVeXeByMaCD(this.txtTimKiem.getText())));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
         });
         
         this.txtSDT.textProperty().addListener(new ChangeListener<String>() {
