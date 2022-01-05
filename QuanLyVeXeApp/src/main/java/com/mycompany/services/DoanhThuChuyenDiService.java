@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class DoanhThuChuyenDiService {
         String sql = "SELECT * FROM doanhthuchuyendi WHERE MaChuyenDi = ? AND Ngay = ?";
 
         try ( Connection conn = jdbcUtils.getConn()) {
-            
+
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, mCD);
             stm.setDate(2, ngay);
@@ -110,21 +111,28 @@ public class DoanhThuChuyenDiService {
     }
     
     //BangThongKe
-    public List<DoanhThuChuyenDi> getDoanhThuFromDateToDate(Date d1, Date d2) throws SQLException{
+    public List<DoanhThuChuyenDi> getDoanhThuFromDateToDate(LocalDate d1, LocalDate d2) throws SQLException{
         List<DoanhThuChuyenDi> results = new ArrayList<>();
-        String sql = "SELECT * FROM doanhthuchuyendi ORDER BY MaChuyenDi";
+        String sql = "SELECT * FROM doanhthuchuyendi";
         try (Connection conn = jdbcUtils.getConn()) {
             Statement stm = conn.createStatement();
+            // stm.setDate(1, d1);
+            //stm.setDate(2, d2);
+            
             ResultSet rs = stm.executeQuery(sql);
-                
+ 
             while (rs.next()) {
                 
                 DoanhThuChuyenDi dtcd = new DoanhThuChuyenDi(rs.getString("MaChuyenDi"), rs.getInt("DoanhThu"), rs.getInt("SoVeDat"), rs.getDate("Ngay"));               
                 if (dtcd.getNgay() != null){
-                    if (dtcd.getNgay().compareTo(d1) == 0 || dtcd.getNgay().compareTo(d2) == 0 ||
-                        dtcd.getNgay().after(d1) && dtcd.getNgay().before(d2))
-                    
-                            results.add(dtcd);
+                    LocalDate ld = dtcd.getNgay().toLocalDate();
+                    if ((d1.isBefore(ld) && ld.isBefore(d2)) || d1.compareTo(ld) == 0 || d2.compareTo(ld) == 0)
+                        results.add(dtcd);
+                    // if (rs.getDate("Ngay").compareTo(d1) >= 0 && rs.getDate("Ngay").compareTo(d2) <= 0)
+                    // if (d1.before(rs.getDate("Ngay")) && d2.after(rs.getDate("Ngay")))
+
+                   
+                       
 
                 }
           
@@ -133,20 +141,27 @@ public class DoanhThuChuyenDiService {
         return results;
     }
     
-    public int getTongDoanhThuFromDateToDate(Date d1, Date d2) throws SQLException{
+    public int getTongDoanhThuFromDateToDate(LocalDate d1, LocalDate d2) throws SQLException{
         int result = 0;
         String sql = "SELECT * FROM doanhthuchuyendi";
-        
-        try ( Connection conn = jdbcUtils.getConn()) {
+
+        //String sql = "SELECT * FROM `doanhthuchuyendi` WHERE Ngay >= `?` AND Ngay <= `?`";        
+        try (Connection conn = jdbcUtils.getConn()) {
             
-            PreparedStatement stm = conn.prepareCall(sql);
-  
-            ResultSet rs = stm.executeQuery();
+            Statement stm = conn.createStatement();
+           // stm.setDate(1, d1);
+           // stm.setDate(2, d2);
+
+            ResultSet rs = stm.executeQuery(sql);
+            
             while (rs.next()) {
                 if (rs.getDate("Ngay") != null){
-                    if (rs.getDate("Ngay").compareTo(d1) == 0 || rs.getDate("Ngay").compareTo(d2) == 0 ||
-                        rs.getDate("Ngay").after(d1) && rs.getDate("Ngay").before(d2))         
-                            result += rs.getInt("DoanhThu");  
+                    LocalDate ld = rs.getDate("Ngay").toLocalDate();
+                    if ((d1.isBefore(ld) && ld.isBefore(d2)) || d1.compareTo(ld) == 0 || d2.compareTo(ld) == 0)
+                        result += rs.getInt("DoanhThu"); 
+                        
+
+                    
                 }
                 
             }
