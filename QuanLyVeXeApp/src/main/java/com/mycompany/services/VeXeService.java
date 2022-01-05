@@ -67,6 +67,21 @@ public class VeXeService {
         }
         return result;
     }
+    
+    public VeXe getVeXeByMaVe(String MaVe) throws SQLException {
+        VeXe v = null;
+        try ( Connection conn = jdbcUtils.getConn()) {
+            PreparedStatement stm = conn.prepareCall("SELECT * FROM vexe WHERE MaVe = ?");
+            stm.setString(1, MaVe);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                 v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
+                        rs.getString("MaChuyenDi"), rs.getString("ViTriGhe"), rs.getString("TrangThai"));
+            }
+        }
+        return v;
+    }
 
     public List<VeXe> getVeXeByMaCD(String kw) throws SQLException {
         List<VeXe> results = new ArrayList<>();
