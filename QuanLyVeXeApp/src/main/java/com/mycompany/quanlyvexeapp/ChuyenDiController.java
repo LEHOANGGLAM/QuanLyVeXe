@@ -186,19 +186,15 @@ public class ChuyenDiController implements Initializable {
                         this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
 
                 if (c.getGiaVe() >50000) {
-                    if (!c.getDiemKhoiHanh().equals(c.getDiemKetThuc())) {
-                        long tmpp = TimeUnit.MINUTES.toMillis(480);
-                        if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
-                            cdService.addChuyenDi(c);
-                            Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
-                            this.loadTableData();
-                            this.resetForm();
-                        } else {
-                            Utils.getBox("Thêm thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
-                        }
+                    long tmpp = TimeUnit.MINUTES.toMillis(480);
+                    if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
+                        cdService.addChuyenDi(c);
+                        Utils.getBox("Thêm thành công", Alert.AlertType.INFORMATION).show();
+                        this.loadTableData();
+                        this.resetForm();
+                    } else {
+                        Utils.getBox("Thêm thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
                     }
-                    else
-                        Utils.getBox("Thêm thất bại: Điểm khởi hành không được trùng điểm kết thúc", Alert.AlertType.INFORMATION).show();
                 } else {
                     Utils.getBox("Giá vé phải lớn hơn 50000 VND", Alert.AlertType.INFORMATION).show();
                 }
@@ -223,18 +219,15 @@ public class ChuyenDiController implements Initializable {
                         this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
                 if (c != null) {
                     if (c.getGiaVe() >50000) {
-                        if (c.getDiemKhoiHanh().equals(c.getDiemKetThuc()) ==false) {
-                            long tmpp = TimeUnit.MINUTES.toMillis(480);
-                            if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
-                                cdService.updateChuyenDi(c);
-                                Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
-                                this.loadTableData();
-                                this.resetForm();
-                            } else {
-                                Utils.getBox("Sửa thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
-                            }
-                        } else
-                            Utils.getBox("Sửa thất bại: Điểm khởi hành không được trùng điểm kết thúc", Alert.AlertType.INFORMATION).show();
+                        long tmpp = TimeUnit.MINUTES.toMillis(480);
+                        if ((c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp) > System.currentTimeMillis()) {
+                            cdService.updateChuyenDi(c);
+                            Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
+                            this.loadTableData();
+                            this.resetForm();
+                        } else {
+                            Utils.getBox("Sửa thất bại: Thời gian khởi hành phải lớn hơn thời gian hiện tại", Alert.AlertType.INFORMATION).show();
+                        }
                     } else {
                         Utils.getBox("Giá vé phải lớn hơn 50000", Alert.AlertType.INFORMATION).show();
                     }

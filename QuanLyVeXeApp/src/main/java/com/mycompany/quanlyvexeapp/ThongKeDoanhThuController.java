@@ -69,7 +69,10 @@ public class ThongKeDoanhThuController implements Initializable {
                 }
             });
             
-        dpEnd.setValue(dpStart.getValue());
+        if (dpEnd.getValue() == null || dpEnd.getValue().compareTo(dpStart.getValue()) < 0){
+            dpEnd.setValue(dpStart.getValue());
+
+        }
         });
         
         this.loadTableView();
@@ -87,13 +90,9 @@ public class ThongKeDoanhThuController implements Initializable {
         } else{
             this.errorTxting.setText("");
             try {
-                String sD1 = dpStart.getValue().toString();
-                String sD2 = dpStart.getValue().toString();
 
-                Date datefromPicker1 = Date.valueOf(sD1);
-                Date datefromPicker2 = Date.valueOf(sD2);
-                ObservableList<DoanhThuChuyenDi> doanhThuChuyenDiList = FXCollections.observableArrayList(dtcdService.getDoanhThuFromDateToDate(datefromPicker1, datefromPicker2));
-                int total = dtcdService.getTongDoanhThuFromDateToDate(datefromPicker1, datefromPicker2);
+                ObservableList<DoanhThuChuyenDi> doanhThuChuyenDiList = FXCollections.observableArrayList(dtcdService.getDoanhThuFromDateToDate(dpStart.getValue(), dpEnd.getValue()));
+                int total = dtcdService.getTongDoanhThuFromDateToDate(dpStart.getValue(), dpEnd.getValue());
 
                 this.bangThongKe.setItems(doanhThuChuyenDiList);        
                 this.txtTongDoanhThu.setText(String.format("%,d", total));
