@@ -5,7 +5,6 @@ com\mycompany\conf\Utils.class
 com\mycompany\services\AccountService.class
 com\mycompany\services\NhanVienService.class
 com\mycompany\quanlyvexeapp\LoginController.class
-com\mycompany\quanlyvexeapp\NhanVienController$1.class
 com\mycompany\services\DoanhThuChuyenDiService.class
 com\mycompany\quanlyvexeapp\ThongKeDoanhThuController.class
 com\mycompany\quanlyvexeapp\App.class
