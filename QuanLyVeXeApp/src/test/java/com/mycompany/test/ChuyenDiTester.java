@@ -72,9 +72,9 @@ public class ChuyenDiTester {
     public void testUpdateChuyenDi() {
        
         try {
-            cdService.updateChuyenDi(c);
-           ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi(c.getMaChuyenDi());
-            Assertions.assertEquals(chuyendi.getMaChuyenDi(), c.getMaChuyenDi());
+            cdService.updateChuyenDi(cdService.getChuyenDiByMaChuyenDi("1"));
+           ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi("1");
+            Assertions.assertEquals(chuyendi.getMaChuyenDi(), cdService.getChuyenDiByMaChuyenDi("1").getMaChuyenDi());
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
         }
