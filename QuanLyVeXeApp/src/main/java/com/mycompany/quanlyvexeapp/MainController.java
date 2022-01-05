@@ -97,6 +97,7 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("Quản Lý Nhân Viên");
         stage.show();
+        stage.show(); 
 
     }
 

@@ -14,7 +14,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
 import java.time.LocalDate;
 
 import java.util.ArrayList;
@@ -90,15 +89,14 @@ public class DsVeXeController implements Initializable {
          } catch (SQLException ex) {
              Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
          }
-         
+
          try {
             this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiController.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-         this.tbVeXe.setRowFactory(l1 -> {
-       
+         
+        this.tbVeXe.setRowFactory(l1 -> {
             TableRow row  = new TableRow();
             row.setOnMouseClicked(l2 ->{
                 VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();     
@@ -338,10 +336,8 @@ public class DsVeXeController implements Initializable {
                         FXMLThongTinInVeController controller = fxmloader.getController();
                         controller.loadForm(v.getMaVe(),
                                 c.getMaXe(), c.getDiemKhoiHanh(), c.getDiemKetThuc(),
-
                                 v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString(),c.getMaChuyenDi());
 
-                        
                         this.resetForm();
                     } catch (SQLException ex) {
                         Utils.getBox("Bán thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
