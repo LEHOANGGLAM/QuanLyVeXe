@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -82,12 +83,13 @@ public class DsVeXeController implements Initializable {
         this.btnUpdate.setDisable(true);
         this.btnChoose.setDisable(true);
         this.loadTableView();
-        try {
-            this.loadTableData();
-        } catch (SQLException ex) {
-            Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
+
+         try {
+             this.loadTableData();
+         } catch (SQLException ex) {
+             Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
          try {
             this.cbChuyenDi.setItems(FXCollections.observableList(cdService.getChuyenDiSortByDate()));
         } catch (SQLException ex) {
@@ -196,15 +198,15 @@ public class DsVeXeController implements Initializable {
             }
         });   
         
-        this.txtTenKhachHang.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                    String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    txtTenKhachHang.setText(newValue.replaceAll("[^a-z]", ""));
-                }
-            }
-        });
+//        this.txtTenKhachHang.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue,
+//                    String newValue) {
+//                if (!newValue.matches("\\d*")) {
+//                    txtTenKhachHang.setText(newValue.replaceAll("[^a-z]", ""));
+//                }
+//            }
+//        });
         
          try {
              if (autoDeleteVeXe()) {              
@@ -335,7 +337,7 @@ public class DsVeXeController implements Initializable {
                         controller.loadForm(v.getMaVe(),
                                 c.getMaXe(), c.getDiemKhoiHanh(), c.getDiemKetThuc(),
                                 v.getViTriGhe(), String.valueOf(c.getGiaVe()), v.getTenKhachHang(), c.getNgayKhoiHanh().toString(),c.getMaChuyenDi());
-                        
+
                         this.resetForm();
                     } catch (SQLException ex) {
                         Utils.getBox("Bán thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();

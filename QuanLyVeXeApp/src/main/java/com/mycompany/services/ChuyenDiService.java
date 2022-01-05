@@ -145,7 +145,7 @@ public class ChuyenDiService {
         }
         return result; 
     }
-    
+
     // TT01
     // Lay Doanh Thu Tu Ma Chuyen Di
     public int getGiaVeByMCD(String mCD) throws SQLException {
@@ -161,4 +161,5 @@ public class ChuyenDiService {
         }
         return res;
     }
+
 }
