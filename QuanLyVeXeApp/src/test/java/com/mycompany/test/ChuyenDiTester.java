@@ -95,5 +95,25 @@ public class ChuyenDiTester {
         }    
     }
     
+    @Test
+    public void testGetChuyenDiByInvalidId(){
+        ChuyenDi c;
+        try {
+            c = cdService.getChuyenDiByMaChuyenDi("2");
+            Assertions.assertNull(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+    }
     
+    @Test
+    public void testGetChuyenDiByValidId(){
+        ChuyenDi c;
+        try {
+            c = cdService.getChuyenDiByMaChuyenDi("1");
+            Assertions.assertEquals(c.getMaChuyenDi(),cdService.getChuyenDiByMaChuyenDi("1").getMaChuyenDi());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+    }
 }
