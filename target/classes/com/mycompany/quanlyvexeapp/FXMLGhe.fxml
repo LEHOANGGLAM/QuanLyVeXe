@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vbghe" prefHeight="374.0" prefWidth="460.0" styleClass="tab" stylesheets="@../css/styleDetails.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.quanlyvexeapp.FXMLGheController">
+   <children>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A1" mnemonicParsing="false" text="A1">
+               <toggleGroup>
+                  <ToggleGroup fx:id="sit" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="A2" mnemonicParsing="false" styleClass="Bien" text="A2" toggleGroup="$sit" />
+            <RadioButton fx:id="A3" mnemonicParsing="false" text="A3" toggleGroup="$sit" />
+            <RadioButton fx:id="A4" mnemonicParsing="false" text="A4" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A5" mnemonicParsing="false" text="A5" toggleGroup="$sit" />
+            <RadioButton fx:id="A6" mnemonicParsing="false" styleClass="Bien" text="A6" toggleGroup="$sit" />
+            <RadioButton fx:id="A7" mnemonicParsing="false" text="A7" toggleGroup="$sit" />
+            <RadioButton fx:id="A8" mnemonicParsing="false" text="A8" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A9" mnemonicParsing="false" text="A9" toggleGroup="$sit" />
+            <RadioButton fx:id="A10" mnemonicParsing="false" styleClass="Bien" text="A10" toggleGroup="$sit" />
+            <RadioButton fx:id="A11" mnemonicParsing="false" text="A11" toggleGroup="$sit" />
+            <RadioButton fx:id="A12" mnemonicParsing="false" text="A12" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A13" mnemonicParsing="false" text="A13" toggleGroup="$sit" />
+            <RadioButton fx:id="A14" mnemonicParsing="false" styleClass="Bien" text="A14" toggleGroup="$sit" />
+            <RadioButton fx:id="A15" mnemonicParsing="false" text="A15" toggleGroup="$sit" />
+            <RadioButton fx:id="A16" mnemonicParsing="false" text="A16" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A17" mnemonicParsing="false" text="A17" toggleGroup="$sit" />
+            <RadioButton fx:id="A18" mnemonicParsing="false" styleClass="Bien" text="A18" toggleGroup="$sit" />
+            <RadioButton fx:id="A19" mnemonicParsing="false" text="A19" toggleGroup="$sit" />
+            <RadioButton fx:id="A20" mnemonicParsing="false" text="A20" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A21" mnemonicParsing="false" text="A21" toggleGroup="$sit" />
+            <RadioButton fx:id="A22" mnemonicParsing="false" styleClass="Bien" text="A22" toggleGroup="$sit" />
+            <RadioButton fx:id="A23" mnemonicParsing="false" text="A23" toggleGroup="$sit" />
+            <RadioButton fx:id="A24" mnemonicParsing="false" text="A24" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox prefHeight="35.0" prefWidth="533.0" styleClass="tab">
+         <children>
+            <RadioButton fx:id="A25" mnemonicParsing="false" text="A25" toggleGroup="$sit" />
+            <RadioButton fx:id="A26" mnemonicParsing="false" text="A26" toggleGroup="$sit" />
+            <RadioButton fx:id="A27" mnemonicParsing="false" text="A27" toggleGroup="$sit" />
+            <RadioButton fx:id="A28" mnemonicParsing="false" text="A28" toggleGroup="$sit" />
+            <RadioButton fx:id="A29" mnemonicParsing="false" text="A29" toggleGroup="$sit" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="439.0" styleClass="tab">
+         <children>
+            <Button fx:id="btnOk" alignment="CENTER" mnemonicParsing="false" onAction="#okHandler" text="OK" />
+            <Button fx:id="btnOk1" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelHandler" text="Cancel" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
