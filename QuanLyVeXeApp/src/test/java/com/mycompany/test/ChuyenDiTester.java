@@ -4,10 +4,68 @@
  */
 package com.mycompany.test;
 
+import com.mycompany.pojo.ChuyenDi;
+import com.mycompany.pojo.XeKhach;
+import com.mycompany.services.ChuyenDiService;
+import com.mycompany.services.XeKhachService;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Assertions;
 /**
  *
  * @author dell
  */
 public class ChuyenDiTester {
+    private static final ChuyenDiService cdService = new ChuyenDiService();
+     private static final XeKhachService xkService = new XeKhachService();
+     
+     LocalDate local = LocalDate.now();
+    java.sql.Date date = java.sql.Date.valueOf(local);  
+    Time time = new Time(5000);
+ 
     
+     
+    @Test
+    public void testAddChuyenDi() {
+        ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), "GHE_01",
+                100000, date, time, "demo", "demo2",
+                24, 0);
+        try {
+            cdService.addChuyenDi(c);
+            ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi(c.getMaChuyenDi());
+            Assertions.assertEquals(chuyendi.getMaChuyenDi(), c.getMaChuyenDi());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testInValidAddChuyenDi() {
+        ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), "GHE_01",
+            100000, date, time, "demo", "demo",
+            24, 0);
+        try {
+            cdService.addChuyenDi(c);
+            ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi(c.getMaChuyenDi());
+            Assertions.assertEquals(chuyendi.getMaChuyenDi(), c.getMaChuyenDi());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
