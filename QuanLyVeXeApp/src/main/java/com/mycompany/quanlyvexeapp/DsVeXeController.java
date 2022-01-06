@@ -68,6 +68,8 @@ public class DsVeXeController implements Initializable {
     private static final VeXeService vxService = new VeXeService();
     private static final ChuyenDiService cdService = new ChuyenDiService();
     
+    public String MaNV;
+    
     String pattern = "dd/MM/yyyy HH:mm:ss";
     SimpleDateFormat df = new SimpleDateFormat(pattern);
     private Date dateKhoiHanh;
@@ -264,6 +266,10 @@ public class DsVeXeController implements Initializable {
         colTrangTrai.setCellValueFactory(new PropertyValueFactory("trangThai"));
         colTrangTrai.setPrefWidth(90);
         
+        TableColumn colMaNV = new TableColumn("Mã NV");
+        colMaNV.setCellValueFactory(new PropertyValueFactory("maNhanVien"));
+        colMaNV.setPrefWidth(50);
+        
         TableColumn colAction = new TableColumn();
         colAction.setCellFactory(l ->{
             Button btn = new Button("Hoàn vé");
@@ -296,7 +302,7 @@ public class DsVeXeController implements Initializable {
         });
         
         this.tbVeXe.getColumns().addAll(colId, colMaChuyenDi, colTen, colSDT, colNgayDat,
-                colViTriGhe, colTrangTrai, colAction);
+                colViTriGhe, colTrangTrai, colMaNV, colAction);
     }
     
     public void loadTableData() throws SQLException{
@@ -324,7 +330,7 @@ public class DsVeXeController implements Initializable {
                 ChuyenDi c = this.cbChuyenDi.getSelectionModel().getSelectedItem();
                 if (v != null) {
                     try {
-                        v.setTrangThai("Bán");
+                        v.setTrangThai("Bán");                       
                         vxService.updateSellVeXe(v);
                         this.loadTableData();                    
                         ///Mở form In vé          
@@ -359,6 +365,7 @@ public class DsVeXeController implements Initializable {
                             v.setTenKhachHang(this.txtTenKhachHang.getText());
                             v.setSdt(this.txtSDT.getText());
                             v.setViTriGhe(this.txtViTriGhe.getText());
+                            v.setMaNhanVien(this.MaNV);
                             vxService.updateVeXe(v);
                             Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
                             this.loadTableData();
@@ -429,5 +436,9 @@ public class DsVeXeController implements Initializable {
         if(this.txtSDT.getText().length() != 10)
             return false;
         return true;
+    }
+    
+     public void loadForm(String MaNV) {
+        this.MaNV = MaNV;
     }
 }

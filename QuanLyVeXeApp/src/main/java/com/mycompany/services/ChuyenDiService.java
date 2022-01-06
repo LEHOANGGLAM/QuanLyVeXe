@@ -104,15 +104,6 @@ public class ChuyenDiService {
     public void addChuyenDi(ChuyenDi c) throws SQLException {
         String sql = "INSERT INTO chuyendi(MaXe, GiaVe, NgayKhoiHanh,GioKhoiHanh, DiemKhoiHanh, DiemKetThuc,SoGheTrong, SoGheDat, MaChuyenDi)"
                 + " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        addOrUpdateChuyenDi(c, sql);
-    }
-
-    public void updateChuyenDi(ChuyenDi c) throws SQLException {
-        String sql = "UPDATE chuyendi SET MaXe=?, GiaVe=?,  NgayKhoiHanh=?,GioKhoiHanh=?, DiemKhoiHanh=?, DiemKetThuc=?, SoGheTrong=?, SoGheDat=? WHERE MaChuyenDi = ?";
-        addOrUpdateChuyenDi(c, sql);
-    }
-
-    public void addOrUpdateChuyenDi(ChuyenDi c, String sql) throws SQLException {
         try ( Connection conn = jdbcUtils.getConn()) {
             PreparedStatement stm = conn.prepareCall(sql);
 
@@ -129,6 +120,23 @@ public class ChuyenDiService {
             stm.executeUpdate();
         }
     }
+
+    public void updateChuyenDi(ChuyenDi c) throws SQLException {
+        String sql = "UPDATE chuyendi SET MaXe=?, GiaVe=?,  NgayKhoiHanh=?,GioKhoiHanh=?, DiemKhoiHanh=?, DiemKetThuc=? WHERE MaChuyenDi = ?";
+        try ( Connection conn = jdbcUtils.getConn()) {
+            PreparedStatement stm = conn.prepareCall(sql);
+
+            stm.setString(1, c.getMaXe());
+            stm.setInt(2, c.getGiaVe());
+            stm.setDate(3, c.getNgayKhoiHanh());
+            stm.setTime(4, c.getGioKhoiHanh());
+            stm.setString(5, c.getDiemKhoiHanh());
+            stm.setString(6, c.getDiemKetThuc());       
+            stm.setString(7, c.getMaChuyenDi());
+            stm.executeUpdate();
+        }
+    }
+
     
     public ChuyenDi getChuyenDiByMaChuyenDi(String MaChuyenDi) throws SQLException{
         ChuyenDi result = null;
