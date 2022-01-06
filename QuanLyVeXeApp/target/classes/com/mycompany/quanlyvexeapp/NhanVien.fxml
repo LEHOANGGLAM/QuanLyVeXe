@@ -30,7 +30,7 @@
                   </HBox>
                   <HBox prefHeight="41.0" prefWidth="332.0">
                      <children>
-                        <RadioButton fx:id="byMa" mnemonicParsing="false" prefHeight="16.0" prefWidth="89.0" text="Theo mã NV">
+                        <RadioButton fx:id="byMa" mnemonicParsing="false" prefHeight="16.0" prefWidth="89.0" selected="true" text="Theo mã NV">
                            <toggleGroup>
                               <ToggleGroup fx:id="timKienNV" />
                            </toggleGroup></RadioButton>
@@ -49,15 +49,15 @@
       <HBox prefHeight="51.0" prefWidth="780.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="366.279296875" />
-            <Button fx:id="btnInsert" mnemonicParsing="false" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Thêm">
+            <Button fx:id="btnInsert" mnemonicParsing="false" onAction="#insertHandler" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Thêm">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.279296875" />
-            <Button fx:id="btnUpdate" mnemonicParsing="false" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Sửa" />
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateHandler" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Sửa" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.279296875" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Xóa" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteHandler" prefHeight="36.0" prefWidth="101.0" styleClass="btnT" text="Xóa" />
          </children>
       </HBox>
    </children>
