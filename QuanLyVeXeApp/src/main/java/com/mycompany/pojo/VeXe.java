@@ -61,10 +61,6 @@ public class VeXe {
         this.trangThai = trangThai;
         this.maNhanVien = maNhanVien;
     }
-
-    
-
-    
     
     /**
      * @return the maVe
