@@ -49,19 +49,19 @@ public class LoginController implements Initializable{
         // TODO
         cbQTC.setItems(ePermissionList);
         this.cbQTC.getSelectionModel().selectFirst();
-        try {
-            acService.updateAccount(HashUtils.hashPassword("123456"), "thuantam");
-        System.out.println(HashUtils.hashPassword("123456"));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            acService.updateAccount(HashUtils.hashPassword("123456"), "thuantam");
+//        System.out.println(HashUtils.hashPassword("123456"));
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (NoSuchAlgorithmException ex) {
+//            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }    
     
-    public void dangNhapHandler(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException{
+    public void dangNhapHandler(ActionEvent event) throws SQLException, IOException, UnsupportedEncodingException, NoSuchAlgorithmException{
         if (this.txtTaiKhoan.getText().isEmpty() || this.txtMatKhau.getText().isEmpty()){
              Utils.getBox("Vui lòng nhập tài khoản, mật khẩu.", Alert.AlertType.WARNING).show();
         } else{

@@ -69,12 +69,13 @@ public class ChuyenDiTester {
     }
     
     @Test
-    public void testUpdateChuyenDi() {
-       
+    public void testUpdateChuyenDi() {     
         try {
-            cdService.updateChuyenDi(cdService.getChuyenDiByMaChuyenDi("1"));
-           ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi("1");
-            Assertions.assertEquals(chuyendi.getMaChuyenDi(), cdService.getChuyenDiByMaChuyenDi("1").getMaChuyenDi());
+            ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi("1");
+            c.setDiemKhoiHanh("demo3");
+            cdService.updateChuyenDi(c);
+           
+            Assertions.assertNotEquals(chuyendi.getDiemKhoiHanh(), c.getDiemKhoiHanh());
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,16 +84,16 @@ public class ChuyenDiTester {
     @Test
     public void testUniqueId() throws SQLException{
         List<ChuyenDi> list = new ArrayList<>();
-        try(Connection conn = jdbcUtils.getConn()){
-            list.addAll(cdService.getChuyenDi());
-            List<String> kq = new ArrayList<>();
-            for(ChuyenDi c :list){
-                String id = c.getMaChuyenDi();
-                kq.add(id);
-            }          
-            Set<String> kq2 = new HashSet<>(kq);
-            Assertions.assertEquals(kq.size(), kq2.size());
-        }    
+
+        list.addAll(cdService.getChuyenDi());
+        List<String> kq = new ArrayList<>();
+        for (ChuyenDi c : list) {
+            String id = c.getMaChuyenDi();
+            kq.add(id);
+        }
+        Set<String> kq2 = new HashSet<>(kq);
+        Assertions.assertEquals(kq.size(), kq2.size());
+
     }
     
     @Test

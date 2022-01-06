@@ -21,7 +21,7 @@ import java.util.List;
  * @author dell
  */
 public class AccountService {
-    public List<Account> getAccounts() throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException{
+    public List<Account> getAccounts() throws SQLException{
         List<Account> results = new ArrayList<>();
         try(Connection conn = jdbcUtils.getConn()){
             Statement stm = conn.createStatement();
@@ -36,7 +36,7 @@ public class AccountService {
     }
     
     
-    public Account getAccount(String tk) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException{
+    public Account getAccount(String tk) throws SQLException{
         Account results = null;
         try(Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareCall("SELECT * FROM account WHERE TaiKhoan=?");

@@ -5,9 +5,11 @@
 package com.mycompany.test;
 
 
+import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.ChuyenDi;
 import com.mycompany.pojo.VeXe;
 import com.mycompany.services.VeXeService;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -44,10 +46,25 @@ public class VeXeTester {
     }
     
     @Test
+    public void testUpdateVeXe() {     
+        try {
+           
+            VeXe vexe = vxService.getVeXeByMaVe("229022");
+            VeXe v = vxService.getVeXeByMaVe("229022");
+            v.setTenKhachHang("test2");
+            vxService.updateVeXe(v);
+           
+            Assertions.assertNotEquals(vexe.getTenKhachHang(), v.getTenKhachHang());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
     public void testDeleteVeXe() {
         try {
             vxService.deleteVeXe(v);  
-            Assertions.assertNull(v.getMaVe());
+            Assertions.assertNull(vxService.getVeXeByMaVe(v.getMaVe()));
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,5 +81,41 @@ public class VeXeTester {
         
         Set<String> kq2 = new HashSet<>(listVitriGhe);
         Assertions.assertEquals(kq2.size(), listVitriGhe.size());
+    }
+    
+     @Test
+    public void testUniqueId() throws SQLException{
+         List<VeXe> list = new ArrayList<>();
+         list.addAll(vxService.getVeXe());
+         List<String> kq = new ArrayList<>();
+         for (VeXe c : list) {
+             String id = c.getMaVe();
+             kq.add(id);
+         }
+         Set<String> kq2 = new HashSet<>(kq);
+         Assertions.assertEquals(kq.size(), kq2.size());
+
+    }
+    
+    @Test
+    public void testGetVeXeByInvalidId(){
+        VeXe v;
+        try {
+            v = vxService.getVeXeByMaVe("2");
+            Assertions.assertNull(v);
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+    }
+    
+    @Test
+    public void testGetVeXeByValidId(){
+        VeXe c;
+        try {
+            c = vxService.getVeXeByMaVe("229022");
+            Assertions.assertEquals(c.getMaChuyenDi(),vxService.getVeXeByMaVe("229022").getMaChuyenDi());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }
 }
