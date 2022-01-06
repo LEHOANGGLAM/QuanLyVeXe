@@ -11,13 +11,13 @@ package com.mycompany.pojo;
 public class Account {
     private String taiKhoan;
     private String matKhau;
-    private int maNhanVien;
+    private String maNhanVien;
     private int maQuyen;
 
     public Account(){
     }
 
-    public Account(String taiKhoan, String matKhau, int maNhanVien, int maQuyen) {
+    public Account(String taiKhoan, String matKhau, String maNhanVien, int maQuyen) {
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
         this.maNhanVien = maNhanVien;
@@ -55,14 +55,14 @@ public class Account {
     /**
      * @return the maNhanVien
      */
-    public int getMaNhanVien() {
+    public String getMaNhanVien() {
         return maNhanVien;
     }
 
     /**
      * @param maNhanVien the maNhanVien to set
      */
-    public void setMaNhanVien(int maNhanVien) {
+    public void setMaNhanVien(String maNhanVien) {
         this.maNhanVien = maNhanVien;
     }
 

@@ -4,13 +4,15 @@
  */
 package com.mycompany.quanlyvexeapp;
 
+import com.mycompany.conf.HashUtils;
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Account;
 import com.mycompany.services.AccountService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,73 +40,63 @@ public class LoginController implements Initializable{
     @FXML private ChoiceBox cbQTC;
 
     ObservableList<String> ePermissionList = FXCollections.observableArrayList("Quản trị viên", "Nhân viên");
+     private static final AccountService acService = new AccountService();
      /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-       cbQTC.setItems(ePermissionList);
-       this.cbQTC.getSelectionModel().selectFirst();
+        cbQTC.setItems(ePermissionList);
+        this.cbQTC.getSelectionModel().selectFirst();
+        try {
+            acService.updateAccount(HashUtils.hashPassword("123456"), "thuantam");
+        System.out.println(HashUtils.hashPassword("123456"));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
-    public void dangNhapHandler(ActionEvent event) throws SQLException, IOException{
+    public void dangNhapHandler(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException{
         if (this.txtTaiKhoan.getText().isEmpty() || this.txtMatKhau.getText().isEmpty()){
              Utils.getBox("Vui lòng nhập tài khoản, mật khẩu.", Alert.AlertType.WARNING).show();
         } else{
             if (this.cbQTC.getSelectionModel().isEmpty()){
                 Utils.getBox("Vui lòng lựa chọn quyền truy cập.", Alert.AlertType.WARNING).show();
             } else{
-                AccountService s = new AccountService();
                 try {           
-                    boolean flag = false;
-                    List<Account> a = s.getAccounts();
-                    for(Account a1 : a){
-                        if (!flag){
-                           if (a1.getTaiKhoan().equals(this.txtTaiKhoan.getText())){                           
-                                if (a1.getMatKhau().equals(this.txtMatKhau.getText())){                           
-                                    if (a1.getMaQuyen() == this.cbQTC.getSelectionModel().getSelectedIndex() + 1){
-                                       // Utils.getBox("Đăng nhập thành công!", Alert.AlertType.INFORMATION).show();   
-                                        flag = true;
-                                        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Main.fxml"));
-                                       
-                                        Scene scene = new Scene(fxmloader.load());
-                                        Stage stage = new Stage();
-                                        stage.setScene(scene);
-                                        stage.setTitle("OuBus");
-                                        stage.show();
-                                        MainController controller = fxmloader.getController();
-                                        controller.loadMain(a1.getMaQuyen());
-                                        
-                                        Button btn = (Button) event.getSource();
-                                        Stage stagelogin = (Stage) btn.getScene().getWindow();
-                                        stagelogin.close();
-                                    } else {
-                                        Utils.getBox("Tài khoản này sai quyền truy cập!", Alert.AlertType.WARNING).show();
-                                    }
+                    Account a = acService.getAccount(txtTaiKhoan.getText());             
+                    if (a != null) {                      
+//                        System.out.println(HashUtils.hashPassword(txtMatKhau.getText()));
+//                        System.out.println(a.getMatKhau());
+                        if (a.getMatKhau().equals(HashUtils.hashPassword(txtMatKhau.getText()))
+                                && a.getMaQuyen() == this.cbQTC.getSelectionModel().getSelectedIndex() + 1) {
+                            FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Main.fxml"));
+                            Scene scene = new Scene(fxmloader.load());
+                            Stage stage = new Stage();
+                            stage.setScene(scene);
+                            stage.setTitle("OuBus");
+                            stage.show();
+                            MainController controller = fxmloader.getController();
+                            controller.loadMain(a.getMaQuyen(),a.getMaNhanVien());
 
-                                } else{
-                                    if (!a.stream().anyMatch(a2 -> this.txtMatKhau.getText().equals(a2.getTaiKhoan()))){
-                                        Utils.getBox("Nhập sai mật khẩu!", Alert.AlertType.WARNING).show();
-                                    }
-                                        
-                                }
-                            } else {
-                                if (!a.stream().anyMatch(a2 -> this.txtTaiKhoan.getText().equals(a2.getTaiKhoan()))){
-                                    Utils.getBox("Tài khoản này không tồn tại!", Alert.AlertType.WARNING).show();
-                                }
-                               
-                            } 
-                        } else{
-                            break;
-                        }                                                                        
-                    }
+                            Button btn = (Button) event.getSource();
+                            Stage stagelogin = (Stage) btn.getScene().getWindow();
+                            stagelogin.close();
+                        } else 
+                            Utils.getBox("Nhập sai mật khẩu hoặc tài khoản", Alert.AlertType.WARNING).show();                     
+                    } else
+                        Utils.getBox("Tài khoản không tồn tại", Alert.AlertType.WARNING).show();
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }     
         }
-    }
+    }   
     
     public void thoatApplication(ActionEvent event){
         Platform.exit();

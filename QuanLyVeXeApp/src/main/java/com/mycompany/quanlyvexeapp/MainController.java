@@ -34,7 +34,8 @@ public class MainController implements Initializable {
     private Button btnNhanVien;
     @FXML
     private Button btnChuyenDi;
-
+    
+    public String MaNV = "1";
     /**
      * Initializes the controller class.
      */
@@ -44,12 +45,13 @@ public class MainController implements Initializable {
 
     }
 
-    public void loadMain(int maQuyen) {
+    public void loadMain(int maQuyen,String MaNV) {
         if (maQuyen == 2) {
             this.btnDoanhThu.setDisable(true);
             this.btnChuyenDi.setDisable(true);
             this.btnNhanVien.setDisable(true);
         }
+        this.MaNV = MaNV;
     }
 
     public void openFormDSVeXeHandler(ActionEvent event) throws IOException {
@@ -58,6 +60,8 @@ public class MainController implements Initializable {
         dialog.getDialogPane().setContent(fxmloader.load());
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.show();
+         DsVeXeController controller = fxmloader.getController();
+        controller.loadForm(this.MaNV);
     }
 
     public void openFormChuyenDiHandler(ActionEvent event) throws IOException {
@@ -76,6 +80,8 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("Bán vé");
         stage.show();
+        VeXeController controller = fxmloader.getController();
+        controller.loadForm(this.MaNV);
     }
 
     public void openFormDoanhThuHandler(ActionEvent event) throws IOException {

@@ -30,7 +30,7 @@ public class VeXeTester {
     private static final VeXeService vxService = new VeXeService();
     
      VeXe v = new VeXe(RandomStringUtils.randomNumeric(6), "test", Date.valueOf(LocalDate.now()),
-                            "1234567894", "1", "A1", "Đặt");
+                            "1234567894", "1", "A1", "Đặt","1");
     @Test
     public void testAddVeXe() {
        
