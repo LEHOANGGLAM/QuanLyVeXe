@@ -6,6 +6,7 @@ package com.mycompany.test;
 
 import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.ChuyenDi;
+import com.mycompany.pojo.VeXe;
 import com.mycompany.pojo.XeKhach;
 import com.mycompany.services.ChuyenDiService;
 import com.mycompany.services.XeKhachService;
@@ -41,14 +42,14 @@ public class ChuyenDiTester {
     Time time = new Time(5000);
     ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), "GHE_01",
             100000, date, time, "demo", "demo2",
-            24, 0);
+            24, 0, 0);
 
      
     @Test
     public void testAddChuyenDi() {
        
-        try {
-            cdService.addChuyenDi(c);
+        try {          
+            cdService.addChuyenDi(c);       
             ChuyenDi chuyendi = cdService.getChuyenDiByMaChuyenDi(c.getMaChuyenDi());
             Assertions.assertEquals(chuyendi.getMaChuyenDi(), c.getMaChuyenDi());
         } catch (SQLException ex) {
@@ -76,6 +77,19 @@ public class ChuyenDiTester {
             cdService.updateChuyenDi(c);
            
             Assertions.assertNotEquals(chuyendi.getDiemKhoiHanh(), c.getDiemKhoiHanh());
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testTimChuyenDiByKw() {
+        try {
+            List<ChuyenDi> listcd = new ArrayList<>();
+            listcd.addAll(cdService.getChuyenDiByKw("31"));
+            for(ChuyenDi v :listcd)
+                Assertions.assertEquals(v.getMaChuyenDi(),"313220");
+            
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
         }

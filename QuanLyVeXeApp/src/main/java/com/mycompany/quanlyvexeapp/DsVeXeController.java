@@ -107,16 +107,18 @@ public class DsVeXeController implements Initializable {
                 this.txtViTriGhe.setText(v.getViTriGhe());
                 try {
                     String maCD = vxService.getMaChuyenDiByMaVe(v.getMaVe());
-                    this.cbChuyenDi.getSelectionModel().select(cdService.getChuyenDiByMaChuyenDi(maCD));
+                    this.cbChuyenDi.getSelectionModel().select(cdService.getChuyenDiByMaChuyenDi(maCD));   
+                    
+                    if (cdService.getChuyenDiByMaChuyenDi(maCD).getIsDelete() == 1 || !v.getTrangThai().equals("Đặt")) {
+                        this.btnUpdate.setDisable(true);
+                        this.btnSell.setDisable(true);
+                    } else {
+                        this.btnUpdate.setDisable(false);
+                        this.btnSell.setDisable(false);
+                    }
                 } catch (SQLException ex) {
+                    System.out.println("ss");
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (v.getTrangThai().equals("Đặt")) {
-                    this.btnUpdate.setDisable(false);
-                    this.btnSell.setDisable(false);
-                } else {
-                    this.btnUpdate.setDisable(true);
-                    this.btnSell.setDisable(true);
                 }
                 this.btnChoose.setDisable(false);
          
@@ -361,11 +363,12 @@ public class DsVeXeController implements Initializable {
                     VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();
                     if (v != null) {
                         try {
+                            vxService.updateSoGheCDBeforeUpdateVeXe(v.getMaChuyenDi());
                             v.setMaChuyenDi(this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi());
                             v.setTenKhachHang(this.txtTenKhachHang.getText());
                             v.setSdt(this.txtSDT.getText());
                             v.setViTriGhe(this.txtViTriGhe.getText());
-                            v.setMaNhanVien(this.MaNV);
+                            v.setMaNhanVien(this.MaNV);                           
                             vxService.updateVeXe(v);
                             Utils.getBox("Sửa thành công", Alert.AlertType.INFORMATION).show();
                             this.loadTableData();
@@ -387,7 +390,7 @@ public class DsVeXeController implements Initializable {
        this.listVeXe.addAll(vxService.getVeXe());
        for(VeXe v : listVeXe){  
            ChuyenDi c = cdService.getChuyenDiByMaChuyenDi(v.getMaChuyenDi());
-           long tmpp = TimeUnit.MINUTES.toMillis(480);// Không hiểu vì sao c.getGioKhoiHanh().getTime() bị mất 480p nên dòng này để add thêm 480p
+           long tmpp = TimeUnit.MINUTES.toMillis(480);
            long time = c.getNgayKhoiHanh().getTime() + c.getGioKhoiHanh().getTime() + tmpp;
            dateKhoiHanh = new Date(time);
            

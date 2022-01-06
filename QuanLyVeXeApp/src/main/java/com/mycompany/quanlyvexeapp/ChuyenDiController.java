@@ -183,7 +183,7 @@ public class ChuyenDiController implements Initializable {
                 Time time = Time.valueOf(gio.getText() + ":00");
                 ChuyenDi c = new ChuyenDi(RandomStringUtils.randomNumeric(6), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
                         Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
-                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0, 0);
 
                 if (c.getGiaVe() >50000) {
                     long tmpp = TimeUnit.MINUTES.toMillis(480);
@@ -216,7 +216,7 @@ public class ChuyenDiController implements Initializable {
                 Time time = Time.valueOf(gio.getText() + ":00");
                 ChuyenDi c = new ChuyenDi(this.tbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi(), this.cbXeKhach.getSelectionModel().getSelectedItem().getMaXe(),
                         Integer.parseInt(this.giaVe.getText()), date, time, this.diemKhoiHanh.getText(), this.diemKetThuc.getText(),
-                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0);
+                        this.cbXeKhach.getSelectionModel().getSelectedItem().getSoGhe(), 0, 0);
                 if (c != null) {
                     if (c.getGiaVe() >50000) {
                         long tmpp = TimeUnit.MINUTES.toMillis(480);
@@ -304,12 +304,22 @@ public class ChuyenDiController implements Initializable {
                     if(action == ButtonType.OK){
                         TableCell cell = (TableCell)((Button)eh.getSource()).getParent();
                         ChuyenDi c = (ChuyenDi)cell.getTableRow().getItem();  
-                        try {
-                            cdService.deleteChuyenDi(c.getMaChuyenDi());
+                        try {                                                    
+                            cdService.deleteChuyenDi(c.getMaChuyenDi());                        
                             Utils.getBox("Xóa thành công", Alert.AlertType.INFORMATION).show();
                             this.loadTableData();
                             this.resetForm();
-                        } catch (SQLException ex) {
+                        } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+                            try {
+                                cdService.softDeleteChuyenDi(c.getMaChuyenDi());
+                                Utils.getBox("Xóa mềm thành công", Alert.AlertType.INFORMATION).show();
+                                this.loadTableData();
+                                this.resetForm();
+                            } catch (SQLException ex1) {
+                                Utils.getBox("Xóa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
+                            }                          
+                        }
+                        catch (SQLException ex) {
                             Utils.getBox("Xóa thất bại: " + ex.getMessage(), Alert.AlertType.WARNING).show();
                         }
                     }
