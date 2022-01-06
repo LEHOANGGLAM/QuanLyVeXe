@@ -1,0 +1,68 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+/*
+ * Empty Stylesheet file.
+ */
+
+* {
+    -fx-font-family: Tahoma;
+}
+
+VBox {
+    -fx-background-color: whitesmoke;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+VBox.mainContainer{
+    -fx-border-color: #003333;
+    -fx-border-insets: 4;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+}
+
+VBox HBox Text.Subject{
+    -fx-font-size: 36;
+    -fx-fill: coral;
+    -fx-alignment: CENTER;
+}
+
+VBox HBox Button.styleBtn{
+    -fx-text-fill: floralwhite;
+    -fx-font-size: 20;
+    -fx-background-color: firebrick;
+    -fx-background-radius: 6px;
+    -fx-border-width: 2 2 2 2;
+}
+
+VBox HBox Button.styleBtn:hover{
+    -fx-background-color: #ff0000;
+
+}
+
+
+VBox Button.styleConfirm{
+    -fx-font-size: 20;
+
+}
+
+VBox Button.styleConfirm:focused{
+    -fx-font-size: 20;
+
+}
+
+VBox GridPane{
+    -fx-background-color: aliceblue;
+    
+}
+
+VBox GridPane TextField, VBox GridPane DatePicker{
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1 2 3 2;
+    -fx-background-radius: 6px;
+
+}
+

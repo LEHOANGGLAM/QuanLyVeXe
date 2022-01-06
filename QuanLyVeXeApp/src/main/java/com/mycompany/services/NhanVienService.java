@@ -81,4 +81,71 @@ public class NhanVienService {
         }
         return results;
     }
+    
+    public void insertNhanVien(NhanVien nv) throws SQLException{
+        String sql = "INSERT INTO nhanvien(MaNhanVien, TenNhanVien, MaLoaiNhanVien, NgaySinh, SoDienThoai, CMND, QueQuan)" 
+                   + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            stm.setString(1, nv.getMaNhanVien());
+            stm.setString(2, nv.getTenNhanVien());
+            stm.setInt(3, nv.getMaLoaiNhanVien());
+            stm.setDate(4, nv.getNgaySinh());
+            stm.setString(5, nv.getSoDienThoai());
+            stm.setString(6, nv.getCMND());
+            stm.setString(7, nv.getQueQuan());
+            stm.executeUpdate();
+        }    
+    }
+    
+    public void updateNhanVien(NhanVien nv) throws SQLException{
+        String sql = "UPDATE nhanvien SET TenNhanVien = ?, MaLoaiNhanVien = ?, NgaySinh = ?, SoDienThoai = ?, CMND = ?, QueQuan = ? WHERE MaNhanVien = ?";
+        
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareCall(sql);
+            
+            stm.setString(1, nv.getMaNhanVien());
+            stm.setString(2, nv.getTenNhanVien());
+            stm.setInt(3, nv.getMaLoaiNhanVien());
+            stm.setDate(4, nv.getNgaySinh());
+            stm.setString(5, nv.getSoDienThoai());
+            stm.setString(6, nv.getCMND());
+            stm.setString(7, nv.getQueQuan());
+            stm.executeUpdate();
+        } 
+    }
+       
+    public void deleteNhanVien(NhanVien nv) throws SQLException{
+        String sql = "DELETE FROM nhanvien WHERE MaNhanVien = ?";
+        
+        try ( Connection conn = jdbcUtils.getConn()) {
+            conn.setAutoCommit(false);
+            
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, nv.getMaNhanVien());
+
+
+            stm.executeUpdate();           
+        
+            conn.commit();
+        }   
+     
+    }
+    
+        
+    public boolean isMaNhanVienExist(String MaNhanVien) throws SQLException{
+        String sql = "SELECT MaNhanVien FROM nhanvien WHERE MaNhanVien = ?";
+        
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareCall(sql);
+            
+            stm.setString(1, MaNhanVien);
+            
+            ResultSet rs = stm.executeQuery();
+            return rs.next();
+               
+        }
+    }
 }
