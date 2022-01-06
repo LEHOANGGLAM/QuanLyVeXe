@@ -7,6 +7,7 @@ package com.mycompany.quanlyvexeapp;
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.NhanVien;
 import com.mycompany.services.NhanVienService;
+import java.io.IOException;
 
 
 import java.net.URL;
@@ -18,16 +19,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -71,10 +78,11 @@ public class NhanVienController implements Initializable {
     
     private static final NhanVienService nvService = new NhanVienService();
     
+    NhanVien tempNV;    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.btnInsert.setDisable(true);
         this.btnUpdate.setDisable(true);
         this.btnDelete.setDisable(true);
         loadTableView();
@@ -107,6 +115,27 @@ public class NhanVienController implements Initializable {
                 }
             }
         });
+        
+        this.tbDSNV.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection == null){
+                tempNV = null;
+                this.btnUpdate.setDisable(true);
+                this.btnDelete.setDisable(true);
+                this.tbDSNV.getSelectionModel().clearSelection();
+            } else{
+                tempNV = this.tbDSNV.getSelectionModel().getSelectedItem();            
+                this.btnUpdate.setDisable(false);
+                this.btnDelete.setDisable(false);
+            }
+        });
+        
+        this.tbDSNV.setRowFactory(l1 -> {
+            TableRow row  = new TableRow();
+            row.setOnMouseClicked(l2 ->{
+                
+            });
+            return row;
+        });   
     }    
     
     public void loadTableView(){
@@ -179,4 +208,61 @@ public class NhanVienController implements Initializable {
         return 0; //Trong
     }
     
+    public void insertHandler(ActionEvent event) throws IOException{
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLThongTinNhanVien.fxml"));
+        Dialog dialog = new Dialog();
+        dialog.getDialogPane().setContent(fxmloader.load());
+        dialog.initStyle(StageStyle.TRANSPARENT);
+        dialog.show();
+        FXMLThongTinNhanVienController controller = fxmloader.getController();
+        controller.loadForm("Xác nhận thêm");
+        resetFormFromScene();
+    }
+    
+    public void updateHandler(ActionEvent event) throws IOException, SQLException{
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLThongTinNhanVien.fxml"));
+        Dialog dialog = new Dialog();
+        dialog.getDialogPane().setContent(fxmloader.load());
+        dialog.initStyle(StageStyle.TRANSPARENT);
+        dialog.show();
+        FXMLThongTinNhanVienController controller = fxmloader.getController();
+        controller.loadForm("Xác nhận sửa");
+        if (tempNV != null){
+            controller.loadData(tempNV);
+        } else{
+            Utils.getBox("Vui lòng chọn nhân viên", Alert.AlertType.WARNING).show();
+
+        }
+        resetFormFromScene();
+
+    }
+    
+    public void deleteHandler(ActionEvent event) throws IOException, SQLException{
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLThongTinNhanVien.fxml"));
+        Dialog dialog = new Dialog();
+        dialog.getDialogPane().setContent(fxmloader.load());
+        dialog.initStyle(StageStyle.TRANSPARENT);
+        dialog.show();
+        FXMLThongTinNhanVienController controller = fxmloader.getController();
+        controller.loadForm("Xác nhận xóa");
+        if (tempNV != null){
+            controller.loadData(tempNV);
+        } else{
+            Utils.getBox("Vui lòng chọn nhân viên", Alert.AlertType.WARNING).show();
+
+        }
+        resetFormFromScene();
+        
+    }
+    
+    public void resetFormFromScene(){
+        this.btnUpdate.setDisable(true);
+        this.btnDelete.setDisable(true);
+        loadTableView();
+        try {
+            this.loadTableData();
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

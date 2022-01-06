@@ -61,4 +61,107 @@ public class AccountService {
             stm.executeUpdate();
         }
     }
+    
+    public void insertAccount(Account a) throws SQLException{
+        String sql = "INSERT INTO account(TaiKhoan, MatKhau, MaNhanVien, MaQuyen)" 
+                   + "VALUES(?, ?, ?, ?)";
+        
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            stm.setString(1, a.getTaiKhoan());
+            stm.setString(2, a.getMatKhau());
+            stm.setString(3, a.getMaNhanVien());
+            stm.setInt(4, a.getMaQuyen());
+           
+            stm.executeUpdate();
+        }
+    }
+    
+    public void updateAccount(Account a) throws SQLException{
+        String sql = "UPDATE account SET TaiKhoan = ?, MatKhau = ? WHERE MaNhanVien = ?";        
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareCall(sql);
+            
+            stm.setString(1, a.getTaiKhoan());
+            stm.setString(2, a.getMatKhau());
+            stm.setString(3, a.getMaNhanVien());          
+            stm.executeUpdate();
+        }
+    }
+    
+    public void deleteAccount(Account a) throws SQLException {
+        try ( Connection conn = jdbcUtils.getConn()) {
+            conn.setAutoCommit(false);
+            
+            PreparedStatement stm = conn.prepareCall("DELETE FROM account WHERE TaiKhoan = ? AND MatKhau = ? AND MaNhanVien = ?");
+            stm.setString(1, a.getTaiKhoan());
+            stm.setString(2, a.getMatKhau());
+            stm.setString(3, a.getMaNhanVien());
+
+            stm.executeUpdate();           
+        
+            conn.commit();
+        }
+    }
+    
+    public String getLoaiNVByMaLoai(int maLoai) throws SQLException{
+        String sql = "SELECT * FROM phanloainhanvien WHERE MaLoaiNhanVien = ?";
+        String result = "";
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            stm.setInt(1, maLoai);
+           
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()){
+                result = rs.getString("TenLoaiNhanVien");
+            } else{
+                result = "Không có";
+            }
+        }
+        return result;
+    }
+    
+    public String getTKByMaQuyenAndMaNV(int maLoai, String maNV) throws SQLException{
+        String sql = "SELECT * FROM account WHERE MaQuyen = ? AND MaNhanVien = ?";
+        String result = "";
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            stm.setInt(1, maLoai);
+            stm.setString(2, maNV);
+           
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()){
+                result = rs.getString("TaiKhoan");
+            } else{
+                result = "Không có";
+            }
+        }
+
+        return result;
+    }
+    
+    public String getMKByMaQuyenAndMaNV(int maLoai, String maNV) throws SQLException{
+         String sql = "SELECT * FROM account WHERE MaQuyen = ? AND MaNhanVien = ?";
+        String result = "";
+        try (Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareStatement(sql);
+            
+            stm.setInt(1, maLoai);
+            stm.setString(2, maNV);
+           
+            ResultSet rs = stm.executeQuery();
+            
+            if (rs.next()){
+                result = rs.getString("MatKhau");
+            } else{
+                result = "Không có";
+            }
+        }
+        return result;
+    }
 }
