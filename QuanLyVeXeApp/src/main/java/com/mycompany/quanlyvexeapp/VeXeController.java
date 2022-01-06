@@ -96,13 +96,15 @@ public class VeXeController implements Initializable {
     private static final VeXeService vxService = new VeXeService();
     private static final ChuyenDiService cdService = new ChuyenDiService();
     private static final XeKhachService xkService = new XeKhachService();
-
+    
+    private String MaNV;
     private int soCho;
     String pattern = "dd/MM/yyyy";
     SimpleDateFormat df = new SimpleDateFormat(pattern);
     private Date dateKhoiHanh;
     private Date dateNow;
     long minutes=10;
+    
     /**
      * Initializes the controller class.
      */
@@ -234,7 +236,7 @@ public class VeXeController implements Initializable {
             if (checkTextField()) {
                 if (checkSDT()) {
                     VeXe v = new VeXe(RandomStringUtils.randomNumeric(6), this.txtHoTenKhachHang.getText(), Date.valueOf(LocalDate.now()),
-                            this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Đặt");
+                            this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Đặt",this.MaNV);
                     try {
                         vxService.addVeXe(v);
                         Utils.getBox("Đặt vé thành công", Alert.AlertType.INFORMATION).show();
@@ -256,7 +258,7 @@ public class VeXeController implements Initializable {
                 if (checkSDT()) {
                     String maVe = RandomStringUtils.randomNumeric(6);
                     VeXe v = new VeXe(maVe, this.txtHoTenKhachHang.getText(), Date.valueOf(LocalDate.now()),
-                            this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Bán");
+                            this.txtSdt.getText(), this.txtMaChuyenDi.getText(), this.txtVitriGhe.getText(), "Bán",this.MaNV);
                     try {
                         vxService.addVeXe(v);
                         ///Mở form In vé          
@@ -324,7 +326,7 @@ public class VeXeController implements Initializable {
        
         TableColumn colGioKhoiHanh = new TableColumn("Giờ Khởi Hành");
         colGioKhoiHanh.setCellValueFactory(new PropertyValueFactory("gioKhoiHanh"));
-        colGioKhoiHanh.setPrefWidth(90);
+        colGioKhoiHanh.setPrefWidth(90);       
     
         this.tbChuyenDi.getColumns().addAll(colId, colDiemKhoiHanh, colDiemKetThuc, colNgayKhoiHanh, colGioKhoiHanh);
     }
@@ -362,5 +364,9 @@ public class VeXeController implements Initializable {
         if(this.txtSdt.getText().length() != 10)
             return false;
         return true;
+    }
+    
+    public void loadForm(String MaNV) {
+        this.MaNV = MaNV;
     }
 }
