@@ -91,6 +91,7 @@ public class NhanVienController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         this.txtFTimKiem.textProperty().addListener(cl->{
             try {
                 if(byMa.isSelected()){
@@ -104,15 +105,54 @@ public class NhanVienController implements Initializable {
                     }
                 }
             }   catch (SQLException ex) {
-                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             if(txtFTimKiem.getText() == null || txtFTimKiem.getText() == ""){
                 try {
                     this.loadTableData();
                 } catch (SQLException ex) {
-                    Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        });
+        
+        
+        this.byMa.selectedProperty().addListener(c1->{
+            if (this.byMa.isSelected()){
+                try{
+                    this.tbDSNV.setItems(FXCollections.observableList(nvService.getNhanVienByMaNV(this.txtFTimKiem.getText())));;  
+     
+                } catch (SQLException ex) {
+                    Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+            }
+            
+        });
+        
+        this.byTen.selectedProperty().addListener(c1->{
+            if (this.byTen.isSelected()){
+                try{
+                    this.tbDSNV.setItems(FXCollections.observableList(nvService.getNhanVienByTen(this.txtFTimKiem.getText())));;  
+     
+                } catch (SQLException ex) {
+                    Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+            }
+        });
+        
+        this.byMaLoai.selectedProperty().addListener(c1->{
+            if (this.byMaLoai.isSelected()){
+                try{
+                    if (isInt(this.txtFTimKiem) == 1){
+                        this.tbDSNV.setItems(FXCollections.observableList(nvService.getNhanVienByMaLoaiNV(this.txtFTimKiem.getText())));;
+                    } else{
+                        this.tbDSNV.setItems(null);
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                }  
             }
         });
         
