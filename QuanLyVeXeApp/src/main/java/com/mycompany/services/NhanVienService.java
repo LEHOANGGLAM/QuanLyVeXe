@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -50,6 +50,8 @@ public class NhanVienService {
         return results;
     }
     
+    
+    
     public List<NhanVien> getNhanVienByTen(String ten) throws SQLException{
         List<NhanVien> results = new ArrayList<>();
         try ( Connection conn = jdbcUtils.getConn()) {
@@ -82,6 +84,8 @@ public class NhanVienService {
         return results;
     }
     
+    
+    
     public void insertNhanVien(NhanVien nv) throws SQLException{
         String sql = "INSERT INTO nhanvien(MaNhanVien, TenNhanVien, MaLoaiNhanVien, NgaySinh, SoDienThoai, CMND, QueQuan)" 
                    + "VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -106,13 +110,14 @@ public class NhanVienService {
         try (Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareCall(sql);
             
-            stm.setString(1, nv.getMaNhanVien());
-            stm.setString(2, nv.getTenNhanVien());
-            stm.setInt(3, nv.getMaLoaiNhanVien());
-            stm.setDate(4, nv.getNgaySinh());
-            stm.setString(5, nv.getSoDienThoai());
-            stm.setString(6, nv.getCMND());
-            stm.setString(7, nv.getQueQuan());
+            stm.setString(1, nv.getTenNhanVien());
+            stm.setInt(2, nv.getMaLoaiNhanVien());
+            stm.setDate(3, nv.getNgaySinh());
+            stm.setString(4, nv.getSoDienThoai());
+            stm.setString(5, nv.getCMND());
+            stm.setString(6, nv.getQueQuan());
+            stm.setString(7, nv.getMaNhanVien());
+
             stm.executeUpdate();
         } 
     }
@@ -149,3 +154,4 @@ public class NhanVienService {
         }
     }
 }
+    
