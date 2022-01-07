@@ -64,7 +64,7 @@ public class AccountService {
     
     public void insertAccount(Account a) throws SQLException{
         String sql = "INSERT INTO account(TaiKhoan, MatKhau, MaNhanVien, MaQuyen)" 
-                   + "VALUES(?, ?, ?, ?)";
+                   + "VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE TaiKhoan = ?, MatKhau = ?, MaQuyen = ?";
         
         try (Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareStatement(sql);
@@ -73,7 +73,10 @@ public class AccountService {
             stm.setString(2, a.getMatKhau());
             stm.setString(3, a.getMaNhanVien());
             stm.setInt(4, a.getMaQuyen());
-           
+            stm.setString(5, a.getTaiKhoan());
+            stm.setString(6, a.getMatKhau());
+            stm.setInt(7, a.getMaQuyen());
+
             stm.executeUpdate();
         }
     }
@@ -105,6 +108,7 @@ public class AccountService {
         }
     }
     
+    // Phan loai nhan vien
     public String getLoaiNVByMaLoai(int maLoai) throws SQLException{
         String sql = "SELECT * FROM phanloainhanvien WHERE MaLoaiNhanVien = ?";
         String result = "";
@@ -164,4 +168,6 @@ public class AccountService {
         }
         return result;
     }
+    
+    
 }
