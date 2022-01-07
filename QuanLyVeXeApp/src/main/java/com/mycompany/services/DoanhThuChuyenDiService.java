@@ -53,25 +53,14 @@ public class DoanhThuChuyenDiService {
         }                  
     }
     
-    public boolean isDateExist() throws SQLException{
-        String sql = "SELECT Ngay FROM doanhthuchuyendi WHERE Ngay = ?";
-        try (Connection conn = jdbcUtils.getConn()){
-            PreparedStatement stm = conn.prepareCall(sql);
-                        
-            stm.setDate(1, Date.valueOf(LocalDate.now()));
-            
-            ResultSet rs = stm.executeQuery();         
-            return rs.next();
-        }
-    }
-    
-    public boolean isMCDExist(String maChuyenDi) throws SQLException{
-        String sql = "SELECT Ngay FROM doanhthuchuyendi WHERE MaChuyenDi = ?";
+    public boolean isRowExistFromMaChuyenDiAndDate(String maChuyenDi) throws SQLException{
+        String sql = "SELECT * FROM doanhthuchuyendi WHERE MaChuyenDi = ? AND Ngay = ?";
         try (Connection conn = jdbcUtils.getConn()){
             PreparedStatement stm = conn.prepareCall(sql);
                         
             stm.setString(1, maChuyenDi);
-            
+            stm.setDate(2, Date.valueOf(LocalDate.now()));
+ 
             ResultSet rs = stm.executeQuery();         
             return rs.next();
         }
