@@ -208,15 +208,15 @@ public class NhanVienController implements Initializable {
         return 0; //Trong
     }
     
-    public void insertHandler(ActionEvent event) throws IOException{
+    public void insertHandler(ActionEvent event) throws IOException, SQLException{
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("FXMLThongTinNhanVien.fxml"));
         Dialog dialog = new Dialog();
         dialog.getDialogPane().setContent(fxmloader.load());
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.show();
         FXMLThongTinNhanVienController controller = fxmloader.getController();
-        controller.loadForm("Xác nhận thêm");
-        resetFormFromScene();
+        controller.loadForm("Xác nhận thêm", this);
+
     }
     
     public void updateHandler(ActionEvent event) throws IOException, SQLException{
@@ -226,14 +226,12 @@ public class NhanVienController implements Initializable {
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.show();
         FXMLThongTinNhanVienController controller = fxmloader.getController();
-        controller.loadForm("Xác nhận sửa");
+        controller.loadForm("Xác nhận sửa", this);
         if (tempNV != null){
             controller.loadData(tempNV);
         } else{
             Utils.getBox("Vui lòng chọn nhân viên", Alert.AlertType.WARNING).show();
-
         }
-        resetFormFromScene();
 
     }
     
@@ -244,25 +242,18 @@ public class NhanVienController implements Initializable {
         dialog.initStyle(StageStyle.TRANSPARENT);
         dialog.show();
         FXMLThongTinNhanVienController controller = fxmloader.getController();
-        controller.loadForm("Xác nhận xóa");
+        controller.loadForm("Xác nhận xóa", this);
+
         if (tempNV != null){
             controller.loadData(tempNV);
         } else{
             Utils.getBox("Vui lòng chọn nhân viên", Alert.AlertType.WARNING).show();
-
-        }
-        resetFormFromScene();
-        
+        }       
     }
     
-    public void resetFormFromScene(){
-        this.btnUpdate.setDisable(true);
-        this.btnDelete.setDisable(true);
-        loadTableView();
-        try {
-            this.loadTableData();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void refreshData() throws SQLException{
+        this.tbDSNV.getSelectionModel().select(null);
+        loadTableData();
+
     }
 }

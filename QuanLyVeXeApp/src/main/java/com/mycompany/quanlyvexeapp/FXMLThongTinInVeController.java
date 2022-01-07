@@ -67,7 +67,7 @@ public class FXMLThongTinInVeController implements Initializable {
         // Update Or Them Vao Thong Ke Doanh Thu
         // Kiem tra MaChuyenDi co ton tai trong bang dtcd ko
         // Kiem tra MCD roi thi kiemtra xem co ton tai thoi gian ban ve trog hom nay ko
-        if (dtcdService.isMCDExist(maChuyenDii) && dtcdService.isDateExist()) {
+        if (dtcdService.isRowExistFromMaChuyenDiAndDate(maChuyenDii)) {
             // Co ton tai thi` update
             int doanhThu = dtcdService.getDoanhThuByDateAndMCD(maChuyenDii, Date.valueOf(LocalDate.now()));
             int soVeDat = dtcdService.getSoVeDatByDateAndMCD(maChuyenDii, Date.valueOf(LocalDate.now()));
