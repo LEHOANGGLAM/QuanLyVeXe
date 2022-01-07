@@ -97,10 +97,8 @@ public class AccountService {
         try ( Connection conn = jdbcUtils.getConn()) {
             conn.setAutoCommit(false);
             
-            PreparedStatement stm = conn.prepareCall("DELETE FROM account WHERE TaiKhoan = ? AND MatKhau = ? AND MaNhanVien = ?");
-            stm.setString(1, a.getTaiKhoan());
-            stm.setString(2, a.getMatKhau());
-            stm.setString(3, a.getMaNhanVien());
+            PreparedStatement stm = conn.prepareCall("DELETE FROM account WHERE MaNhanVien = ?");
+            stm.setString(1, a.getMaNhanVien());
 
             stm.executeUpdate();           
         

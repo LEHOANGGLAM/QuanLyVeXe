@@ -52,4 +52,46 @@ public class AccountTester {
         Assertions.assertNull(ac);
       
     }
+    
+    // Test Insert /Update /Delete Account
+    Account accountTest = new Account("TestAccount", "123456", "1337", 1);
+    
+    @Test
+    public void testInsertAccount(){
+        try{
+            acService.insertAccount(accountTest);
+            Account tempAccount = acService.getAccount(accountTest.getTaiKhoan());
+            Assertions.assertEquals(accountTest.getTaiKhoan(), tempAccount.getTaiKhoan());
+        } catch(SQLException ex){
+            Logger.getLogger(AccountTester.class.getName()).log(Level.SEVERE, null, ex);
+
+        }   
+    }
+    
+    @Test
+    public void testUpdateAccount(){
+        try{
+          Account testUpdateAcc = accountTest;
+          testUpdateAcc.setTaiKhoan("accCuiBap");
+          acService.updateAccount(testUpdateAcc);
+          Assertions.assertNotEquals(accountTest.getTaiKhoan(), testUpdateAcc.getTaiKhoan());
+ 
+        } catch(SQLException ex){
+            Logger.getLogger(AccountTester.class.getName()).log(Level.SEVERE, null, ex);
+
+        }   
+    }
+    
+    @Test
+    public void testDeleteAccount(){
+        try{
+          acService.deleteAccount(accountTest);
+          
+          Assertions.assertNull(acService.getAccount("accCuiBap"));
+ 
+        } catch(SQLException ex){
+            Logger.getLogger(AccountTester.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+    }
 }
