@@ -94,7 +94,7 @@ public class FXMLThongTinNhanVienController implements Initializable {
         numbericTxtFieldOnly(this.txtFiSDT);
         wordTxtFieldOnly(this.txtFiTenNV);
         wordTxtFieldOnly(this.txtFiQQ);
-        wordTxtFieldOnly(this.txtFiTK);
+        wordKhongDauTxtFieldOnly(this.txtFiTK);
         this.txtFiMaLoaiNV.textProperty().addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -213,8 +213,11 @@ public class FXMLThongTinNhanVienController implements Initializable {
                                 } 
                             } else{
                                 if (!this.txtFiTK.getText().isBlank() && !this.txtFiMK.getText().isBlank()){
-                                    try{
+                                    nvService.insertNhanVien(nv);
+                                    if (aService.getAccount(this.txtFiTK.getText()) == null){
+                                        try{
                                         Account a = new Account(this.txtFiTK.getText(), this.txtFiMK.getText(), nv.getMaNhanVien(), nv.getMaLoaiNhanVien());
+                                        
                                         try{
                                             aService.insertAccount(a);
                                             Utils.getBox("Tạo tài khoản thành công!", Alert.AlertType.INFORMATION).show();
@@ -223,16 +226,19 @@ public class FXMLThongTinNhanVienController implements Initializable {
                                             Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
 
                                         }
-                                        nvService.insertNhanVien(nv);
-                                        Utils.getBox("Thêm nhân viên thành công!", Alert.AlertType.INFORMATION).show();
-                                        nvController.refreshData();
-                                        Button btn = (Button) event.getSource();
-                                        Stage stage = (Stage) btn.getScene().getWindow();
-                                        stage.close();
-                                    } catch (SQLException ex){
-                                        Utils.getBox("Thêm nhân viên thất bại!", Alert.AlertType.WARNING).show();
+                                            Utils.getBox("Thêm nhân viên thành công!", Alert.AlertType.INFORMATION).show();
+                                            nvController.refreshData();
+                                            Button btn = (Button) event.getSource();
+                                            Stage stage = (Stage) btn.getScene().getWindow();
+                                            stage.close();
+                                        }catch (SQLException ex){
+                                            Utils.getBox("Thêm nhân viên thất bại!", Alert.AlertType.WARNING).show();
 
-                                    } 
+                                        } 
+                                    } else{
+                                        Utils.getBox("Tài khoản đã tồn tại!", Alert.AlertType.WARNING).show();
+  
+                                    }
                                 } else { //Thieu tk, mk cua ma loai nv 1, 2
                                     Utils.getBox("Vui lòng nhập tài khoản, mật khẩu.", Alert.AlertType.WARNING).show();
                                 }
@@ -275,21 +281,39 @@ public class FXMLThongTinNhanVienController implements Initializable {
                             } else{
                                 if (!this.txtFiTK.getText().isBlank() && !this.txtFiMK.getText().isBlank()){
                                     try{
-                                        Account a = new Account(this.txtFiTK.getText(), this.txtFiMK.getText(), nv.getMaNhanVien(), nv.getMaLoaiNhanVien());
                                         nvService.updateNhanVien(nv);
-                                        if (aService.getAccount(a.getTaiKhoan()) == null){
-                                            aService.insertAccount(a);
-                                        } else{
-                                            aService.updateAccount(a);
+                                        Account a = new Account(this.txtFiTK.getText(), this.txtFiMK.getText(), nv.getMaNhanVien(), nv.getMaLoaiNhanVien());       
+                                        if (aService.getAccountByMaNV(a.getMaNhanVien()) == null){
+                                            
+                                            if (aService.getAccount(a.getTaiKhoan()) == null){
+                                                aService.insertAccount(a);
+                                                Utils.getBox("Cập nhật thành công!", Alert.AlertType.INFORMATION).show();  
+                                                Button btn = (Button) event.getSource();
+                                                Stage stage = (Stage) btn.getScene().getWindow();
+                                                stage.close();                            
+                                                nvController.refreshData();
 
+                                            } else{
+                                                Utils.getBox("Tài khoản đã tồn tại!", Alert.AlertType.WARNING).show();
+
+                                            }
+                                        } else{         
+                                            if (aService.getAccount(a.getTaiKhoan()) == null){
+                                                aService.updateAccount(a);
+                                                Utils.getBox("Cập nhật thành công!", Alert.AlertType.INFORMATION).show();  
+                                                Button btn = (Button) event.getSource();
+                                                Stage stage = (Stage) btn.getScene().getWindow();
+                                                stage.close();                            
+                                                nvController.refreshData();
+
+                                            } else{
+                                                Utils.getBox("Tài khoản đã tồn tại!", Alert.AlertType.WARNING).show();
+
+                                            }
                                         }
-                                        nvController.refreshData();
-                                        Utils.getBox("Cập nhật thành công!", Alert.AlertType.INFORMATION).show();  
-                                        Button btn = (Button) event.getSource();
-                                        Stage stage = (Stage) btn.getScene().getWindow();
-                                        stage.close();
+                                        
                                     } catch (SQLException ex){
-                            Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
+                                        Utils.getBox(ex.getMessage(), Alert.AlertType.WARNING).show();
 
                                     } 
                                 } else { //Thieu tk, mk cua ma loai nv 1, 2
@@ -327,8 +351,9 @@ public class FXMLThongTinNhanVienController implements Initializable {
                         try{
                             Account a = new Account(this.txtFiTK.getText(), this.txtFiMK.getText(), this.txtFiMaNV.getText(), Integer.parseInt(this.txtFiMaLoaiNV.getText()));
                                    
-                            nvService.deleteNhanVien(nv);
                             aService.deleteAccount(a);
+                            
+                            nvService.deleteNhanVien(nv);
                             Utils.getBox("Xóa thành công!", Alert.AlertType.INFORMATION).show();  
                             nvController.refreshData();
                             Button btn = (Button) event.getSource();
@@ -378,6 +403,19 @@ public class FXMLThongTinNhanVienController implements Initializable {
             String newValue) {
                 if (!newValue.matches("\\d*")) {
                     txtFi.setText(newValue.replaceAll("[^\\p{L} ]", ""));
+                }
+            }
+        });   
+    }
+    
+    public void wordKhongDauTxtFieldOnly(TextField txtFi){
+        
+        txtFi.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, 
+            String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    txtFi.setText(newValue.replaceAll("[^\\w]", ""));
                 }
             }
         });

@@ -50,6 +50,20 @@ public class AccountService {
         return results;
     }
     
+    public Account getAccountByMaNV(String maNV) throws SQLException{
+        Account results = null;
+        try(Connection conn = jdbcUtils.getConn()){
+            PreparedStatement stm = conn.prepareCall("SELECT * FROM account WHERE MaNhanVien =? ");
+            stm.setString(1, maNV);
+                       
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                results = new Account(rs.getString("TaiKhoan"), rs.getString("MatKhau") , rs.getString("MaNhanVien"), rs.getInt("MaQuyen"));
+            }
+        }
+        return results;
+    }
+    
     public void updateAccount(String s,String tk) throws SQLException {
         String sql = "UPDATE account SET MatKhau = ? WHERE TaiKhoan = ?";
         try ( Connection conn = jdbcUtils.getConn()) {
@@ -94,16 +108,18 @@ public class AccountService {
     }
     
     public void deleteAccount(Account a) throws SQLException {
+        String sql = "DELETE FROM account WHERE TaiKhoan = ?";
+        
         try ( Connection conn = jdbcUtils.getConn()) {
             conn.setAutoCommit(false);
-            
-            PreparedStatement stm = conn.prepareCall("DELETE FROM account WHERE MaNhanVien = ?");
-            stm.setString(1, a.getMaNhanVien());
+            PreparedStatement stm = conn.prepareCall(sql);
+            stm.setString(1, a.getTaiKhoan());
 
             stm.executeUpdate();           
         
             conn.commit();
-        }
+        }   
+        
     }
     
     // Phan loai nhan vien

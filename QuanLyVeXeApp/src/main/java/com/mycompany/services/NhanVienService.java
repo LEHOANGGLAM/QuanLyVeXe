@@ -129,10 +129,11 @@ public class NhanVienService {
             conn.setAutoCommit(false);
             
             PreparedStatement stm = conn.prepareCall(sql);
+            
             stm.setString(1, nv.getMaNhanVien());
-
-
+            //stm.execute("SET FOREIGN_KEY_CHECKS=0");
             stm.executeUpdate();           
+            //stm.execute("SET FOREIGN_KEY_CHECKS=1");
         
             conn.commit();
         }   
