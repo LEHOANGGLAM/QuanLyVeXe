@@ -4,12 +4,15 @@
  */
 package com.mycompany.quanlyvexeapp;
 
+import com.mycompany.conf.HashUtils;
 import com.mycompany.conf.Utils;
 import com.mycompany.pojo.Account;
 import com.mycompany.pojo.NhanVien;
 import com.mycompany.services.AccountService;
 import com.mycompany.services.NhanVienService;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -217,6 +220,15 @@ public class FXMLThongTinNhanVienController implements Initializable {
                                     if (aService.getAccount(this.txtFiTK.getText()) == null){
                                         try{
                                         Account a = new Account(this.txtFiTK.getText(), this.txtFiMK.getText(), nv.getMaNhanVien(), nv.getMaLoaiNhanVien());
+                                            
+
+                                        try { 
+                                                a.setMatKhau(HashUtils.hashPassword(a.getMatKhau()));
+                                            } catch (UnsupportedEncodingException ex) {
+                                                Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                            } catch (NoSuchAlgorithmException ex) {
+                                                Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
                                         
                                         try{
                                             aService.insertAccount(a);
@@ -286,6 +298,13 @@ public class FXMLThongTinNhanVienController implements Initializable {
                                         if (aService.getAccountByMaNV(a.getMaNhanVien()) == null){
                                             
                                             if (aService.getAccount(a.getTaiKhoan()) == null){
+                                                try { 
+                                                    a.setMatKhau(HashUtils.hashPassword(a.getMatKhau()));
+                                                } catch (UnsupportedEncodingException ex) {
+                                                    Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                                } catch (NoSuchAlgorithmException ex) {
+                                                    Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
                                                 aService.insertAccount(a);
                                                 Utils.getBox("Cập nhật thành công!", Alert.AlertType.INFORMATION).show();  
                                                 Button btn = (Button) event.getSource();
@@ -297,8 +316,16 @@ public class FXMLThongTinNhanVienController implements Initializable {
                                                 Utils.getBox("Tài khoản đã tồn tại!", Alert.AlertType.WARNING).show();
 
                                             }
-                                        } else{         
-                                            if (aService.getAccount(a.getTaiKhoan()) == null){
+                                        } else{      
+                                            Account tempAccount = aService.getAccountByMaNV(a.getMaNhanVien());
+                                            if (aService.getAccount(a.getTaiKhoan()) == null || (a.getTaiKhoan().equals(tempAccount.getTaiKhoan()))){
+                                                try { 
+                                                    a.setMatKhau(HashUtils.hashPassword(a.getMatKhau()));
+                                                } catch (UnsupportedEncodingException ex) {
+                                                    Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                                } catch (NoSuchAlgorithmException ex) {
+                                                    Logger.getLogger(FXMLThongTinNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
                                                 aService.updateAccount(a);
                                                 Utils.getBox("Cập nhật thành công!", Alert.AlertType.INFORMATION).show();  
                                                 Button btn = (Button) event.getSource();
