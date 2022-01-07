@@ -355,6 +355,9 @@ public class FXMLThongTinNhanVienController implements Initializable {
                         
                 }
 
+            } else{
+                Utils.getBox("Vui lòng điền đầy đủ thông tin", Alert.AlertType.WARNING).show();
+    
             }
         } else if (this.btnConfirm.getText().compareTo("Xác nhận xóa") == 0){ //DELETE
            if (isFillFull()){
