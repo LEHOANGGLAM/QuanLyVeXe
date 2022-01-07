@@ -15,6 +15,20 @@ import java.time.LocalDate;
 public class ChuyenDi {
 
     /**
+     * @return the isDelete
+     */
+    public int getIsDelete() {
+        return isDelete;
+    }
+
+    /**
+     * @param isDelete the isDelete to set
+     */
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    /**
      * @return the gioKhoiHanh
      */
     public Time getGioKhoiHanh() {
@@ -36,11 +50,12 @@ public class ChuyenDi {
     private String diemKetThuc;
     private int soGheTrong;
     private int soGheDat;
+    private int isDelete;
 
     public ChuyenDi() {
     }
 
-    public ChuyenDi(String maChuyenDi, String maXe, int giaVe, Date ngayKhoiHanh, Time gioKhoiHanh,String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat) {
+    public ChuyenDi(String maChuyenDi, String maXe, int giaVe, Date ngayKhoiHanh, Time gioKhoiHanh, String diemKhoiHanh, String diemKetThuc, int soGheTrong, int soGheDat, int isDelete) {
         this.maChuyenDi = maChuyenDi;
         this.maXe = maXe;
         this.giaVe = giaVe;
@@ -50,7 +65,10 @@ public class ChuyenDi {
         this.diemKetThuc = diemKetThuc;
         this.soGheTrong = soGheTrong;
         this.soGheDat = soGheDat;
+        this.isDelete = isDelete;
     }
+
+    
 
     /**
      * @return the giaVe

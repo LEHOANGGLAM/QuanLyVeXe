@@ -37,6 +37,8 @@ public class VeXeTester {
     public void testAddVeXe() {
        
         try {
+            
+            
             vxService.addVeXe(v);
             VeXe vexe = vxService.getVeXeByMaVe(v.getMaVe());
             Assertions.assertEquals(vexe.getMaVe(), v.getMaVe());
@@ -47,11 +49,10 @@ public class VeXeTester {
     
     @Test
     public void testUpdateVeXe() {     
-        try {
-           
-            VeXe vexe = vxService.getVeXeByMaVe("229022");
-            VeXe v = vxService.getVeXeByMaVe("229022");
-            v.setTenKhachHang("test2");
+        try {          
+            VeXe vexe = vxService.getVeXeByMaVe("006565");
+            VeXe v = vxService.getVeXeByMaVe("006565");
+            v.setTenKhachHang("test123");
             vxService.updateVeXe(v);
            
             Assertions.assertNotEquals(vexe.getTenKhachHang(), v.getTenKhachHang());
@@ -71,9 +72,49 @@ public class VeXeTester {
     }
     
     @Test
+    public void testTimVeXeByMa() {
+        try {
+            List<VeXe> listVeXe = new ArrayList<>();
+            listVeXe.addAll(vxService.getVeXeByMaCD("313220"));
+            for(VeXe v :listVeXe)
+                Assertions.assertEquals(v.getMaChuyenDi(),"313220");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
+    public void testTimVeXeByTen() {
+        try {
+            List<VeXe> listVeXe = new ArrayList<>();
+            listVeXe.addAll(vxService.getVeXeByMaTen("0123456789"));
+            listVeXe.forEach(v -> {
+                Assertions.assertEquals("0123456789",v.getTenKhachHang());
+            });
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+     @Test
+    public void testTimVeXeBySDT() {
+        try {
+            List<VeXe> listVeXe = new ArrayList<>();
+            listVeXe.addAll(vxService.getVeXeByMaSDT("0123456789"));
+            for(VeXe v :listVeXe)
+                Assertions.assertEquals("0123456789", v.getSdt());
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Test
     public void testUniqueVitriGheDatByChuyenDi() throws SQLException{
         List<VeXe> listVeXe = new ArrayList<>();
-        listVeXe.addAll(vxService.getVeXeByMaCD("332498"));
+        listVeXe.addAll(vxService.getVeXeByMaCD("313220"));
         
         List<String> listVitriGhe = new ArrayList<>();
         for(VeXe v :listVeXe)
@@ -112,8 +153,8 @@ public class VeXeTester {
     public void testGetVeXeByValidId(){
         VeXe c;
         try {
-            c = vxService.getVeXeByMaVe("229022");
-            Assertions.assertEquals(c.getMaChuyenDi(),vxService.getVeXeByMaVe("229022").getMaChuyenDi());
+            c = vxService.getVeXeByMaVe("006565");
+            Assertions.assertEquals(c.getMaChuyenDi(),vxService.getVeXeByMaVe("006565").getMaChuyenDi());
         } catch (SQLException ex) {
             Logger.getLogger(ChuyenDiTester.class.getName()).log(Level.SEVERE, null, ex);
         }       

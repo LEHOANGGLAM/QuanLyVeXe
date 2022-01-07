@@ -24,9 +24,9 @@ public class VeXeService {
         List<VeXe> results = new ArrayList<>();
         try ( Connection conn = jdbcUtils.getConn()) {
             Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM vexe, chuyendi \n" +
-                            "WHERE vexe.MaChuyenDi = chuyendi.MaChuyenDi and NgayKhoiHanh >= DATE(NOW())\n" +
-                            " ORDER BY vexe.MaChuyenDi");
+            ResultSet rs = stm.executeQuery("SELECT * FROM vexe \n" +
+                          
+                            " ORDER BY MaChuyenDi");
 
             while (rs.next()) {
                 VeXe v = new VeXe(rs.getString("MaVe"), rs.getString("TenKhachHang"), rs.getDate("NgayDat"), rs.getString("SoDienThoai"),
@@ -162,6 +162,7 @@ public class VeXeService {
         String sql = "UPDATE vexe SET MaChuyenDi = ?, TenKhachHang= ?, SoDienThoai = ?, NgayDat=?, "
                     + "ViTriGhe = ?, TrangThai = ?,MaNhanVien = ? WHERE MaVe = ?";
           try ( Connection conn = jdbcUtils.getConn()) {
+            conn.setAutoCommit(false);
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, v.getMaChuyenDi());
             stm.setString(2, v.getTenKhachHang());
@@ -173,6 +174,23 @@ public class VeXeService {
             stm.setString(8, v.getMaVe());
 
             stm.executeUpdate();
+            
+             String sql2 = "UPDATE chuyendi SET SoGheTrong = SoGheTrong-1, SoGheDat = SoGheDat +1 WHERE MaChuyenDi = ?";
+            PreparedStatement stm2 = conn.prepareCall(sql2);
+            stm2.setString(1, v.getMaChuyenDi());
+            stm2.executeUpdate();
+            
+            conn.commit();
+        }
+    }
+    
+     public void updateSoGheCDBeforeUpdateVeXe(String MaChuyenDi) throws SQLException {
+        try ( Connection conn = jdbcUtils.getConn()) {
+            String sql2 = "UPDATE chuyendi SET SoGheTrong = SoGheTrong+1, SoGheDat = SoGheDat -1 WHERE MaChuyenDi = ?";
+            PreparedStatement stm2 = conn.prepareCall(sql2);
+            stm2.setString(1, MaChuyenDi);
+            stm2.executeUpdate();
+          
         }
     }
     
