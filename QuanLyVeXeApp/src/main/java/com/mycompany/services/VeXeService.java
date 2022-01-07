@@ -4,6 +4,7 @@
  */
 package com.mycompany.services;
 
+import com.mycompany.conf.Utils;
 import com.mycompany.conf.jdbcUtils;
 import com.mycompany.pojo.VeXe;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -159,9 +161,11 @@ public class VeXeService {
     }
     
     public void updateVeXe(VeXe v) throws SQLException {
+       
         String sql = "UPDATE vexe SET MaChuyenDi = ?, TenKhachHang= ?, SoDienThoai = ?, NgayDat=?, "
                     + "ViTriGhe = ?, TrangThai = ?,MaNhanVien = ? WHERE MaVe = ?";
           try ( Connection conn = jdbcUtils.getConn()) {
+            
             conn.setAutoCommit(false);
             PreparedStatement stm = conn.prepareCall(sql);
             stm.setString(1, v.getMaChuyenDi());

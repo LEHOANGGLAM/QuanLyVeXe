@@ -52,7 +52,7 @@ public class VeXeTester {
         try {          
             VeXe vexe = vxService.getVeXeByMaVe("006565");
             VeXe v = vxService.getVeXeByMaVe("006565");
-            v.setTenKhachHang("test123");
+            v.setTenKhachHang("test1234");
             vxService.updateVeXe(v);
            
             Assertions.assertNotEquals(vexe.getTenKhachHang(), v.getTenKhachHang());
