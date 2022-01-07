@@ -6,13 +6,11 @@ com\mycompany\services\AccountService.class
 com\mycompany\services\NhanVienService.class
 com\mycompany\quanlyvexeapp\LoginController.class
 com\mycompany\services\DoanhThuChuyenDiService.class
-com\mycompany\quanlyvexeapp\ThongKeDoanhThuController.class
 com\mycompany\quanlyvexeapp\App.class
 module-info.class
 com\mycompany\conf\jdbcUtils.class
 com\mycompany\pojo\DoanhThuChuyenDi.class
 com\mycompany\pojo\XeKhach.class
-com\mycompany\quanlyvexeapp\ThongKeDoanhThuController$1.class
 com\mycompany\pojo\VeXe.class
 com\mycompany\pojo\Account.class
 com\mycompany\services\XeKhachService.class
