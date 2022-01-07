@@ -117,7 +117,7 @@ public class DsVeXeController implements Initializable {
                         this.btnSell.setDisable(false);
                     }
                 } catch (SQLException ex) {
-                    System.out.println("ss");
+                  
                     Logger.getLogger(DsVeXeController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 this.btnChoose.setDisable(false);
@@ -330,8 +330,17 @@ public class DsVeXeController implements Initializable {
             if (checkSDT()) {
                 VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();
                 ChuyenDi c = this.cbChuyenDi.getSelectionModel().getSelectedItem();
-                if (v != null) {
+                if (v != null) {                  
                     try {
+                        List<VeXe> listVeXe = new ArrayList();
+                        listVeXe.addAll(vxService.getVeXeByMaCD(v.getMaChuyenDi()));
+
+                        for (VeXe vexe : listVeXe) {
+                            if (vexe.getViTriGhe().equals(v.getViTriGhe())) {
+                                Utils.getBox("Bán thất bại: Chỗ ngồi đã tồn tại", Alert.AlertType.WARNING).show();
+                                return;
+                            }
+                        }
                         v.setTrangThai("Bán");                       
                         vxService.updateSellVeXe(v);
                         this.loadTableData();                    
@@ -361,8 +370,19 @@ public class DsVeXeController implements Initializable {
             if (checkTextField()) {
                 if (checkSDT()) {
                     VeXe v = this.tbVeXe.getSelectionModel().getSelectedItem();
-                    if (v != null) {
+                    
+                    if (v != null) {                               
                         try {
+                            List<VeXe> listVeXe = new ArrayList();
+                            listVeXe.addAll(vxService.getVeXeByMaCD(v.getMaChuyenDi()));
+
+                            for (VeXe vexe : listVeXe) {
+                                if (vexe.getViTriGhe().equals(v.getViTriGhe())) {
+                                    Utils.getBox("Sửa thất bại: Chỗ ngồi đã tồn tại", Alert.AlertType.WARNING).show();
+                                    return;
+                                }
+                            }
+                            
                             vxService.updateSoGheCDBeforeUpdateVeXe(v.getMaChuyenDi());
                             v.setMaChuyenDi(this.cbChuyenDi.getSelectionModel().getSelectedItem().getMaChuyenDi());
                             v.setTenKhachHang(this.txtTenKhachHang.getText());
